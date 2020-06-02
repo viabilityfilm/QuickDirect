@@ -1,0 +1,15 @@
+.tabbar {
+  justify-content: center;
+}
+
+.tab-button {
+  max-width: 200px;
+}
+ion-tab-bar {
+  height: 75px;
+  --ion-background-color: white;
+  box-shadow: 1px 1px 26px 1px grey;
+  border-top-right-radius: 25px;
+  border-top-left-radius: 26px;
+  z-index: 50;
+}

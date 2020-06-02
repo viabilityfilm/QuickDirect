@@ -1,0 +1,153 @@
+<ion-header class="toolbar_class" translucent="true">
+  <!-- <ion-toolbar >
+    <ion-buttons *ngIf="!showSearchbar" slot="start">
+      <ion-icon slot="icon-only" name="videocam"></ion-icon>
+    </ion-buttons>
+    <ion-title style="padding-left: 8px;" *ngIf="!ios && !showSearchbar"><span> Story Board</span></ion-title>
+    
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!ios && !showSearchbar" (click)="showSearchbar = true">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="!showSearchbar" (click)="presentFilter()">
+        <span *ngIf="ios">Filter</span>
+        <span *ngIf="!ios">
+          <ion-icon slot="icon-only" name="options"></ion-icon>
+        </span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar> -->
+  <h6 class="welcome">Welcome back, <img class="profile-class" src="../../../assets/icons/profile.png" /></h6>
+  <div>
+    <button id="notification-button" ion-button clear>
+      <ion-icon name="notifications">
+        <ion-badge id="notifications-badge" color="danger">5</ion-badge>
+      </ion-icon>
+    </button>
+  </div>
+  <span class="welcome" style="font-size:18px">Shaik Allaudeen</span>
+  <span>
+
+    <ion-searchbar style="border-radius: 17px" class="search-bar" [(ngModel)]="queryText" placeholder="Search" (ionChange)="updateSchedule()"
+      animated></ion-searchbar>
+  </span>
+
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Schedule</ion-title>
+    </ion-toolbar>
+    <ion-toolbar>
+      <ion-searchbar style="border-radius: 17px" [(ngModel)]="queryText" (ionChange)="updateSchedule()" placeholder="Search"></ion-searchbar>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-item-group *ngFor="let group of groups;let i=index;" [hidden]="group.hide">
+      <ion-item-divider sticky>
+        <ion-label class="tiles-header">
+          {{group}}
+        </ion-label>
+        <ion-icon class="more-icon" name="chevron-forward-circle-outline"></ion-icon>
+
+      </ion-item-divider>
+      <ion-slides [options]="slideOpts" *ngIf="i==0">
+        <ion-slide class="style2">
+          <ion-card class="scroll-card-2">
+            <img style="width: -webkit-fill-available;height:188px" src="../../../assets/img/story1.PNG">
+            <ion-item-divider style="border: none;">
+              <ion-label class="tiles-header">
+                New Short Story
+              </ion-label>
+
+
+              <ion-button class="icon-view">
+                $ 240
+              </ion-button>
+
+            </ion-item-divider>
+            <div class="ion-text-start" style="margin-left: 15px;">2k views</div>
+            <div class="ion-text-end view-class"><ion-icon name="time-outline"></ion-icon> 2 days ago</div>
+
+          </ion-card>
+        </ion-slide>
+        <ion-slide class="style2">
+          <ion-card class="scroll-card-2">
+            <img style="width: -webkit-fill-available;height:188px" src="../../../assets/img/story1.PNG">
+            <ion-item-divider style="border: none;">
+              <ion-label class="tiles-header">
+                New Short Story
+              </ion-label>
+
+
+              <ion-button class="icon-view">
+                3K views <ion-icon name="eye-outline"></ion-icon>
+              </ion-button>
+
+            </ion-item-divider>
+            <span>2k Views</span>
+          </ion-card>
+        </ion-slide>
+        <ion-slide class="style2">
+          <ion-card class="scroll-card-2">
+            <img style="width: -webkit-fill-available;height:188px" src="../../../assets/img/story1.PNG">
+            <ion-item-divider style="border: none;">
+              <ion-label class="tiles-header">
+                New Short Story
+              </ion-label>
+
+
+              <ion-button class="icon-view">
+                3K <ion-icon name="cash-outline"></ion-icon>
+              </ion-button>
+
+            </ion-item-divider>
+            <div class="ion-text-start" style="margin-left: 15px;">2k <ion-icon name="eye-outline"></ion-icon></div>
+            <div class="ion-text-end view-class"><ion-icon name="time-outline"></ion-icon> 2 days ago</div>
+
+          </ion-card>
+        </ion-slide>
+      </ion-slides>
+      
+      <ion-slides [options]="slideOpts" *ngIf="i==1">
+        <ion-slide class="style3">
+          <ion-card class="scroll-card-2">
+            <img style="width: -webkit-fill-available;height: -webkit-fill-available;"
+              src="../../../assets/img/story1.PNG">
+            Test - Story
+          </ion-card>
+        </ion-slide>
+      </ion-slides>
+      <ion-slides [options]="slideOpts" *ngIf="i==2">
+        <ion-slide class="style4">
+          <ion-card class="scroll-card-4">
+            <img src="../../../assets/img/story1.PNG">
+
+          </ion-card>
+          <ion-card class="scroll-card-4">
+            <img src="../../../assets/img/story1.PNG">
+
+          </ion-card>
+
+        </ion-slide>
+      </ion-slides>
+      <ion-slides [options]="slideOpts" *ngIf="i==3">
+        <ion-slide class="style4">
+          <ion-card class="scroll-card-4">
+            <img src="../../../assets/img/story1.PNG">
+
+          </ion-card>
+          <ion-card class="scroll-card-4">
+            <img src="../../../assets/img/story1.PNG">
+
+          </ion-card>
+
+        </ion-slide>
+      </ion-slides>
+    </ion-item-group>
+  </ion-list>
+
+
+</ion-content>

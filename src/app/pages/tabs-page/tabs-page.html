@@ -1,0 +1,37 @@
+<ion-tabs>
+
+  <ion-tab-bar slot="bottom" style="height: 75px;
+  --ion-background-color: white;
+  box-shadow: 1px 1px 26px 1px grey;
+  border-top-right-radius: 25px;
+  border-top-left-radius: 26px;
+  z-index: 50;">
+    <ion-tab-button tab="schedule">
+      <ion-icon name="flame"></ion-icon>
+      <ion-label>Trending</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="speakers">
+      <ion-icon name="folder-open"></ion-icon>
+      <ion-label>Category</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="create-post">
+     
+        <ion-fab-button color="dark">
+          <ion-icon name="add" (click)="createPost()"></ion-icon>
+        </ion-fab-button>
+       
+    </ion-tab-button>
+
+    <ion-tab-button tab="map">
+      <ion-icon name="heart"></ion-icon>
+      <ion-label>Favorites</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="about">
+      <ion-icon name="information-circle"></ion-icon>
+      <ion-label>About</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

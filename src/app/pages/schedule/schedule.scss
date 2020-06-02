@@ -1,0 +1,171 @@
+ion-fab-button {
+  --background: var(--ion-color-step-150, #fff);
+  --background-hover: var(--ion-color-step-200, #f2f2f2);
+  --background-focused: var(--ion-color-step-250, #d9d9d9);
+
+  --color: var(--ion-color-primary, #3880ff);
+}
+
+.toolbar_class{
+  height: 200px;
+  background-image: -webkit-linear-gradient(150deg, #013A6B 35%, #004E95 35%);
+  min-height: 200px;
+  border: none !important;
+  box-shadow: 3px 6px 5px 0px grey;
+}
+#notification-button {            
+  position: fixed;
+  width: 36px;
+  top: 18px;
+  right: 25px;
+  overflow: visible !important;
+  height: 29px;
+  font-size: 30px;
+  background: transparent;
+  color: white;
+}
+
+
+#notifications-badge {
+  background-color: red;
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  border-radius: 100%;
+}
+.search-bar{
+  margin-left: 30px;
+  width: 81%;
+  margin-top: 24px;
+  border-radius: 17px;
+}
+.welcome{
+  padding: 20px;
+  color: white;
+  font-size: 26px;
+  margin-top: -2px;
+}
+/*
+ * Material Design uses the ripple for activated
+ * so only style the iOS activated background
+ */
+.ios ion-fab-button {
+  --background-activated: var(--ion-color-step-250, #d9d9d9);
+}
+.custom-toolbar{
+  height: 280px;
+  background-color: #013A6B;
+  background-image: -webkit-linear-gradient(119deg, #013A6B 35%, #004E95 35%);
+  min-height: 200px;
+  border: none !important;
+   
+  
+}
+ 
+.style1 {
+  width: 307px !important;
+  height: 187px !important;
+  background-color: #FFF;
+  float: left;
+  margin-left: 1.5px !important;
+  margin-right: 1.5px !important;
+  border-radius: 50px !important;
+}
+.style2 {
+  width: 234px !important;
+  height: 281px !important;
+  background-color: #FFF;
+  float: left;
+  margin-left: 1.5px !important;
+  margin-right: 1.5px !important;
+  border-radius: 50px !important;
+}
+.style3 {
+  width: 138px !important;
+  height: 203px !important;
+  background-color: #FFF;
+  float: left;
+  margin-left: 1.5px !important;
+  margin-right: 1.5px !important;
+  border-radius: 50px !important;
+}
+.view-class{
+  margin-left: 12px;
+  position: relative;
+  top: -17px;
+  left: -16px;
+} 
+.profile-class{
+  width: 34px;
+  height: 33px;
+  position: relative;
+  margin-left: 19%;
+  box-shadow: 0px 0px 10px 0px white;
+  border-radius: 50%;
+}
+.more-icon{
+  margin-inline-start: auto;
+  color: #4c8dff;
+}
+.icon-view{
+  margin-left: auto;
+}
+.tiles-header{
+  
+  color: #013a6b;
+  font-weight: bold;
+  font-size: small;
+  font-kerning: none;
+}
+.scroll-card-1{
+  height: 25vh;
+  width: 60vh;
+  box-shadow: -1px -2px 9px 3px grey;
+}
+.scroll-card-2{
+  height: 41vh;
+  width: 67vh;
+  box-shadow: 1px 4px 7px grey;
+}
+.style4{
+  width:193px;
+}
+.scroll-card-3{
+  height: 27vh;
+  width: 83vh;
+  box-shadow: -1px -2px 9px 3px grey;
+}
+.scroll-card-4{
+  border-radius: 88px;
+  box-shadow: -1px -2px 9px 3px grey;
+}
+.tab-selected{
+  border-bottom: 3px solid #6370ff;
+  font-weight: bold;
+} 
+.searchbar-input-container .searchbar-input{
+  border-radius: 17px !important;
+}
+::ng-deep #tab-button-create-post ion-fab-button button{
+  background: #004e95 !important;
+}
+
+$categories: (
+  ionic: var(--ion-color-primary),
+  angular: #ac282b,
+  communication: #8e8d93,
+  tooling: #fe4c52,
+  services: #fd8b2d,
+  design: #fed035,
+  workshop: #69bb7b,
+  food: #3bc7c4,
+  documentation: #b16be3,
+  navigation: #6600cc
+);
+
+@each $track, $value in map-remove($categories) {
+  ion-item-sliding[track='#{$track}'] ion-label {
+    border-left: 2px solid $value;
+    padding-left: 10px;
+  }
+}

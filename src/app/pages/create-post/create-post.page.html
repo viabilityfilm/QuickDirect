@@ -1,0 +1,67 @@
+<ion-header class="custom-header">
+
+  <ion-toolbar class="custom-toolbar">
+    <ion-title style="font-size:17px">Post Synopsis..!</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" style="font-size:24px">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="about-info">
+
+
+    <p class="ion-padding-start ion-padding-end">
+      You can post your own stories with synopsis along with your hand-drawn thumnail.Viewers will suggest
+      Actrors/Actress on thier own choice.
+      Finally top trending stories will be available on dashboard.
+      <br> <b>Keep Contributing.. Go head :)</b>
+      <img class="sml-cls" src="../../../assets/icons//avt2.png">
+    </p>
+
+    <h3 class="ion-padding-top ion-padding-start">Details</h3>
+
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label position="floating">Story Title</ion-label>
+        <ion-input class="ion-cust-text" [(ngModel)]="title" #ref autofocus="true"> </ion-input>
+        <ion-icon name="create" slot="start"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Budget</ion-label>
+        <ion-input class="ion-cust-text" type="number"></ion-input>
+        <ion-icon name="cash" slot="start"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Story Synopsis...</ion-label>
+        <ion-textarea class="ion-cust-text" rows="4" cols="26" [(ngModel)]="synopsis"></ion-textarea>
+        <ion-icon name="library" slot="start"></ion-icon>
+      </ion-item>
+
+
+    </ion-list>
+    <ion-item-divider style="margin-top: 42px;">
+
+      <ion-fab vertical="bottom" horizontal="end">
+        <ion-fab-button color="dark">
+          <ion-icon name="send" (click)="presentActionSheet()"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+      <ion-fab vertical="bottom" horizontal="left">
+        <ion-fab-button color="medium">
+          <ion-icon name="document-attach" (click)="hiddenfileinput.click()"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+
+    </ion-item-divider>
+
+  </div>
+
+</ion-content>

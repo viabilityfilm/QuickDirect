@@ -1,0 +1,82 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="default" class="custom-toolbar"> 
+    
+    <img class="banner-class" src="../../../assets/icons/trans.png"
+    
+    
+    ><img>
+    <p class="logoclass">Quick Direct</p>
+    <p class="subLogo">An app for continous fliming</p>
+    <!-- <ion-buttons collapse="true" slot="end">
+      <ion-button (click)="openNewContactModal()">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="mode" class="seg-class">
+  <ion-segment-button value="signIn">
+    <ion-icon name="people-circle-outline"></ion-icon>
+    <ion-label>Sign In</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="signUp">
+    <ion-icon name="person-add-outline"></ion-icon>
+    <ion-label>Sign Up</ion-label>
+  </ion-segment-button>
+</ion-segment>
+ 
+     
+
+      <ion-grid style="width: 80%;" *ngIf="isLogin">
+          
+        <ion-row class="rowStyle">
+          <ion-icon name="mail" color="primary"></ion-icon>
+          
+          <ion-input type="email" class="txtClass" placeholder="Email Adddress" [(ngModel)]="email"></ion-input>
+        </ion-row>
+    
+        <ion-row class="rowStyle">
+          <ion-icon name="key" color="primary"></ion-icon>
+          <ion-input type="password" class="txtClass" placeholder="Password" [(ngModel)]="password"></ion-input>
+        </ion-row>
+
+        <ion-row>
+          <span class="forgot-class"><ion-icon name="lock-open-outline"></ion-icon>
+          <a href="">Forgot password?</a>
+        </span>
+        </ion-row>
+
+        <ion-row style="margin-top: 20px;">
+          <ion-button expand="full" class="shadow-red" color="primary" shape="round" (click)="login()">Login</ion-button>
+        </ion-row>
+         
+        
+    
+      </ion-grid>
+      <ion-grid style="width: 80%;" *ngIf="!isLogin">
+          
+        <ion-row class="rowStyle" style="margin-top:0px">
+          <ion-icon name="mail" color="primary"></ion-icon>
+          <ion-input type="email" class="txtClass" placeholder="User Name" [(ngModel)]="userName_s"></ion-input>
+        </ion-row>
+        <ion-row class="rowStyle">
+          <ion-icon name="mail" color="primary"></ion-icon>
+          <ion-input type="email" class="txtClass" placeholder="Email Adddress" [(ngModel)]="email_s"></ion-input>
+        </ion-row>
+    
+        <ion-row class="rowStyle">
+          <ion-icon name="key" color="primary"></ion-icon>
+          <ion-input type="password" class="txtClass" placeholder="Password" [(ngModel)]="password_s"></ion-input>
+        </ion-row>
+    
+        <ion-row style="margin-top: 20px;">
+          <ion-button expand="full" class="shadow-red" color="primary" shape="round" (click)="signUp()">Sign Up</ion-button>
+        </ion-row>
+         
+    
+      </ion-grid>
+     
+     
+
+      

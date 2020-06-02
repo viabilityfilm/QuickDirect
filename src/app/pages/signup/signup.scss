@@ -1,0 +1,125 @@
+ 
+ 
+    .ionContent{
+        --ion-background-color: white;
+}
+.logo{
+    font-size: 28vh;
+    margin-top: -1px;
+    margin-bottom: 1px;
+    margin-left: 20%;
+}
+.txtClass{
+    font-size: 13px;
+    font-weight: bold;
+}
+.logoclass{
+    position: relative;
+    color: white;
+    left: 14%;
+    font-size: 23px;
+    font-weight: bold;
+}
+.subLogo{
+    position: relative;
+    color: #f4f5f8;
+    left: 14%;
+    font-size: 11px;
+    font-weight: bold;
+    top: -21px;
+}
+h1, h6 {
+    color: #383a3ed9;
+    
+}
+
+.appDesc{
+    
+     
+    font-size: 0.9rem;
+    color: #f4f5f8b0;
+    font-weight: bold;
+}
+.shadow-red{
+    box-shadow: 0px 14px 25px white;
+    border-radius: 14px;
+    margin-top: 10px;
+    width: 97%;
+    border: 1px solid #f5f6f9;
+}
+.card-class{
+    margin-block-end: auto;
+}
+.signupLbl{
+    color: white;
+    font-size: 11px;
+    margin-left: 32px;
+}
+ 
+ 
+.banner-class{
+height: 200px;
+width: 252px;
+position: relative;
+left: 44px;
+}
+.custom-toolbar{
+    height: 280px;
+    background-size: cover;
+    display: block;
+    border: none !important;
+    background: linear-gradient(to bottom, #9cecfb, #65c7f7, #0052d4)
+    
+}
+ 
+.forgot-class{
+    margin-top: 10px;
+    margin-inline-start: auto
+}
+.item-header{
+    border-bottom: 3px solid #cf3c4fde;
+}
+ion-header{
+    z-index: 0 !important;
+  }
+.rowStyle {
+    background-color: #f4f5f887;
+    padding-left: 10px;
+    border-radius: 30px;
+    margin-top: 20px;
+    border: 1px solid #d7d8da;
+
+    ion-icon {
+        margin-top: 9px;
+        margin-right: 10px;
+    }
+}
+.class_used_to_set_icon_1 {
+    
+    background-image: url("../../../assets/icons/download.png") !important;
+     
+    background-repeat: no-repeat !important;
+    background-position: 10px 10px !important;
+     
+    padding-left: 70px !important;
+  }
+  .class_used_to_set_icon_2 {
+    
+    background-image: url("../../../assets/icons/prodcuer.PNG") !important;
+     
+    background-repeat: no-repeat !important;
+    background-position: 10px 10px !important;
+     
+    padding-left: 70px !important;
+  }
+  .class_used_to_set_icon_3 {
+    
+    background-image: url("../../../assets/icons/viewers.png") !important;
+     
+    background-repeat: no-repeat !important;
+    background-position: 10px 10px !important;
+     
+    padding-left: 70px !important;
+  }
+
+
