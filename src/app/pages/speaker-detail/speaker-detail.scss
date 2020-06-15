@@ -18,10 +18,14 @@ ion-toolbar ion-back-button,
 ion-toolbar ion-menu-button {
   --color: white;
 }
+.custom-toolbar{
+  background: rgba(0, 0, 0, 0.32);
+    font-weight: bold;
+}
 
 .speaker-background {
   position: relative;
-
+  width: -webkit-fill-available;
   display: flex;
 
   padding-top: var(--ion-safe-area-top);
@@ -33,40 +37,104 @@ ion-toolbar ion-menu-button {
 
   height: calc(250px + var(--ion-safe-area-top));
 
-  background: center / cover url(/assets/img/speaker-background.png) no-repeat;
+  
 }
 
-.speaker-background img {
+.profile img{
   width: 70px;
   border-radius: 50%;
   margin-top: calc(-1 * var(--ion-safe-area-top));
 }
-
-.speaker-background h2 {
-  position: absolute;
-
-  bottom: 10px;
-
-  color: white;
-}
-
+  
 .md .speaker-background {
   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
 }
-
+.user-cls{
+  font-size: 12px;
+  border-top: 2px solid #808289;
+}
+.chip-cls{
+  background: #50c8ff;
+  color: white;
+  font-weight: bold;
+  margin-left: -2px;
+}
+.synopsis-cls{
+  font-size: 17px;
+  margin-left: 10px;
+  margin-right: 6px;
+}
+.margin-cls{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.heart-cls-red{
+  color:#cf3c4f;
+  font-size: 34px;
+ }
+ .heart-cls-white{
+  color:#d7d8da;
+  font-size: 34px;
+ }
+.icon-view{
+  margin-left: auto;
+  font-size: 15px;
+}
+.title-cls{
+  
+  position: relative;
+  top: -23%;
+   
+  font-weight: bold;
+  font-size: 36px;
+  margin-top: 13px;
+  text-decoration-color: currentcolor;
+  text-decoration: underline;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #f5f6f9;
+  color: white;
+ 
+}
 .ios .speaker-background {
   box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
 }
-
+.chip-css{
+  margin-left: 20px;
+  margin-bottom: 13px;
+}
 /*
  * Speaker Details
  */
-
-.speaker-detail p {
-  margin-left: 6px;
-  margin-right: 6px;
+.speaker-detail{
+  font-size: 20px;
+  margin-top: -17px;
 }
+.percent-cls{
+  font-size: 18px;
+  padding-left: 11px;
+  color: #383a3e;
+}
+.speaker-detail p {
+  margin-left: 10px;
+  margin-right: 6px;
+  height: 147px;
+  overflow: scroll;
+  text-align: justify;
+  margin-top: -31px;
 
+}
+.actor-cls {
+    border-radius: 54%;
+    height: 57px;
+    width: 54px;
+  } 
+ 
+  .progress-cls{
+    margin: 18px;
+    height: 15px;
+     
+    box-shadow: 1px 3px 1px 1px #d7d8da;
+  }
 .speaker-detail hr {
   margin-top: 20px;
   margin-bottom: 20px;

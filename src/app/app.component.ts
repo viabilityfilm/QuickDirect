@@ -89,12 +89,12 @@ export class AppComponent implements OnInit {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      this.statusBar.backgroundColorByHexString('#ffffff');
-      this.statusBar.overlaysWebView(true);
+      this.statusBar.backgroundColorByHexString('#00bfff');
+      
 
       setTimeout(() => {
         this.splashScreen.hide();
-      }, 4000);
+      }, 2500);
     });
   }
 

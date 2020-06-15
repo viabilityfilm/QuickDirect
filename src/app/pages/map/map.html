@@ -1,12 +1,240 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+<ion-header class="custom-header">
+  <ion-toolbar class="custom-toolbar">
+    <ion-title style="font-size:17px">Favourites</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" style="font-size:24px">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
-    <ion-title>Map</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div #mapCanvas class="map-canvas"></div>
+<ion-content fullscreen="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Speakers</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-segment (ionChange)="changeCategory($event)" [(ngModel)]="segment" class="seg-class" sticky>
+    <ion-segment-button value="drama">
+      <ion-icon src="../../../assets/icons/theater.svg"></ion-icon>
+      <ion-label>Drama</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="comedy">
+      <ion-icon src="../../../assets/icons/fun.svg"></ion-icon>
+      <ion-label>Comedy</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="adventure">
+      <ion-icon src="../../../assets/icons/mountain.svg"></ion-icon>
+      <ion-label>Adventure</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="crime">
+      <ion-icon src="../../../assets/icons/gun.svg"></ion-icon>
+      <ion-label>Crime</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-grid fixed *ngIf="generType=='comedy'">
+    <ion-row>
+      <ng-container *ngIf="isLoaded; else elseTemplate">
+        <ion-col size="12" size-md="6" *ngFor="let post of comedyStories">
+          <ion-card (click)="navigateToDetalil(post)">
+            <img style="width: -webkit-fill-available;height:188px" src={{post.image}}>
+            <ion-item-divider style="border: none;">
+                         
+              <ion-icon *ngIf="!getStatus(post)"  class='heart-cls-white animate__animated animate__tada' name="heart"></ion-icon> 
+              <ion-icon *ngIf="getStatus(post)"   class='heart-cls-red animate__animated animate__tada'  name="heart"></ion-icon> 
+              
+              
+              
+              <ion-label style="font-size: 21px;">
+                <ion-label>
+                  <h2 class="title-cls">{{post.title}}</h2>
+                  <p style="width:147px"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+                </ion-label>
+              </ion-label>
+               
+                <ion-icon class="icon-view" name="time-outline"></ion-icon><span style="font-size: 15px;margin-right: 5px;"> {{ago(post.uploadedOn)}} ago</span>
+               
+            </ion-item-divider>
+             
+            <ion-chip class="chip-css ion-text-start md ion-activatable hydrated">
+              <ion-avatar class="md hydrated"><img src="../../../assets/icons/profiles-2.png"></ion-avatar>
+              <ion-label  class="sc-ion-label-md-h sc-ion-label-md-s md hydrated">{{post.uploadedBy}}</ion-label>
+            </ion-chip>
+          </ion-card>
+        </ion-col>
+      </ng-container>
+      <!-- skeleton loading -->
+      <ng-template #elseTemplate>
+      <ion-col size="12" size-md="6" *ngFor="let post of dummyData">
+        <ion-card>
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-avatar>
+          <ion-item-divider style="border: none;">
+            <ion-label>
+              <h2><ion-skeleton-text animated style="width: 100px;"></ion-skeleton-text></h2>
+              <p><ion-skeleton-text animated style="width: 180px;"></ion-skeleton-text></p>
+            </ion-label>
+          </ion-item-divider>
+        </ion-card>
+      </ion-col>
+    </ng-template>
+      <!-- end skeleton loading -->
+      
+    </ion-row>
+  </ion-grid>
+
+
+  <ion-grid fixed *ngIf="generType=='adventure'">
+    <ion-row>
+      <ng-container *ngIf="isLoaded; else elseTemplate">
+        <ion-col size="12" size-md="6" *ngFor="let post of advStories">
+          <ion-card (click)="navigateToDetalil(post)">
+            <img style="width: -webkit-fill-available;height:188px" src={{post.image}}>
+            <ion-item-divider style="border: none;">
+                         
+              <ion-icon *ngIf="!getStatus(post)"  class='heart-cls-white animate__animated animate__tada' name="heart"></ion-icon> 
+              <ion-icon *ngIf="getStatus(post)"   class='heart-cls-red animate__animated animate__tada'  name="heart"></ion-icon> 
+              
+               <ion-label style="font-size: 21px;">
+                <ion-label>
+                  <h2 class="title-cls">{{post.title}}</h2>
+                  <p style="width:147px"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+                </ion-label>
+              </ion-label>
+               
+                <ion-icon class="icon-view" name="time-outline"></ion-icon><span style="font-size: 15px;margin-right: 5px;"> {{ago(post.uploadedOn)}} ago</span>
+               
+            </ion-item-divider>
+             
+            <ion-chip class="chip-css ion-text-start md ion-activatable hydrated">
+              <ion-avatar class="md hydrated"><img src="../../../assets/icons/profiles-2.png"></ion-avatar>
+              <ion-label  class="sc-ion-label-md-h sc-ion-label-md-s md hydrated">{{post.uploadedBy}}</ion-label>
+            </ion-chip>
+          </ion-card>
+        </ion-col>
+      </ng-container>
+      <!-- skeleton loading -->
+      <ng-template #elseTemplate>
+      <ion-col size="12" size-md="6" *ngFor="let post of dummyData">
+        <ion-card>
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-avatar>
+          <ion-item-divider style="border: none;">
+            <ion-label>
+              <h2><ion-skeleton-text animated style="width: 100px;"></ion-skeleton-text></h2>
+              <p><ion-skeleton-text animated style="width: 180px;"></ion-skeleton-text></p>
+            </ion-label>
+          </ion-item-divider>
+        </ion-card>
+      </ion-col>
+    </ng-template>
+      <!-- end skeleton loading -->
+      
+    </ion-row>
+  </ion-grid>
+ 
+  <ion-grid fixed *ngIf="generType=='crime'">
+    <ion-row>
+      <ng-container *ngIf="isLoaded; else elseTemplate">
+        <ion-col size="12" size-md="6" *ngFor="let post of crimeStories">
+          <ion-card (click)="navigateToDetalil(post)">
+            <img style="width: -webkit-fill-available;height:188px" src={{post.image}}>
+            <ion-item-divider style="border: none;">
+                         
+              <ion-icon *ngIf="!getStatus(post)"  class='heart-cls-white animate__animated animate__tada' name="heart"></ion-icon> 
+              <ion-icon *ngIf="getStatus(post)"   class='heart-cls-red animate__animated animate__tada'  name="heart"></ion-icon> 
+              
+               <ion-label style="font-size: 21px;">
+                <ion-label>
+                  <h2 class="title-cls">{{post.title}}</h2>
+                  <p style="width:147px"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+                </ion-label>
+              </ion-label>
+               
+                <ion-icon class="icon-view" name="time-outline"></ion-icon><span style="font-size: 15px;margin-right: 5px;"> {{ago(post.uploadedOn)}} ago</span>
+               
+            </ion-item-divider>
+             
+            <ion-chip class="chip-css ion-text-start md ion-activatable hydrated">
+              <ion-avatar class="md hydrated"><img src="../../../assets/icons/profiles-2.png"></ion-avatar>
+              <ion-label  class="sc-ion-label-md-h sc-ion-label-md-s md hydrated">{{post.uploadedBy}}</ion-label>
+            </ion-chip>
+          </ion-card>
+        </ion-col>
+      </ng-container>
+      <!-- skeleton loading -->
+      <ng-template #elseTemplate>
+      <ion-col size="12" size-md="6" *ngFor="let post of dummyData">
+        <ion-card>
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-avatar>
+          <ion-item-divider style="border: none;">
+            <ion-label>
+              <h2><ion-skeleton-text animated style="width: 100px;"></ion-skeleton-text></h2>
+              <p><ion-skeleton-text animated style="width: 180px;"></ion-skeleton-text></p>
+            </ion-label>
+          </ion-item-divider>
+        </ion-card>
+      </ion-col>
+    </ng-template>
+      <!-- end skeleton loading -->
+      
+    </ion-row>
+  </ion-grid>
+  <ion-grid fixed *ngIf="generType=='drama'">
+    <ion-row>
+      <ng-container *ngIf="isLoaded; else elseTemplate">
+        <ion-col size="12" size-md="6" *ngFor="let post of dramaStories">
+          <ion-card (click)="navigateToDetalil(post)">
+            <img style="width: -webkit-fill-available;height:188px" src={{post.image}}>
+            <ion-item-divider style="border: none;">
+                         
+              <ion-icon *ngIf="!getStatus(post)"  class='heart-cls-white animate__animated animate__tada' name="heart"></ion-icon> 
+              <ion-icon *ngIf="getStatus(post)"   class='heart-cls-red animate__animated animate__tada'  name="heart"></ion-icon> 
+              
+               <ion-label style="font-size: 21px;">
+                <ion-label>
+                  <h2 class="title-cls">{{post.title}}</h2>
+                  <p style="width:147px"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+                </ion-label>
+              </ion-label>
+               
+                <ion-icon class="icon-view" name="time-outline"></ion-icon><span style="font-size: 15px;margin-right: 5px;"> {{ago(post.uploadedOn)}} ago</span>
+               
+            </ion-item-divider>
+             
+            <ion-chip class="chip-css ion-text-start md ion-activatable hydrated">
+              <ion-avatar class="md hydrated"><img src="../../../assets/icons/profiles-2.png"></ion-avatar>
+              <ion-label  class="sc-ion-label-md-h sc-ion-label-md-s md hydrated">{{post.uploadedBy}}</ion-label>
+            </ion-chip>
+          </ion-card>
+        </ion-col>
+      </ng-container>
+      <!-- skeleton loading -->
+      <ng-template #elseTemplate>
+      <ion-col size="12" size-md="6" *ngFor="let post of dummyData">
+        <ion-card>
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-avatar>
+          <ion-item-divider style="border: none;">
+            <ion-label>
+              <h2><ion-skeleton-text animated style="width: 100px;"></ion-skeleton-text></h2>
+              <p><ion-skeleton-text animated style="width: 180px;"></ion-skeleton-text></p>
+            </ion-label>
+          </ion-item-divider>
+        </ion-card>
+      </ion-col>
+    </ng-template>
+      <!-- end skeleton loading -->
+      
+    </ion-row>
+  </ion-grid>
 </ion-content>

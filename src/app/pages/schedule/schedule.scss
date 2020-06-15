@@ -42,8 +42,27 @@ ion-fab-button {
 .welcome{
   padding: 20px;
   color: white;
-  font-size: 26px;
+  font-size: 24px;
   margin-top: -2px;
+}
+.gener{
+  margin-top: 6px;
+  font-size:10px;
+}
+.tag{
+  position: absolute;
+  top: -5px;
+  right: -4px;
+  z-index: 1;
+  background:-webkit-linear-gradient(top, #f85032 0%,#f16f5c 50%,#f6290c 51%,#f02f17 71%,#e73827 100%);
+  width: 55px;
+  height: 55px;
+  padding: 12.5px 0;
+  box-shadow: -5px 9px 6px 2px rgba(0, 0, 0, 0.5);
+  color: white;
+  font-weight: 700;
+  text-align: center;
+  border-bottom-left-radius: 65%;
 }
 /*
  * Material Design uses the ripple for activated
@@ -117,13 +136,28 @@ ion-fab-button {
   font-size: small;
   font-kerning: none;
 }
+.caption {
+  display: block;
+  font-size: 14px;
+  color: #262626;
+  white-space: pre;
+}
+.badge-cls{
+  margin-top: 1px;
+  padding-left: 5px;
+  margin-bottom: -2px;
+}
+.chip-css{
+  margin-left: 20px;
+  margin-bottom: 13px;
+}
 .scroll-card-1{
   height: 25vh;
   width: 60vh;
   box-shadow: -1px -2px 9px 3px grey;
 }
 .scroll-card-2{
-  height: 41vh;
+  height: 255px;
   width: 67vh;
   box-shadow: 1px 4px 7px grey;
 }
@@ -138,10 +172,12 @@ ion-fab-button {
 .scroll-card-4{
   border-radius: 88px;
   box-shadow: -1px -2px 9px 3px grey;
+  background: #3171e0;
 }
 .tab-selected{
   border-bottom: 3px solid #6370ff;
   font-weight: bold;
+ 
 } 
 .searchbar-input-container .searchbar-input{
   border-radius: 17px !important;
@@ -149,7 +185,10 @@ ion-fab-button {
 ::ng-deep #tab-button-create-post ion-fab-button button{
   background: #004e95 !important;
 }
-
+.actor-img{
+  width: 75px;
+  height: 50px;
+}
 $categories: (
   ionic: var(--ion-color-primary),
   angular: #ac282b,

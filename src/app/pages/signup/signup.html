@@ -48,7 +48,7 @@
         </ion-row>
 
         <ion-row style="margin-top: 20px;">
-          <ion-button expand="full" class="shadow-red" color="primary" shape="round" (click)="login()">Login</ion-button>
+          <ion-button expand="full" class="shadow-red" color="dark" shape="round" (click)="login()">Login</ion-button>
         </ion-row>
          
         
@@ -57,7 +57,7 @@
       <ion-grid style="width: 80%;" *ngIf="!isLogin">
           
         <ion-row class="rowStyle" style="margin-top:0px">
-          <ion-icon name="mail" color="primary"></ion-icon>
+          <ion-icon name="person" color="primary"></ion-icon>
           <ion-input type="email" class="txtClass" placeholder="User Name" [(ngModel)]="userName_s"></ion-input>
         </ion-row>
         <ion-row class="rowStyle">
@@ -71,12 +71,14 @@
         </ion-row>
     
         <ion-row style="margin-top: 20px;">
-          <ion-button expand="full" class="shadow-red" color="primary" shape="round" (click)="signUp()">Sign Up</ion-button>
+          <ion-button expand="full" class="shadow-red" color="dark" shape="round" (click)="signUp()">Sign Up</ion-button>
         </ion-row>
          
     
       </ion-grid>
-     
-     
-
-      
+    
+      <ion-footer>
+        <ion-toolbar style="height: 25px;">
+          <ion-title  class="ion-text-center footer-cls">Quick Direct @ 2020</ion-title>
+        </ion-toolbar>
+      </ion-footer>

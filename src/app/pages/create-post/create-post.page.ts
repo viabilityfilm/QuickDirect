@@ -22,7 +22,7 @@ export interface MyData {
   selector: 'app-create-post',
   templateUrl: './create-post.page.html',
   styleUrls: ['./create-post.page.scss'],
-  providers:[AngularFirestore]
+  providers: [AngularFirestore]
 })
 
 export class CreatePostPage implements OnInit {
@@ -31,6 +31,8 @@ export class CreatePostPage implements OnInit {
   };
   text: string = "";
   posts = [];
+  title:string="";
+  budget:string="";
   pageSize: number = 10;
   cursor: any;
   infiniteEvent: any;
@@ -38,33 +40,34 @@ export class CreatePostPage implements OnInit {
   synopsis: string = "";
   username: string;
   loadingProgress;
- // Upload Task 
- task: AngularFireUploadTask;
+  
+  task: AngularFireUploadTask;
 
- // Progress in percentage
- percentage: Observable<number>;
+   
+  percentage: Observable<number>;
 
- // Snapshot of uploading file
- snapshot: Observable<any>;
+   
+  snapshot: Observable<any>;
 
- // Uploaded File URL
- UploadedFileURL: Observable<string>;
+   
+  UploadedFileURL: Observable<string>;
 
- //Uploaded Image List
- images: Observable<MyData[]>;
+   
+  images: Observable<MyData[]>;
 
- //File details  
- fileName:string;
- fileSize:number;
+   
+  fileName: string;
+  fileSize: number;
 
- //Status check 
- isUploading:boolean;
- isUploaded:boolean;
+   
+  isUploading: boolean;
+  isUploaded: boolean;
 
- private imageCollection: AngularFirestoreCollection<MyData>;
+  private imageCollection: AngularFirestoreCollection<MyData>;
 
 
-  @ViewChild('ref', {static: false}) pRef: IonInput;
+  @ViewChild('ref', { static: false }) pRef: IonInput;
+  UploadedFilePath: string;
   constructor(public navCtrl: NavController,
 
     private loadingCtrl: LoadingController,
@@ -73,13 +76,13 @@ export class CreatePostPage implements OnInit {
     private actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
     private modalCtrl: ModalController,
-    private router:Router,
+    private router: Router,
     private fireBaseService: FireBaseService, public userData: UserData,
-    public actionSheetController: ActionSheetController,private storage: AngularFireStorage, private database: AngularFirestore
+    public actionSheetController: ActionSheetController, private storage: AngularFireStorage, private database: AngularFirestore
   ) {
     this.isUploading = false;
     this.isUploaded = false;
-    
+
     this.imageCollection = database.collection<MyData>('storyThumnails');
     this.images = this.imageCollection.valueChanges()
   }
@@ -87,9 +90,9 @@ export class CreatePostPage implements OnInit {
   ngAfterViewInit() {
     this.getUsername();
     //setTimeout(() => this.pRef.setFocus(), 300);
-    
+
   }
-  
+
   ago(time) {
     let difference = moment(time).diff(moment());
     return moment.duration(difference).humanize();
@@ -117,42 +120,66 @@ export class CreatePostPage implements OnInit {
 
   }
 
-  async presentToast(msg) {
+  async presentToast(msg,type) {
     const toast = await this.toastCtrl.create({
       message: msg,
+      animated:true,
+      cssClass:type,
+      position: 'top',
       duration: 2000
     });
     toast.present();
   }
   clearValues() {
     this.synopsis = "";
+    this.title="";
+    this.budget="";
+    this.isUploaded=false;
   }
- logout(){
-  this.router.navigateByUrl('/app/tabs/schedule');
- }
+  logout() {
+    this.router.navigateByUrl('/app/tabs/schedule');
+  }
   async post(genre) {
-    if (this.synopsis == '') {
-      this.presentToast('Please provide synopsis..!');
+    if (this.synopsis == '' && this.title=='') {
+      this.presentToast('Please provide synopsis..!','toast-danger');
       return true;
     }
-    let postObj = new Post();
-    postObj.synopsis = this.synopsis;
-    postObj.uploadedBy = this.username;
-    postObj.uploadedOn = moment().format('YYYY-MM-DD hh:mm:ss A').toString();
-    postObj.generType = genre;
+    if(this.UploadedFileURL===undefined){
+      this.presentToast('Please upload thumbnail..!','toast-danger');
+      return true;
+    }
+    if (this.budget=="") {
+      this.presentToast('Please provide budget..!','toast-danger');
+      return true;
+    }
+     
+    let postObj={};
+    postObj['synopsis'] = this.synopsis;
+    postObj['uploadedBy'] = this.username;
+    postObj['uploadedOn'] = moment().format('YYYY-MM-DD hh:mm:ss A').toString();
+    postObj['generType'] = genre;
+    postObj['title']=this.title;
+    postObj['budget']=this.budget;
+    postObj['image']=this.UploadedFilePath;
+    postObj['likes']=[];
+    postObj['views']=0;
+    postObj['actors']=[];
+    postObj['actress']=[];
     this.loadingProgress = await this.loadingCtrl.create({
       message: 'Uploading your post..',
       duration: 2000
     });
     await this.loadingProgress.present();
+     
     this.fireBaseService.createPost(postObj).then(creationResponse => {
       if (creationResponse != null) {
-        this.presentToast('Posted successfully!');
+        this.presentToast('Posted successfully!','toast-success');
         this.loadingProgress.onWillDismiss();
         this.clearValues();
+        this.router.navigateByUrl('/app/tabs/schedule');
       }
     })
-      .catch(error => this.presentToast('Some think went Wrong..!'));
+      .catch(error => this.presentToast('Some think went Wrong..!','toast-danger'));
 
 
   }
@@ -169,7 +196,7 @@ export class CreatePostPage implements OnInit {
         postArray.push(data.val());
       });
     })
-     
+
     this.posts = postArray;
 
   }
@@ -177,60 +204,58 @@ export class CreatePostPage implements OnInit {
   /***
    * uploadFile
    */
-  uploadFile(event: FileList) {
-    
+  async uploadFile(event: FileList) {
 
-    // The File object
+
+     
     const file = event.item(0)
 
-    // Validation for Images Only
-    if (file.type.split('/')[0] !== 'image') { 
-     console.error('unsupported file type :( ')
-     return;
+     
+    if (file.type.split('/')[0] !== 'image') {
+      console.error('unsupported file type :( ')
+      return;
     }
 
     this.isUploading = true;
     this.isUploaded = false;
-
-
+    this.loadingProgress = await this.loadingCtrl.create({
+      message: 'Uploading Thumbnail..',
+      duration: 2000
+    });
+    await this.loadingProgress.present();
     this.fileName = file.name;
 
     // The storage path
     const path = `storyThumnails/${new Date().getTime()}_${file.name}`;
 
     // Totally optional metadata
-    const customMetadata = { app: 'Freaky Image Upload Demo' };
+    const customMetadata = { app: 'Quick Direct Image Upload Demo' };
 
     //File reference
     const fileRef = this.storage.ref(path);
 
     // The main task
     this.task = this.storage.upload(path, file, { customMetadata });
-
-    // Get file progress percentage
-    this.percentage = this.task.percentageChanges();
-    this.snapshot = this.task.snapshotChanges().pipe(
-      
-      finalize(() => {
-        // Get uploaded file storage path
+    this.task.percentageChanges().subscribe(res => {
+      if (res === 100) {
+        this.presentToast('Thumbnail uploaded..!','toast-success');
+        this.isUploaded = true;
+        this.loadingProgress.onWillDismiss();
         this.UploadedFileURL = fileRef.getDownloadURL();
-        
-        this.UploadedFileURL.subscribe(resp=>{
+        this.UploadedFileURL.subscribe(resp => {
+          this.UploadedFilePath=resp;
           this.addImagetoDB({
             name: file.name,
             filepath: resp,
             size: this.fileSize
           });
           this.isUploading = false;
-          this.isUploaded = true;
-        },error=>{
-          console.error(error);
-        })
-      }),
-      tap(snap => {
-          this.fileSize = snap.totalBytes;
-      })
-    )
+        });
+      }
+    });
+    // Get file progress percentage
+    this.percentage = this.task.percentageChanges();
+     
   }
 
   addImagetoDB(image: MyData) {

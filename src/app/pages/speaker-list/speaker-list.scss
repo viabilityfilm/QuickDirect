@@ -2,13 +2,51 @@
   display: flex;
   flex-direction: column;
 }
-
+ion-card{
+  margin : 7px;
+  box-shadow: 1px 0px 12px 1px grey;
+}
+.icon-view{
+  margin-left: auto;
+  font-size: 15px;
+}
+.title-cls{
+  color: #1e2023;
+  font-size: 21px;
+  padding-left: 4px;
+  
+}
+.chip-css{
+  margin-left: 20px;
+  margin-bottom: 13px;
+}
+.heart-cls-red{
+ color:#cf3c4f;
+ font-size: 34px;
+}
+.heart-cls-white{
+ color:#d7d8da;
+ font-size: 34px;
+}
+.view-class{
+  margin-left: 12px;
+  position: relative;
+  top: -17px;
+  left: -16px;
+} 
 /* Due to the fact the cards are inside of columns the margins don't overlap
  * properly so we want to remove the extra margin between cards
  */
 ion-col:not(:last-of-type) .speaker-card {
   margin-bottom: 0;
 }
+.custom-header{
+  --ion-background-color: -webkit-linear-gradient(150deg, #013A6B 35%, #004E95 35%);
+  color: white !important;
+  }
+  .custom-toolbar{
+      color: white;
+  }
 
 .speaker-card .speaker-item {
   --min-height: 85px;

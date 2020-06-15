@@ -14,7 +14,7 @@
     "postinstall": "webdriver-manager update --standalone false --gecko false"
   },
   "resolutions": {
-    "@babel/preset-env": "7.5.5"
+    "@babel/preset-env": "7.8.7"
   },
   "repository": {
     "type": "git",
@@ -38,7 +38,9 @@
     "@ionic-native/status-bar": "5.0.0-beta.15",
     "@ionic/angular": "^5.0.6",
     "@ionic/storage": "^2.1.3",
+    "angular2-tag-input": "^1.2.3",
     "angularfire2": "^5.4.2",
+    "animate.css": "^4.1.0",
     "cordova-android": "^8.1.0",
     "cordova-ios": "^5.1.1",
     "cordova-plugin-androidx-adapter": "^1.1.1",
@@ -52,12 +54,17 @@
     "cordova-plugin-whitelist": "^1.3.4",
     "core-js": "^3.6.4",
     "firebase": "^7.14.6",
+    "ionic-tags-input": "^0.1.2",
+    "lodash": "^4.17.15",
     "moment": "^2.25.3",
+    "ng2-dragula": "^2.1.1",
+    "ngx-chips": "^2.1.0",
     "promise-polyfill": "^8.1.3",
     "rxjs": "^6.5.4",
     "sw-toolbox": "3.6.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.9.1",
+    "@babel/compat-data": "7.8.0"
   },
   "devDependencies": {
     "@angular-devkit/architect": "^0.803.23",
@@ -68,6 +75,7 @@
     "@angular/compiler": "^8.2.14",
     "@angular/compiler-cli": "^8.2.14",
     "@angular/language-service": "^8.2.14",
+    "@babel/plugin-proposal-numeric-separator": "^7.10.1",
     "@ionic/angular-toolkit": "^2.1.2",
     "@ionic/lab": "^2.0.19",
     "@types/jasmine": "3.4.6",

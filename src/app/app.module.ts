@@ -18,17 +18,22 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireStorageModule, AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { LottieSplashScreen } from '@ionic-native/lottie-splash-screen/ngx';
 import { FireBaseService } from './services/firebase.service';
+//import { ShortNumberPipe } from './pipes/short-number.pipe';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { DragulaModule } from 'ng2-dragula';
 @NgModule({
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    DragulaModule.forRoot(),
     IonicModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireStorageModule,
+    AngularFirestoreModule,
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production

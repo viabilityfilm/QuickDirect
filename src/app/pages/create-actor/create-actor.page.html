@@ -1,0 +1,81 @@
+<ion-header class="custom-header">
+
+  <ion-toolbar class="custom-toolbar">
+    <ion-title style="font-size:17px">Actor/Actress Creation</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" style="font-size:24px">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+</ion-header>
+<ion-content>
+  <div class="about-info">
+
+
+    <p class="ion-text-center">
+      <img class="sml-cls" width="40px" height="40px" src={{UploadedFilePath}}>
+      <br>
+      <input id="uploadBtn" style="display: none" #hiddenfileinput type="file" class="upload"
+        (change)="uploadFile($event.target.files)" />
+      <ion-button color="dark" (click)="hiddenfileinput.click()" class="ion-color md button button-solid ion-activatable ion-focusable hydrated ion-color-dark
+  ">
+        <ion-icon name="cloud-upload" slot="start"></ion-icon> Upload
+      </ion-button>
+
+    <h3 class="ion-padding-top ion-padding-start">Details</h3>
+
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label position="floating">Actor Name</ion-label>
+        <ion-input class="ion-cust-text" [(ngModel)]="name" #ref autofocus="true"> </ion-input>
+        <ion-icon name="create" slot="start"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Gender</ion-label>
+        <ion-list>
+          <ion-item>
+            <ion-label>Male</ion-label>
+            <ion-toggle [(ngModel)]="gender"></ion-toggle>
+            <ion-label style="width: 83px;">Female</ion-label>
+          </ion-item>
+ 
+        </ion-list>
+        <ion-icon name="men" slot="start"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Contact Number</ion-label>
+        <ion-input class="ion-cust-text" [(ngModel)]="mobile"></ion-input>
+        <ion-icon name="keypad" slot="start"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Skills</ion-label>
+        <ion-input class="ion-cust-text" [(ngModel)]="skills"></ion-input>
+        <ion-icon name="ribbon" slot="start"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Profiles</ion-label>
+        <ion-input class="ion-cust-text" [(ngModel)]="profiles"></ion-input>
+        <ion-icon name="videocam" slot="start"></ion-icon>
+      </ion-item>
+
+
+    </ion-list>
+    <ion-item-divider style="margin-top: 42px;">
+
+      <ion-fab vertical="bottom" horizontal="end">
+        <ion-fab-button color="dark">
+          <ion-icon name="send" (click)="createActor()"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+
+
+
+    </ion-item-divider>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,30 @@
+.custom-header{
+--ion-background-color: -webkit-linear-gradient(150deg, #013A6B 35%, #004E95 35%);
+color: white !important;
+}
+.custom-toolbar{
+color: white;
+}
+.tiles-header{
+
+color: #013a6b;
+font-weight: bold;
+font-size: small;
+font-kerning: none;
+}
+.icon-view{
+    margin-left: auto;
+  }
+  .text-detail{
+    margin: auto;
+    font-size: 15px;
+    color:#004e95;
+    font-weight: bold;
+  }
+ .scroll-card{
+    width: 46%;
+    height: 66%;
+    margin: auto;
+    box-shadow: 12px 6px 27px grey;
+    border-radius:47px;
+ } 

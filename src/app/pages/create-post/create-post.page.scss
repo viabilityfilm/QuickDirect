@@ -12,6 +12,12 @@
         }
 
     }
+    
+    .badge-cls{
+      color: white !important;
+      padding: 2px;
+      font-weight: bold;
+    }
     .synopsis{
         margin-left: 50px;
         margin-top: -173px;
@@ -169,6 +175,7 @@
         position: relative;
         top: 3px;
         left: 26px;
+        box-shadow: 2px 5px 17px 7px grey;
       }
       .about-info p {
         line-height: 130%;

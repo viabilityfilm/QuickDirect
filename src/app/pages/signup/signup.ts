@@ -8,6 +8,7 @@ import { OnInit } from '@angular/core';
 import { MenuController, NavController, ToastController, LoadingController, ActionSheetController } from '@ionic/angular';
 import { FireBaseService } from '../../services/firebase.service';
 import { UserData } from '../../providers/user-data';
+import { ConferenceData } from '../../providers/conference-data';
 
 @Component({
   selector: 'page-signup',
@@ -15,13 +16,15 @@ import { UserData } from '../../providers/user-data';
   styleUrls: ['./signup.scss'],
 })
 export class SignupPage {
+  loginName: string;
+  dbUsers: any[];
 
   constructor(private menu: MenuController,
     private navController: NavController,
     private movieService: FireBaseService, private router: Router,
     public toastController: ToastController,
     public userData: UserData, public loading: LoadingController
-    , public actionSheetController: ActionSheetController) { }
+    , public actionSheetController: ActionSheetController, public confData: ConferenceData) { }
   isLogin: boolean = true;
   mode: string = "signIn";
   email: string = "";
@@ -33,10 +36,21 @@ export class SignupPage {
   loadingProgress;
   ngOnInit() {
   }
+  ionViewDidEnter() {
+    this.getUserName();
+    this.readUsers();
+  }
+  getUserName() {
+    this.userData.getUsername().then((username) => {
+      if (username != null && username != undefined) {
+        this.router.navigateByUrl('/app/tabs/schedule');
+      }
+    });
+  }
   async login() {
     let userObj = new User();
     if (!this.email && !this.password) {
-      this.presentToast('Values missing..!');
+      this.presentToast('Values missing..!', 'toast-danger');
     }
     userObj.emailId = this.email;
     userObj.password = this.password;
@@ -64,7 +78,7 @@ export class SignupPage {
     const actionSheet = await this.actionSheetController.create({
       header: 'User Type',
       buttons: [{
-        text: 'Director', 
+        text: 'Director',
         role: 'destructive',
         icon: 'megaphone-outline',
         handler: () => {
@@ -88,58 +102,39 @@ export class SignupPage {
   }
 
   checkUser(userObj: User, methodType) {
-    let validateUSer = this.movieService.getUserList();
-    let validUserObj;
-    validateUSer.snapshotChanges().subscribe(res => {
-      if (res != null) {
-        let isExist = false;
-        let isPasswordSame = false;
-        res.forEach(element => {
-          if (element.payload.toJSON()['emailId'] === userObj.emailId) {
-            isExist = true;
-          }
-          if (methodType == "signIn") {
-            if (element.payload.toJSON()['password'] === userObj.password) {
-              isPasswordSame = true;
-              validUserObj = element.payload.toJSON();
-            }
-          }
-        });
-
-        if (methodType == "signUp" && !isExist) {
-          this.movieService.createUser(userObj).then(creationResponse => {
-            if (creationResponse != null) {
-              this.presentToast('User created successfully!');
-              this.clearValues();
-              this.mode = "signIn";
-            }
-          })
-            .catch(error => console.log(error));
-        } else if (methodType == "signUp" && isExist) {
-          this.presentToast('User email already exists..!')
-        } else if (methodType == "signIn" && isExist) {
-          if (isPasswordSame == false) {
-            this.presentToast('Invalid credentials..!');
-          } else {
-            this.loadingProgress.onWillDismiss();
-            this.presentToast('Login Success..!');
-            this.userData.currentLoggedInUser = validUserObj;
-            this.userData.login(validUserObj.userName);
-            this.userData.setUsername(validUserObj.userName);
-
-            this.router.navigateByUrl('/app/tabs/schedule');
-          }
-        } else if (methodType == "signIn" && !isExist) {
-          this.presentToast('Invalid credentials..!');
-        }
+    let validUser:boolean=false;
+    this.dbUsers.forEach(element => {
+      if (element['emailId'] === userObj.emailId
+        && element['password'] === userObj.password && methodType === "signIn"
+      ) {
+        this.presentToast('Logged in Successfully..!', 'toast-success');
+        this.userData.login(element['userName']);
+        this.userData.setUsername(element['userName']);
+        this.userData.email=element['emailId'];
+        this.router.navigateByUrl('/app/tabs/schedule');
+        validUser=true;
+        return true;
+      } else if (methodType === "signIn" && validUser===false && ((element['emailId'] != userObj.emailId) ||
+        element['password'] != userObj.password
+      )) {
+        this.presentToast('Invalid credentials..!', 'toast-danger');
+        return true;
       }
+
+
     });
+
+
+
+
   }
 
-  async presentToast(msg) {
+  async presentToast(msg, type) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: 2000
+      cssClass: type,
+      duration: 2000,
+      position: 'top'
     });
     toast.present();
   }
@@ -153,27 +148,57 @@ export class SignupPage {
   }
 
   async signUp() {
-    if (!this.email && !this.password && !this.userName) {
-      this.presentToast('Values missing..!');
+    if (!this.email_s && !this.password_s && !this.userName_s) {
+      this.presentToast('Values missing..!', 'toast-danger');
       return;
-    }else{
+    } else {
       this.presentActionSheet();
     }
-    
-  }
-  async createUser(userType?){
-    let userObj = new User();
-    userObj.emailId = this.email_s;
-    userObj.password = this.password_s;
-    userObj.userName = this.userName_s;
-    userObj.userFlag = userType;
-    this.checkUser(userObj, "signUp");
 
-    this.loadingProgress = await this.loading.create({
-      message: 'Creating user...',
-      duration: 2000
+  }
+
+  readUsers() {
+    this.dbUsers = [];
+    this.movieService.readUsers().subscribe(data => {
+      data.map(e => {
+        let docData = e.payload.doc.data();
+        docData['id'] = e.payload.doc.id;
+        this.dbUsers.push(docData);
+      });
     });
-    await this.loadingProgress.present();
+  }
+  async createUser(userType?) {
+    let userObj = {};
+    userObj['emailId'] = this.email_s;
+    userObj['password'] = this.password_s;
+    userObj['userName'] = this.userName_s;
+    userObj['userFlag'] = userType;
+    let isExist = false;
+    this.dbUsers.forEach(e => {
+      if (e.emailId === this.email_s) {
+        this.presentToast('User email already exists..!', 'toast-danger')
+        isExist = true;
+      }
+    })
+    if (isExist === false) {
+      this.loadingProgress = await this.loading.create({
+        message: 'Creating user...',
+        duration: 2000
+      });
+      await this.loadingProgress.present();
+
+      this.movieService.createUsers(userObj).then(creationResponse => {
+        if (creationResponse != null) {
+          this.presentToast('User Created..!', 'toast-success');
+          this.loadingProgress.onWillDismiss();
+          this.clearValues();
+          this.mode = "signIn";
+        }
+      })
+        .catch(error => this.presentToast('Some think went Wrong..!', 'toast-danger'));
+
+    }
+
   }
 
   openCustom() {

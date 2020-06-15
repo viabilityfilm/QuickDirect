@@ -48,7 +48,7 @@
  
 
 .segment-button-checked{
-  background:linear-gradient(to bottom, #3a7bd5, #3a6073);
+  background:-webkit-linear-gradient(150deg, #013A6B 35%, #004E95 35%);
   color: white;
   font-weight: bold;
 }
@@ -60,4 +60,43 @@
   border-radius: 20px;
   height: 29px;
   font-size: 15px;
+}
+.toast-success{
+  --background:#08af2d !important;
+  --color:white;
+  box-shadow: 4px 5px 4px 3px grey;
+}
+.toast-danger{
+  --background:#e4233c !important;
+  --color:white;
+  box-shadow: 4px 5px 4px 3px grey;
+}
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+  pointer-events: none;
+}
+ 
+/* high-performance display:none; helper */
+.gu-hide {
+  left: -9999px !important;
+}
+ 
+/* added to mirrorContainer (default = body) while dragging */
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+ 
+/* added to the source element while its mirror is dragged */
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
 }

@@ -46,6 +46,13 @@ h1, h6 {
     margin-top: 10px;
     width: 97%;
     border: 1px solid #f5f6f9;
+    box-shadow: 1px 2px 19px 7px #d7d8da;
+}
+.footer-cls{
+    margin-top: -29px;
+    font-size: 11px;
+    padding: 4px;
+    color: #99999a;
 }
 .card-class{
     margin-block-end: auto;
@@ -68,7 +75,7 @@ left: 44px;
     background-size: cover;
     display: block;
     border: none !important;
-    background: linear-gradient(to bottom, #9cecfb, #65c7f7, #0052d4)
+    background: linear-gradient(to bottom, #3171e0, #65c7f7, #0052d4);
     
 }
  
@@ -88,6 +95,7 @@ ion-header{
     border-radius: 30px;
     margin-top: 20px;
     border: 1px solid #d7d8da;
+    box-shadow: 1px 2px 19px 7px #d7d8da;
 
     ion-icon {
         margin-top: 9px;

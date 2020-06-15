@@ -10,6 +10,7 @@ export class UserData {
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
   currentLoggedInUser;
+  email:string="";
   constructor(
     public storage: Storage
   ) { }

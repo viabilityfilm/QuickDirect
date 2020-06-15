@@ -1,8 +1,8 @@
-<ion-content class="speaker-detail">
+<ion-content class="speaker-detail" *ngIf="showPost">
   <ion-header class="ion-no-border">
-    <ion-toolbar>
+    <ion-toolbar class="custom-toolbar">
       <ion-buttons slot="start">
-        <ion-back-button defaultHref="/app/tabs/speakers"></ion-back-button>
+        <ion-back-button defaultHref={{defaultHref}}></ion-back-button>
       </ion-buttons>
       <ion-buttons *ngIf="speaker" slot="end">
         <ion-button (click)="openContact(speaker)">
@@ -15,29 +15,79 @@
     </ion-toolbar>
   </ion-header>
 
-  <div class="speaker-background">
-    <img [src]="speaker?.profilePic" [alt]="speaker?.name">
-    <h2>{{speaker?.name}}</h2>
+  <img class="speaker-background" src="{{postData.image}}">
+  <!-- <div class="title-cls"><ion-icon name="videocam" role="img" class="md hydrated" aria-label="documents" style="
+    padding-right: 10px;"></ion-icon>{{postData.title}} <div class="user-cls">@ {{postData.uploadedBy}}</div></div> -->
+  <ion-item-divider style="border: none;margin-left: -6px;box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.12)">
+    <ion-chip class="ion-text-end" class="chip-cls" button>
+      <ion-icon name="person-circle"></ion-icon>
+      <ion-label>{{postData.uploadedBy}}</ion-label>
+    </ion-chip>
+    <span class="margin-cls">
+      <ion-icon name="golf"></ion-icon> {{postData.views}} Views
+    </span>
+    <ion-icon *ngIf="heartClass=='heart-cls-red'" (click)="changeClass(postData)"
+      class='heart-cls-red animate__animated animate__tada' name="heart"></ion-icon>
+    <ion-icon *ngIf="heartClass=='heart-cls-white'" (click)="changeClass(postData)"
+      class='heart-cls-white animate__animated animate__tada' name="heart"></ion-icon>
+    <ion-icon class="icon-view" name="time-outline"></ion-icon><span style="font-size: 12px;margin-right: 5px;">
+      {{ago(postData.uploadedOn)}} ago</span>
+
+
+  </ion-item-divider>
+  <ion-label style="font-size: 21px;position: relative;top: -199px;">
+    <ion-label>
+      <h2 class="ion-text-center title-cls title-cls">
+        <ion-icon name="receipt"></ion-icon>&nbsp; {{postData.title}}
+      </h2>
+    </ion-label>
+  </ion-label>
+  <p class="synopsis-cls">{{postData.synopsis}}</p>
+  <div *ngIf="hasActor">
+    <ng-container *ngIf="isLoaded; else elseTemplate">
+      <ion-item-divider>
+        <img class="actor-cls" src="{{actor_img}}">
+        <span style="font-size: 18px;padding-left: 11px;color: #383a3e;"></span>
+        <ion-progress-bar [value]="p_bar_value1" color="dark" class="progress-cls"></ion-progress-bar>
+  
+  
+      </ion-item-divider>
+      <ion-item-divider>
+  
+        <img class="actor-cls" src="{{actress_img}}">
+        <span style="font-size: 18px;padding-left: 11px;color: #383a3e;"></span>
+        <ion-progress-bar [value]="p_bar_value2" color="medium" class="progress-cls"></ion-progress-bar>
+      </ion-item-divider>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <ion-col size="12" size-md="12" *ngFor="let post of dummyData">
+        <ion-card>
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-avatar>
+          <ion-item-divider style="border: none;">
+            <ion-label>
+              <h2><ion-skeleton-text animated style="width: 100px;"></ion-skeleton-text></h2>
+              <p><ion-skeleton-text animated style="width: 180px;"></ion-skeleton-text></p>
+            </ion-label>
+          </ion-item-divider>
+        </ion-card>
+      </ion-col>
+    </ng-template>
+
+
+    
   </div>
-
-  <div class="ion-padding speaker-detail">
-    <p>{{speaker?.about}} Say hello on social media!</p>
-
-    <hr>
-
-    <ion-chip color="twitter" button (click)="openExternalUrl('https://twitter.com/' + speaker.twitter)">
-      <ion-icon name="logo-twitter"></ion-icon>
-      <ion-label>Twitter</ion-label>
-    </ion-chip>
-
-    <ion-chip color="dark" button (click)="openExternalUrl('https://github.com/ionic-team/ionic')">
-      <ion-icon name="logo-github"></ion-icon>
-      <ion-label>GitHub</ion-label>
-    </ion-chip>
-
-    <ion-chip color="instagram" button (click)="openExternalUrl('https://instagram.com/ionicframework')">
-      <ion-icon name="logo-instagram"></ion-icon>
-      <ion-label>Instagram</ion-label>
-    </ion-chip>
+  
+  <div *ngIf="!hasActor">
+    <div  style="
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.5);" class="ion-text-center">
+      <ion-icon   name="information-circle" ng-reflect-name="information-circle" role="img"
+        class="md hydrated" aria-label="information circle"></ion-icon> No Actor/Actress associates
+    </div>
   </div>
+  <ion-button *ngIf="!userExist" color="primary" expand="block" (click)="addActor(postData)" fill="clear">
+    <ion-icon name="person-add"></ion-icon> &nbsp; Add Actors/Actress
+  </ion-button>
 </ion-content>

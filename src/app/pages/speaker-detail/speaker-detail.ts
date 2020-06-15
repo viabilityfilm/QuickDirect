@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { ConferenceData } from '../../providers/conference-data';
 import { ActionSheetController } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-
+import * as moment from 'moment';
+import { FireBaseService } from '../../services/firebase.service';
+import { UserData } from '../../providers/user-data';
+import { ModalController } from '@ionic/angular';
+import { ActorAddPage } from '../../modals/actor-add/actor-add.page';
+import * as _ from "lodash";
 @Component({
   selector: 'page-speaker-detail',
   templateUrl: 'speaker-detail.html',
@@ -11,29 +16,217 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 })
 export class SpeakerDetailPage {
   speaker: any;
-
+  postData: any;
+  showPost: boolean = false;
+  defaultHref: string = "/app/tabs/speakers";
+  p_bar_value1: number;
+  p_bar_value2: number;
+  liked: boolean = false;
+  mode:string="story";
+  heartClass: string;
+  username: string;
+  showActor:string;
+  hasActor: boolean=false;
+  dataReturned: any;
+  userExist: boolean=false;
+  
+  actor_img: string="";
+  actress_img: any="";
+  isLoaded: boolean = false;
+  dummyData = [
+    {
+      synopsis: "1",
+      title: "1",
+      imaage: "",
+      generType: "1",
+      uploadedBy: "1",
+      uploadedOn: "1"
+    },
+    {
+      synopsis: "1",
+      title: "1",
+      imaage: "",
+      generType: "1",
+      uploadedBy: "1",
+      uploadedOn: "1"
+    }
+  ];
   constructor(
     private dataProvider: ConferenceData,
     private route: ActivatedRoute,
+    public router: Router,
     public actionSheetCtrl: ActionSheetController,
     public confData: ConferenceData,
     public inAppBrowser: InAppBrowser,
-  ) {}
+    public userData:UserData,
+    public firebaseService:FireBaseService,
+    public modalController:ModalController
+  ) {
 
-  ionViewWillEnter() {
-    this.dataProvider.load().subscribe((data: any) => {
-      const speakerId = this.route.snapshot.paramMap.get('speakerId');
-      if (data && data.speakers) {
-        for (const speaker of data.speakers) {
-          if (speaker && speaker.id === speakerId) {
-            this.speaker = speaker;
-            break;
-          }
-        }
-      }
+  }
+  segmentChanged(obj){
+
+  }
+  showSkeltonLoading() {
+    setTimeout(() => {
+      this.isLoaded = true;
+    }, 1300);
+  }
+  getUserName() {
+    this.userData.getUsername().then((username) => {
+      this.username = username;
     });
   }
+  getStatus(obj){
+    if(obj['likes'].indexOf(this.username)>=0){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  runDeterminateProgress() {
+    
+    for (let index = 0; index <= 60; index++) {
+      this.setPercentBar(+index);
+    }
+  }
 
+  setPercentBar(i) {
+    setTimeout(() => {
+      let apc = (i / 100)
+    
+      this.p_bar_value1 = apc;
+      this.p_bar_value2 = apc;
+    }, 30 * i);
+  }
+ 
+  changeClass(obj) {
+    if(obj['likes'] && obj['likes'].indexOf(this.username)>=0){
+      let idx=obj['likes'].indexOf(this.username);
+      obj['likes'].splice(idx,1);
+      this.heartClass = "heart-cls-white";
+    }else  if(obj['likes'] && obj['likes'].indexOf(this.username)<0){
+      obj['likes'].push(this.username);
+      this.heartClass = "heart-cls-red";
+    }
+    if(obj['likes'].indexOf(undefined)>=0){
+      obj['likes'].splice(obj['likes'].indexOf(undefined),1);
+    }
+    this.firebaseService.updatePost(obj['id'],obj);
+  }
+  setClass(obj){
+    if(obj['likes'] && obj['likes'].indexOf(this.username)>=0){
+      this.heartClass = "heart-cls-red";
+    }else  if(obj['likes'] && obj['likes'].indexOf(this.username)<0){
+      obj['likes'].push(this.username);
+      this.heartClass = "heart-cls-white";
+    }
+  }
+  checkActor(data){
+    if(data['actors'] &&  data['actress'] && data['actors'].length==0 && data['actress'].length==0){
+      this.hasActor=false;
+    }else{
+      this.userExist=false;
+      if(data['actors'] && data['actress']){
+        data['actors'].forEach(element => {
+          if(element && element.split('_')[1]&&element.split('_')[1].indexOf(this.username)>=0){
+            this.userExist=true;
+          }
+        });
+      } 
+      this.hasActor=true;
+    }
+  }
+  checkActorAssociations(arg){
+    let ass_actorList=[];
+    let totalActors=0;
+    let totalActress=0;
+    let ass_actressList=[];
+    arg['actors'].forEach(element => {
+      if(element && element.split('_')[0]){
+        ass_actorList.push(element.split('_')[0]);
+      }
+    });
+    arg['actress'].forEach(element => {
+      if(element && element.split('_')[0]){
+        ass_actressList.push(element.split('_')[0]);
+      }
+    });
+    let actorCount = this.confData.compressArray(ass_actorList);
+    let actressCount = this.confData.compressArray(ass_actressList);
+    let actorId;
+    let actressId;
+    actorId=_.maxBy(actorCount, function(o) { return o.count; });
+    actressId=_.maxBy(actressCount,function(o){return o.count; });
+    this.firebaseService.readActors().subscribe(data => {
+      data.map(e => {
+        let docData = e.payload.doc.data();
+        docData['id'] = e.payload.doc.id;
+        if(docData['id']===actorId.value){
+          this.actor_img=docData['image'];
+        }
+        if(docData['id']===actressId.value){
+          this.actress_img=docData['image'];
+        }
+      });
+    }); 
+  }
+  async addActor(data){
+     
+      const modal = await this.modalController.create({
+        component: ActorAddPage,
+        componentProps: {
+          "paramID": this.postData,
+          "paramTitle": "Test Title"
+        }
+      });
+  
+      modal.onDidDismiss().then((dataReturned) => {
+        if (dataReturned !== null) {
+          this.dataReturned = dataReturned.data;
+          this.checkActor(this.dataReturned);
+          this.runDeterminateProgress();
+        }
+      });
+  
+      return await modal.present();
+    }
+  
+  ionViewWillEnter(arg?) {
+    if (arg==null && this.confData.isFromPage == '') {
+      this.router.navigateByUrl("/app/tabs/speakers");
+    }
+    this.showSkeltonLoading();
+    this.getUserName();
+    this.username=this.confData.loginUser;
+    this.postData = this.confData.routingData;
+    this.setClass(this.postData);
+    this.checkActor(this.postData);
+    this.checkActorAssociations(this.postData);
+    this.showPost = true;
+    let isFrom = this.confData.isFromPage;
+    if (isFrom == 'dashboard') {
+      this.defaultHref = '/app/tabs/schedule';
+    } else {
+      this.defaultHref = "/app/tabs/speakers";
+    }
+    this.confData.routingData = {};
+    this.runDeterminateProgress();
+  }
+  ionViewDidLeave(){
+    this.confData.isFromPage='';
+  }
+  ngAfterViewInit() {
+
+
+  }
+  back() {
+
+  }
+  ago(time) {
+    let difference = moment(time).diff(moment());
+    return moment.duration(difference).humanize();
+  }
   openExternalUrl(url: string) {
     this.inAppBrowser.create(
       url,

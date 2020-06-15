@@ -1,0 +1,162 @@
+.custom-header{
+--ion-background-color: -webkit-linear-gradient(150deg, #013A6B 35%, #004E95 35%);
+color: white !important;
+}
+.custom-toolbar{
+color: white;
+}
+.q1, .q2, .q3, .q4 {
+    border: 4px solid #fff;
+}
+ion-list{
+  height: 77px;
+}
+ 
+.matrix {
+  padding: 11px;
+  margin-top: -11px;
+    ion-col {
+        --ion-grid-column-padding: 0px;
+        height: 167px;
+        box-shadow: 0px -1px 6px 2px grey;
+    }
+ 
+    .list {
+        padding: 0px;
+        height: 100%;
+    }
+ 
+    ion-item {
+        margin-bottom: 2px;
+    }
+}
+ 
+.q-header {
+    background-color: var(--ion-color-light);
+    height: 20px;
+    text-align: center;
+}
+.more-icon{
+    margin-inline-start: auto;
+    color: #4c8dff;
+  }
+  .img-css
+  {
+    height: -webkit-fill-available;
+    width: -webkit-fill-available;
+  }
+.style4{
+    width:193px;
+  }
+  .more-icon{
+    margin-inline-start: auto;
+    color: #4c8dff;
+  }
+  
+  .tiles-header{
+  
+    color: #262626;
+    font-weight: 100;
+    font-size: 17px;
+    font-kerning: none;
+    margin:auto;
+  }
+  .chip {
+    display: inline-block;
+    padding: 0 25px;
+    height: 50px;
+    font-size: 16px;
+    line-height: 50px;
+    border-radius: 25px;
+    background-color: #f1f1f1;
+  }
+  
+  .chip img {
+    float: left;
+    margin: 0 10px 0 -25px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+  }
+  .divider_2{
+    background-image: url("../../../assets/icons/hand-drawn-2.jfif");
+     
+    height: 167px;
+    background-position-y: 15%;
+    // box-shadow: 3px 4px 6px 3px grey;
+    /* background-repeat: no-repeat; */
+    background-position-x: 39%;
+    /* background-repeat: no-repeat; */
+    background-size: auto;
+  }
+  .divider_1{
+    background-image: url("../../../assets/icons/red-carpet-design-with-woman_23-2147768654.jpg");
+    height: 167px;
+    background-position-y: 19%;
+    // box-shadow: 3px 4px 6px 3px grey;
+  }
+  
+  .actor-image{
+    font-size: 69px;
+    border: 3px solid #f5f6f9;
+    margin-top: 1px;
+    border-radius: 44px;
+    box-shadow: -5px -20px 10px 10px rgba(0, 0, 0, 0.12);
+  }
+  .scroll-card-3{
+    height: 27vh;
+    width: 83vh;
+    box-shadow: -1px -2px 9px 3px grey;
+  }
+  .avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+   box-shadow: 4px 1px 7px 0px grey;
+  }
+  .badge-cls{
+    margin-top: 1px;
+    padding-left: 5px;
+    margin-bottom: -2px;
+  }
+  div.item {
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+  width: 77px;
+  }
+  .avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  .caption {
+    display: block;
+    font-size: 14px;
+    color: #262626;
+    white-space: pre;
+  }
+  .chip-css{
+    margin-left: 20px;
+    margin-bottom: 13px;
+  }
+  ion-slide{
+    width:-webkit-fill-available !important;
+    margin-top: 10px;
+  }
+  .scroll-card-4{
+    border-radius: 69px;
+    width: 60px;
+    box-shadow: 0px 2px 8px 1px grey;
+    height: 53px;
+  }
+.delete-area {
+    border: 2px dashed var(--ion-color-medium);
+    margin: 10px;
+    height: 100px;
+    ion-icon {
+       font-size: 64px;
+    }
+}

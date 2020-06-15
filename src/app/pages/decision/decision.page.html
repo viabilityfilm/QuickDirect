@@ -1,0 +1,35 @@
+<ion-header class="custom-header">
+
+  <ion-toolbar class="custom-toolbar">
+
+    <ion-title style="font-size:17px">Select</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" style="font-size:24px">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-list lines="none">
+    <ion-item-divider style="border:none">
+      <ion-card class="scroll-card" (click)="navigate('create-actor')">
+        <img style="width: -webkit-fill-available;height:217px" src="../../../assets/icons/actors-icon.jpg">
+      </ion-card>
+      <ion-ripple-effect></ion-ripple-effect>
+      <span class="text-detail">Actor/Actress Creation</span>
+    </ion-item-divider>
+    
+    <ion-item-divider style="margin-top: 42px;border:none">
+      <ion-card class="scroll-card" (click)="navigate('create-post')"> 
+        <img style="width: -webkit-fill-available;height:217px" src="../../../assets/icons/copy.jfif">
+      </ion-card>
+      <ion-ripple-effect></ion-ripple-effect>
+      <span class="text-detail">Posting Synopsis</span>
+    </ion-item-divider>
+     
+  </ion-list>
+</ion-content>

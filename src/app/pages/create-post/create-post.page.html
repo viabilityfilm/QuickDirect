@@ -23,7 +23,7 @@
       Actrors/Actress on thier own choice.
       Finally top trending stories will be available on dashboard.
       <br> <b>Keep Contributing.. Go head :)</b>
-      <img class="sml-cls" src="../../../assets/icons//avt2.png">
+      <img class="sml-cls" src="../../../assets/icons/write2.jpg">
     </p>
 
     <h3 class="ion-padding-top ion-padding-start">Details</h3>
@@ -32,12 +32,13 @@
       <ion-item>
         <ion-label position="floating">Story Title</ion-label>
         <ion-input class="ion-cust-text" [(ngModel)]="title" #ref autofocus="true"> </ion-input>
-        <ion-icon name="create" slot="start"></ion-icon>
+        <ion-icon slot="start" src='../../../assets/icons/script.svg'></ion-icon>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Budget</ion-label>
-        <ion-input class="ion-cust-text" type="number"></ion-input>
-        <ion-icon name="cash" slot="start"></ion-icon>
+        <ion-input class="ion-cust-text" type="number" [(ngModel)]="budget"></ion-input>
+        <ion-icon slot="start" src='../../../assets/icons/rupee-indian.svg'></ion-icon>
+        
       </ion-item>
       <ion-item>
         <ion-label position="floating">Story Synopsis...</ion-label>
@@ -47,17 +48,21 @@
 
 
     </ion-list>
-    <ion-item-divider style="margin-top: 42px;">
+    <ion-item-divider style="margin-top: 42px;border: none;">
 
       <ion-fab vertical="bottom" horizontal="end">
         <ion-fab-button color="dark">
           <ion-icon name="send" (click)="presentActionSheet()"></ion-icon>
         </ion-fab-button>
       </ion-fab>
+      <input id="uploadBtn" style="display: none" #hiddenfileinput type="file" class="upload"
+      (change)="uploadFile($event.target.files)" />
       <ion-fab vertical="bottom" horizontal="left">
         <ion-fab-button color="medium">
-          <ion-icon name="document-attach" (click)="hiddenfileinput.click()"></ion-icon>
+          <ion-icon name="document-attach" (click)="hiddenfileinput.click()"></ion-icon> 
+          <p class="badge-cls" *ngIf="isUploaded">1</p>
         </ion-fab-button>
+  
       </ion-fab>
 
     </ion-item-divider>
