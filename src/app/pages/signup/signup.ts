@@ -18,6 +18,7 @@ import { ConferenceData } from '../../providers/conference-data';
 export class SignupPage {
   loginName: string;
   dbUsers: any[];
+  mobile_s: any;
 
   constructor(private menu: MenuController,
     private navController: NavController,
@@ -42,9 +43,7 @@ export class SignupPage {
   }
   getUserName() {
     this.userData.getUsername().then((username) => {
-      if (username != null && username != undefined) {
-        this.router.navigateByUrl('/app/tabs/schedule');
-      }
+       
     });
   }
   async login() {
@@ -110,7 +109,9 @@ export class SignupPage {
         this.presentToast('Logged in Successfully..!', 'toast-success');
         this.userData.login(element['userName']);
         this.userData.setUsername(element['userName']);
+        this.userData.userName=element['userName'];
         this.userData.email=element['emailId'];
+        this.userData.userType=element['userFlag']
         this.router.navigateByUrl('/app/tabs/schedule');
         validUser=true;
         return true;
@@ -145,10 +146,11 @@ export class SignupPage {
     this.userName_s = '';
     this.password_s = '';
     this.email_s = '';
+    this.mobile_s='';
   }
 
   async signUp() {
-    if (!this.email_s && !this.password_s && !this.userName_s) {
+    if (!this.email_s && !this.password_s) {
       this.presentToast('Values missing..!', 'toast-danger');
       return;
     } else {
@@ -165,13 +167,15 @@ export class SignupPage {
         docData['id'] = e.payload.doc.id;
         this.dbUsers.push(docData);
       });
+      this.movieService.userData=this.dbUsers;
     });
   }
   async createUser(userType?) {
     let userObj = {};
     userObj['emailId'] = this.email_s;
     userObj['password'] = this.password_s;
-    userObj['userName'] = this.userName_s;
+    userObj['userName'] = this.email_s.split('@')[0];
+    userObj['mobile']=this.mobile_s;
     userObj['userFlag'] = userType;
     let isExist = false;
     this.dbUsers.forEach(e => {

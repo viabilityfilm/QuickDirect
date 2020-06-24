@@ -15,16 +15,17 @@
       <ion-icon name="folder-open"></ion-icon>
       <ion-label>Category</ion-label>
     </ion-tab-button>
-    <ion-tab-button tab="create-post">
+    <ion-tab-button style="width:72px" tab="create-post">
+      
+        <ion-fab-button tab="create-post" color="dark">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
         <span class="post" style="
         white-space: pre;
         color: #666666;
         font-size: 10px;
         padding: 2px;
     ">Post Your story        </span>
-        <ion-fab-button tab="create-post" color="dark">
-          <ion-icon name="add"></ion-icon>
-        </ion-fab-button>
         <ion-fab-list side="top">
           <ion-fab-button color="vimeo" (click)="openSocial('Vimeo', fab)">
             <ion-icon name="logo-vimeo"></ion-icon>
@@ -38,8 +39,8 @@
     </ion-tab-button>
 
     <ion-tab-button tab="about">
-      <ion-icon name="information-circle"></ion-icon>
-      <ion-label>About</ion-label>
+      <ion-icon name="hourglass"></ion-icon>
+      <ion-label>User History</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 

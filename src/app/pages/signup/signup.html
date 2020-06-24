@@ -56,15 +56,15 @@
       </ion-grid>
       <ion-grid style="width: 80%;" *ngIf="!isLogin">
           
-        <ion-row class="rowStyle" style="margin-top:0px">
-          <ion-icon name="person" color="primary"></ion-icon>
-          <ion-input type="email" class="txtClass" placeholder="User Name" [(ngModel)]="userName_s"></ion-input>
-        </ion-row>
+         
         <ion-row class="rowStyle">
           <ion-icon name="mail" color="primary"></ion-icon>
           <ion-input type="email" class="txtClass" placeholder="Email Adddress" [(ngModel)]="email_s"></ion-input>
         </ion-row>
-    
+        <ion-row class="rowStyle">
+          <ion-icon name="keypad" color="primary"></ion-icon>
+          <ion-input type="number" class="txtClass" placeholder="Mobile" [(ngModel)]="mobile_s"></ion-input>
+        </ion-row>
         <ion-row class="rowStyle">
           <ion-icon name="key" color="primary"></ion-icon>
           <ion-input type="password" class="txtClass" placeholder="Password" [(ngModel)]="password_s"></ion-input>

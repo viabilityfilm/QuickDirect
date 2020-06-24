@@ -1,46 +1,61 @@
-<ion-header class="toolbar_class" translucent="true">
-  <!-- <ion-toolbar >
-    <ion-buttons *ngIf="!showSearchbar" slot="start">
-      <ion-icon slot="icon-only" name="videocam"></ion-icon>
-    </ion-buttons>
-    <ion-title style="padding-left: 8px;" *ngIf="!ios && !showSearchbar"><span> Story Board</span></ion-title>
-    
-    <ion-buttons slot="end">
-      <ion-button *ngIf="!ios && !showSearchbar" (click)="showSearchbar = true">
-        <ion-icon slot="icon-only" name="search"></ion-icon>
-      </ion-button>
-      <ion-button *ngIf="!showSearchbar" (click)="presentFilter()">
-        <span *ngIf="ios">Filter</span>
-        <span *ngIf="!ios">
-          <ion-icon slot="icon-only" name="options"></ion-icon>
-        </span>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar> -->
-  <h6 class="welcome">Welcome back, <img class="profile-class" (click)="presentPopover($event)" src="../../../assets/icons/profile.png" /></h6>
-  <div>
+<ion-header *ngIf="username!=null" class="toolbar_class  change-tool-height1" [myScrollVanish]="scrollArea"
+  translucent="true">
+
+  <h6 *ngIf="username!=null" class="welcome">Welcome back, <img class="profile-class" (click)="presentPopover($event)"
+      src="../../../assets/icons/profile.png" /></h6>
+
+
+
+  <div *ngIf="username!=null">
     <button id="notification-button" ion-button clear>
       <ion-icon name="notifications">
         <ion-badge id="notifications-badge" color="danger">5</ion-badge>
       </ion-icon>
     </button>
   </div>
-  <span class="welcome" style="font-size:14px;text-transform: uppercase;">{{username}}</span>
+  <span *ngIf="username!=null" class="welcome" style="font-size:14px;text-transform: uppercase;">{{username}}</span>
   <span>
 
-    <ion-searchbar style="border-radius: 17px" class="search-bar" [(ngModel)]="queryText" placeholder="Search" (ionChange)="updateSchedule()"
-      animated></ion-searchbar>
+    <ion-searchbar style="border-radius: 17px" class="search-bar" [(ngModel)]="queryText" placeholder="Search"
+      (ionChange)="updateSchedule()" animated></ion-searchbar>
   </span>
 
 </ion-header>
 
-<ion-content fullscreen="true">
+
+<ion-header *ngIf="username==null" class="toolbar_class change-tool-height2" [myScrollVanish]="scrollArea"
+  translucent="true">
+
+
+  <span style="margin-left: 10px;">
+    <ion-icon class="icon-cls" src="../../../assets/icons/cinema.svg"></ion-icon> <span class="welcome no-log">Quick
+      Direct </span>
+  </span>
+
+  <span>
+
+    <ion-searchbar style="border-radius: 17px" class="search-bar" [(ngModel)]="queryText" placeholder="Search"
+      (ionChange)="updateSchedule()" animated></ion-searchbar>
+  </span>
+</ion-header>
+
+<ion-toolbar id="my-toolbar" class="scondary-toolbar" style="display:none">
+  <ion-buttons slot="start">
+    <ion-icon class="icon-cls" src="../../../assets/icons/cinema.svg"></ion-icon> <span class="logo-cls">Quick
+      Direct</span>
+  </ion-buttons>
+  <ion-buttons slot="end">
+    <ion-button (click)="shareSession()">
+      <ion-icon slot="icon-only" name="share"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+<ion-content #scrollArea scrollEvents="true" fullscreen="true">
   <ion-header collapse="condense">
+
     <ion-toolbar>
-      <ion-title size="large">Schedule</ion-title>
-    </ion-toolbar>
-    <ion-toolbar>
-      <ion-searchbar style="border-radius: 17px" [(ngModel)]="queryText" (ionChange)="updateSchedule()" placeholder="Search"></ion-searchbar>
+      <ion-searchbar style="border-radius: 17px" [(ngModel)]="queryText" (ionChange)="updateSchedule()"
+        placeholder="Search"></ion-searchbar>
     </ion-toolbar>
   </ion-header>
 
@@ -68,21 +83,23 @@
               </ion-label>
 
 
-              <ion-button class="icon-view">
+              <ion-button color="dark" class="icon-view" *ngIf="username!=null && userType!='V'">
                 <ion-icon src="../../../assets/icons/rupee-indian.svg"></ion-icon>{{post.budget | shortNumber}}
               </ion-button>
 
             </ion-item-divider>
             <div class="ion-text-start" style="margin-left: 15px;">{{post.views}} Views</div>
-            <div class="ion-text-end view-class"><ion-icon name="time-outline"></ion-icon> {{ago(post.uploadedOn)}} ago</div>
+            <div class="ion-text-end view-class">
+              <ion-icon name="time-outline"></ion-icon> {{ago(post.uploadedOn)}} ago
+            </div>
 
           </ion-card>
         </ion-slide>
       </ion-slides>
-      
+
       <ion-slides [options]="slideOpts" *ngIf="i==1">
         <ion-slide class="style2" *ngFor="let post of topBudget;let i=index;">
-          <ion-card class="scroll-card-2" (click)="goToDetail(post)"> 
+          <ion-card class="scroll-card-2" (click)="goToDetail(post)">
             <img style="width: -webkit-fill-available;height:188px" src={{post.image}}>
             <div class="thumbnail">
               <div class="tag">
@@ -94,48 +111,51 @@
                 {{post.title}}
               </ion-label>
 
-              
-              <ion-button class="icon-view">
+
+              <ion-button color="dark" *ngIf="userType!='V'" class="icon-view">
                 <ion-icon src="../../../assets/icons/rupee-indian.svg"></ion-icon>{{post.budget | shortNumber}}
               </ion-button>
 
             </ion-item-divider>
             <div class="ion-text-start" style="margin-left: 15px;">{{post.views}} Views</div>
-            <div class="ion-text-end view-class"><ion-icon name="time-outline"></ion-icon> {{ago(post.uploadedOn)}} ago</div>
+            <div class="ion-text-end view-class">
+              <ion-icon name="time-outline"></ion-icon> {{ago(post.uploadedOn)}} ago
+            </div>
 
           </ion-card>
         </ion-slide>
       </ion-slides>
       <ion-slides [options]="slideOpts" *ngIf="i==2">
-        <ion-slide class="style4" >
-          <ion-card *ngFor="let post of topActors;let i=index;" class="scroll-card-4"> 
-            <img class="actor-img" src={{post.image}}>
-            <span class="caption"><ion-badge color="primary">   {{post.associatedStories.length}} - <ion-icon class="badge-cls" name="star"></ion-icon> </ion-badge></span>
-         
-          </ion-card>
+        <ion-slide class="style4">
+          <div  *ngFor="let post of topActors;let i=index;" class="item" >
+            <img src={{post.image}} (click)="showDetail(post)" class="avatar" />
+            <span class="caption"><ion-label class="actor-cls">{{post.actorName}}</ion-label></span>
+          </div>
         </ion-slide>
       </ion-slides>
       <ion-slides [options]="slideOpts" *ngIf="i==3">
         <ion-slide class="style4">
-          <ion-card *ngFor="let post of topActress;let i=index;" class="scroll-card-4">
-            <img class="actor-img" src={{post.image}}>
-            <span class="caption"><ion-badge color="primary">  {{post.associatedStories.length}} - <ion-icon class="badge-cls" name="star"></ion-icon> </ion-badge></span>
-         
-          </ion-card> 
-             
+          <div  *ngFor="let post of topActress;let i=index;" class="item">
+            <img src={{post.image}} (click)="showDetail(post)" class="avatar" />
+            <span class="caption"><ion-label class="actor-cls">{{post.actorName}}</ion-label></span>
+          </div>
         </ion-slide>
       </ion-slides>
     </ion-item-group>
   </ion-list>
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
-    <ion-fab-button color="light">
-      <ion-icon src="../../../assets/icons/woman.svg"></ion-icon>
+  <ion-fab *ngIf="username!=null" slot="fixed" vertical="bottom" horizontal="end" #fab>
+    <ion-fab-button color="medium">
+     
+      <ion-icon name="list" style="font-size: 42px;"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button color="vimeo" (click)="createactor('add', fab)">
-        <ion-icon name="person-add"></ion-icon>
+      <ion-fab-button color="facebook" tooltip="Add Actors"  (click)="createactor('add', fab)">
+        <ion-icon name="person-add"> </ion-icon>
       </ion-fab-button>
-       
+      <ion-fab-button *ngIf="username!=null && userType!='V'"  color="facebook"  (click)="openPostList()">
+        <ion-icon name="trail-sign"></ion-icon>
+      </ion-fab-button>
+   
     </ion-fab-list>
   </ion-fab>
 

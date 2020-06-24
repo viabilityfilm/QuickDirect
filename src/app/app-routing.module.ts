@@ -12,10 +12,7 @@ const routes: Routes = [
     path: 'support',
     loadChildren: () => import('./pages/support/support.module').then(m => m.SupportModule)
   },
-  {
-    path: '',
-    loadChildren: () => import('./pages/signup/signup.module').then(m => m.SignUpModule)
-  },
+  
   {
     path: 'signUp',
     loadChildren: () => import('./pages/signup/signup.module').then(m => m.SignUpModule)
@@ -29,10 +26,13 @@ const routes: Routes = [
     path: 'app/tabs/create-post',
     loadChildren: () => import('./pages/create-post/create-post.module').then( m => m.CreatePostPageModule)
   },
-   
   {
     path: 'app/tabs/decision',
     loadChildren: () => import('./pages/decision/decision.module').then( m => m.DecisionPageModule)
+  },
+  {
+    path:'',
+    loadChildren: () => import('./pages/schedule/schedule.module').then( m => m.ScheduleModule)  
   },
   {
     path: 'create-actor',
@@ -41,6 +41,14 @@ const routes: Routes = [
   {
     path: 'actor-add',
     loadChildren: () => import('./modals/actor-add/actor-add.module').then( m => m.ActorAddPageModule)
+  },
+  {
+    path: 'actor-details',
+    loadChildren: () => import('./pages/actor-details/actor-details.module').then( m => m.ActorDetailsPageModule)
+  },
+  {
+    path: 'post-list',
+    loadChildren: () => import('./pages/post-list/post-list.module').then( m => m.PostListPageModule)
   }
 
 ];

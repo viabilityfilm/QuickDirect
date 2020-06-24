@@ -9,6 +9,9 @@ import { LoginPopover } from './login-popup/login-popover';
 import { FireBaseService } from '../../services/firebase.service';
 import * as _ from "lodash";
 import * as moment from 'moment';
+import { Platform } from '@ionic/angular';
+
+import { NavigationStart, Event as NavigationEvent } from '@angular/router';
 @Component({
   selector: 'page-schedule',
   templateUrl: 'schedule.html',
@@ -33,8 +36,10 @@ export class SchedulePage implements OnInit {
   topViewed: any[];
   username: string;
   actors: any = [];
-  topActress: any=[];
-  topActors: any=[];
+  topActress: any = [];
+  topActors: any = [];
+  userType: string;
+  changeTool: string = 'change-tool-height2';
 
   constructor(
     public popoverCtrl: PopoverController,
@@ -47,8 +52,10 @@ export class SchedulePage implements OnInit {
     public toastCtrl: ToastController,
     public user: UserData,
     public config: Config,
-    public fireBaseService: FireBaseService
+    public fireBaseService: FireBaseService,
+    public platForm: Platform
   ) {
+
 
     const slideOpts = {
       slidesPerView: 2,
@@ -63,22 +70,74 @@ export class SchedulePage implements OnInit {
     }
 
     this.slideOpts = slideOpts;
+    this.platForm.backButton.subscribeWithPriority(10, async () => {
+
+
+      const alert = await this.alertCtrl.create({
+        header: 'Confirm',
+        message: 'Do you really want to exit?',
+        buttons: [
+          {
+            text: 'No',
+            handler: () => {
+
+
+            }
+          },
+          {
+            text: 'Yes',
+            handler: () => {
+              // they want to remove this session from their favorites
+              navigator['app'].exitApp();
+            }
+          }
+        ]
+      });
+      // now present the alert on top of all other content
+      await alert.present();
+
+    });
+
+
+    this.router.events
+      .subscribe(
+        (event: NavigationEvent) => {
+          if (event instanceof NavigationStart) {
+            this.getUserName();
+          }
+        });
   }
+
   ionViewDidEnter() {
     this.getUserName();
     this.getPosts();
 
-    this.fireBaseService.deletePost('QDoKmqMxQeTGNjZY5W0h');
+
   }
 
   getUserName() {
-    this.user.getUsername().then((username) => {
-      this.username = username;
-    });
+    setTimeout(() => {
+      this.user.getUsername().then((username) => {
+        this.username = username;
+        
+        if (this.username != null) {
+          this.changeTool = 'change-tool-height1';
+          this.userType = this.user.userType;
+        } else {
+          this.changeTool = 'change-tool-height2';
+        }
+      });
+    }, 200);
+  }
+  showDetail(data) {
+    this.confData.actorData = data;
+    if (this.loginCheck()) {
+      this.router.navigateByUrl('/actor-details');
+    }
   }
 
-
   ngOnInit() {
+
     this.updateSchedule();
 
     this.ios = this.config.get('mode') === 'ios';
@@ -87,7 +146,9 @@ export class SchedulePage implements OnInit {
     this.confData.routingData = arg;
     this.confData.isFromPage = 'dashboard';
     this.confData.loginUser = this.username;
-    this.router.navigateByUrl('/app/tabs/speakers/speaker-details');
+    if (this.loginCheck()) {
+      this.router.navigateByUrl('/app/tabs/speakers/speaker-details');
+    }
   }
   /***
     * getPosts
@@ -112,12 +173,12 @@ export class SchedulePage implements OnInit {
       this.posts = [...this.posts];
       this.topBudget = _.orderBy(this.posts, ['budget'], ['desc']);
       this.topViewed = _.orderBy(this.posts, ['views'], ['desc']);
-      this.fireBaseService.postData=this.posts;
+      this.fireBaseService.postData = this.posts;
       loading.onWillDismiss();
     });
-    this.actors=[];
-    this.topActors=[];
-    this.topActress=[];
+    this.actors = [];
+    this.topActors = [];
+    this.topActress = [];
     this.fireBaseService.readActors().subscribe(data => {
       data.map(e => {
         let docData = e.payload.doc.data();
@@ -127,26 +188,33 @@ export class SchedulePage implements OnInit {
 
       let actors = _.filter(this.actors, { 'gender': 'M' });
       let actoress = _.filter(this.actors, { 'gender': 'F' })
-      let associatedActorCount = {};
-      associatedActorCount['count']=0;
-      let associatedActressCount = {};
-      associatedActressCount['count']=0;
-      actors.forEach(element => {
-        if (associatedActorCount['count'] <= element['associatedStories'].length) {
-          associatedActorCount['count'] = element['associatedStories'].length;
-          associatedActorCount['obj'] = element;
-        }
-      });
-      actoress.forEach(element => {
-        if (associatedActressCount['count'] <= element['associatedStories'].length) {
-          associatedActressCount['count'] = element['associatedStories'].length;
-          associatedActressCount['obj'] = element;
-        }
-      });
- 
-      this.topActors.push(associatedActorCount['obj']);
 
-      this.topActress.push(associatedActressCount['obj']);
+      actors.sort(function (a, b) {
+        var nameA = a.associatedStories.length;
+        var nameB = b.associatedStories.length;
+        if (nameA < nameB) {
+          return 1;
+        }
+        if (nameA > nameB) {
+          return -1;
+        }
+        return 0;
+      });
+      actoress.sort(function (a, b) {
+        var nameA = a.associatedStories.length;
+        var nameB = b.associatedStories.length;
+        if (nameA < nameB) {
+          return 1;
+        }
+        if (nameA > nameB) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.topActors = actors ? actors.splice(0, 2) : actors;
+      this.topActress = actoress ? actoress.splice(0, 2) : actoress;
+
 
 
       loading.onWillDismiss();
@@ -163,12 +231,23 @@ export class SchedulePage implements OnInit {
 
     });
   }
-  createPost() {
-
-    this.router.navigateByUrl('/create-post');
+  loginCheck() {
+    if (_.isEmpty(this.username)) {
+      this.router.navigateByUrl('/signUp');
+      return false;
+    } else {
+      return true;
+    }
   }
-  createactor() {
-    this.router.navigateByUrl('/create-actor');
+  createPost() {
+    if (this.loginCheck()) {
+      this.router.navigateByUrl('/create-post');
+    }
+  }
+  openPostList() {
+
+    this.router.navigateByUrl('/post-list');
+
   }
   async presentPopover(event: Event) {
     const popover = await this.popoverCtrl.create({

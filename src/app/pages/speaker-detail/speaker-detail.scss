@@ -54,13 +54,13 @@ ion-toolbar ion-menu-button {
   border-top: 2px solid #808289;
 }
 .chip-cls{
-  background: #50c8ff;
+  background: #5260ff;
   color: white;
   font-weight: bold;
   margin-left: -2px;
 }
 .synopsis-cls{
-  font-size: 17px;
+  font-size: 14px;
   margin-left: 10px;
   margin-right: 6px;
 }
@@ -114,19 +114,34 @@ ion-toolbar ion-menu-button {
   padding-left: 11px;
   color: #383a3e;
 }
+.more-icon{
+  margin-inline-start: auto;
+  color: #4c8dff;
+}
+.ionDiv{
+  box-shadow: -1px 4px 10px -1px grey;
+  height: 40px;
+}
+.tiles-header{
+  
+  color: #013a6b;
+  font-weight: bold;
+  font-size: 16px;
+  font-kerning: none;
+}
 .speaker-detail p {
   margin-left: 10px;
   margin-right: 6px;
-  height: 147px;
+  height: 55px;
   overflow: scroll;
   text-align: justify;
-  margin-top: -31px;
+  margin-top: 16px;
 
 }
 .actor-cls {
     border-radius: 54%;
-    height: 57px;
-    width: 54px;
+    height: 73px;
+    width: 70px;
   } 
  
   .progress-cls{

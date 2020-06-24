@@ -7,6 +7,7 @@ import { SchedulePage } from './schedule';
 import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 import { SchedulePageRoutingModule } from './schedule-routing.module';
 import {LoginPopover} from './login-popup/login-popover';
+import { ScrollVanishDirective } from '../../directives/scroll-vanish.directive';
 @NgModule({
   imports: [
     CommonModule,
@@ -18,7 +19,8 @@ import {LoginPopover} from './login-popup/login-popover';
     SchedulePage,
     ScheduleFilterPage,
     LoginPopover,
-    ShortNumberPipe
+    ShortNumberPipe,
+    ScrollVanishDirective
   ],
   entryComponents: [
     ScheduleFilterPage,

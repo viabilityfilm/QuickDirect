@@ -14,6 +14,7 @@ export class ConferenceData {
   isFromPage:string='';
   loginUser:string='';
   logout: boolean=false;
+  actorData: any={};
   constructor(public http: HttpClient, public user: UserData) {}
 
   load(): any {

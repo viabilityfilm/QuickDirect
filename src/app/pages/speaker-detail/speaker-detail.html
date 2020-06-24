@@ -20,8 +20,8 @@
     padding-right: 10px;"></ion-icon>{{postData.title}} <div class="user-cls">@ {{postData.uploadedBy}}</div></div> -->
   <ion-item-divider style="border: none;margin-left: -6px;box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.12)">
     <ion-chip class="ion-text-end" class="chip-cls" button>
-      <ion-icon name="person-circle"></ion-icon>
-      <ion-label>{{postData.uploadedBy}}</ion-label>
+      <ion-icon style="color:white" name="person-circle"></ion-icon>
+      <ion-label style="color:white">{{postData.uploadedBy}}</ion-label>
     </ion-chip>
     <span class="margin-cls">
       <ion-icon name="golf"></ion-icon> {{postData.views}} Views
@@ -42,22 +42,20 @@
       </h2>
     </ion-label>
   </ion-label>
+  <ion-item-divider class="animate_animated animate__fadeIn ionDiv" sticky style="margin-top: -51px;">
+    <ion-label class="tiles-header">
+      <ion-icon style="font-size: 21px;" name="clipboard"></ion-icon> &nbsp; Synopsis
+    </ion-label>
+  </ion-item-divider>
   <p class="synopsis-cls">{{postData.synopsis}}</p>
   <div *ngIf="hasActor">
     <ng-container *ngIf="isLoaded; else elseTemplate">
-      <ion-item-divider>
+      <ion-item-divider style="margin-left: 16%;border: none;margin-bottom: 11px;">
         <img class="actor-cls" src="{{actor_img}}">
-        <span style="font-size: 18px;padding-left: 11px;color: #383a3e;"></span>
-        <ion-progress-bar [value]="p_bar_value1" color="dark" class="progress-cls"></ion-progress-bar>
-  
-  
+        &nbsp;
+        <img style="margin-left: 20%;" class="actor-cls" src="{{actress_img}}">
       </ion-item-divider>
-      <ion-item-divider>
-  
-        <img class="actor-cls" src="{{actress_img}}">
-        <span style="font-size: 18px;padding-left: 11px;color: #383a3e;"></span>
-        <ion-progress-bar [value]="p_bar_value2" color="medium" class="progress-cls"></ion-progress-bar>
-      </ion-item-divider>
+
     </ng-container>
     <ng-template #elseTemplate>
       <ion-col size="12" size-md="12" *ngFor="let post of dummyData">
@@ -67,8 +65,12 @@
           </ion-avatar>
           <ion-item-divider style="border: none;">
             <ion-label>
-              <h2><ion-skeleton-text animated style="width: 100px;"></ion-skeleton-text></h2>
-              <p><ion-skeleton-text animated style="width: 180px;"></ion-skeleton-text></p>
+              <h2>
+                <ion-skeleton-text animated style="width: 100px;"></ion-skeleton-text>
+              </h2>
+              <span>
+                <ion-skeleton-text animated style="width: 180px;"></ion-skeleton-text>
+              </span>
             </ion-label>
           </ion-item-divider>
         </ion-card>
@@ -76,18 +78,54 @@
     </ng-template>
 
 
-    
+
   </div>
-  
   <div *ngIf="!hasActor">
-    <div  style="
+    <div style="
     font-size: 13px;
     color: rgba(0, 0, 0, 0.5);" class="ion-text-center">
-      <ion-icon   name="information-circle" ng-reflect-name="information-circle" role="img"
-        class="md hydrated" aria-label="information circle"></ion-icon> No Actor/Actress associates
+      <ion-icon name="information-circle" ng-reflect-name="information-circle" role="img" class="md hydrated"
+        aria-label="information circle"></ion-icon> No Actor/Actress associates
     </div>
   </div>
   <ion-button *ngIf="!userExist" color="primary" expand="block" (click)="addActor(postData)" fill="clear">
     <ion-icon name="person-add"></ion-icon> &nbsp; Add Actors/Actress
   </ion-button>
+  <span *ngIf="userType!='V'">
+  <ion-item-divider sticky class="ionDiv" style="margin-top: -5px;">
+    <ion-label class="tiles-header">
+      <ion-icon name="card"></ion-icon> &nbsp; {{postData.fundType==1?'Single Funding':'Crowd Funding'}}
+    </ion-label>
+    <ion-icon *ngIf="showFundDetails" style="font-size: 21px;" class="more-icon" src="../../../assets/icons/rupee-indian.svg"></ion-icon>
+    <p *ngIf="showFundDetails" style="font-weight: bold;
+    color: #013a6b;padding-top: 14px;">{{postData.budget}}</p>
+
+  </ion-item-divider>
+  <span class="synopsis-cls" *ngIf="fundType==1 || fundType==2">
+    <ion-item-divider *ngIf="showprice" style="border:none;padding-right: 27px;">
+      <ion-item class="animate__animated animate__flipInX" style="    margin-left: 30px;
+    margin-right: 30px;" button>
+        <ion-label position="floating">Budget</ion-label>
+        <ion-input class="ion-cust-text" type="number" [(ngModel)]="budget"></ion-input>
+        <ion-icon slot="start" src='../../../assets/icons/rupee-indian.svg'></ion-icon>
+      </ion-item>
+       
+      <ion-button style="font-size: 21px;" class="animate__animated animate__flipInX" *ngIf="showprice" color="primary"
+        expand="block" (click)="updatePrice()" fill="clear">
+        <ion-icon slot="end" src='../../../assets/icons/save.svg'></ion-icon>
+      </ion-button>
+    </ion-item-divider>
+
+    <ion-button style="font-size: 23px;" *ngIf="showFinalPriceonSave" color="success" expand="block" fill="clear">
+      <ion-icon name="cash"></ion-icon> &nbsp; {{postData.budget}}
+    </ion-button>
+
+    <ion-button #ref *ngIf="showFundDetails || fundType==2" color="primary" expand="block" (click)="showPriceField()" fill="clear">
+      <ion-icon name="pie-chart"></ion-icon> &nbsp; Add/Reduce Budget
+    </ion-button>
+
+  </span>
+
+
+</span>
 </ion-content>

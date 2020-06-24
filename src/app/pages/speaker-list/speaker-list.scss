@@ -5,10 +5,41 @@
 ion-card{
   margin : 7px;
   box-shadow: 1px 0px 12px 1px grey;
+  
 }
+.gener{
+  margin-top: -1px;
+  font-size: 12px;
+}
+.tag{
+  position: absolute;
+    top: -5px;
+    right: 0px;
+    z-index: 1;
+    background:linear-gradient(to bottom, rgba(239,197,202,1) 0%,rgba(210,75,90,1) 50%,rgba(186,39,55,1) 51%,rgba(241,142,153,1) 100%);
+    width: 108px;
+    height: 76px;
+    padding: 10.5px 0;
+    box-shadow: -5px 9px 6px 2px rgba(0, 0, 0, 0.5);
+    color: white;
+    font-weight: 700;
+    text-align: right;
+    border-bottom-left-radius: 44%;
+}
+
+ 
+
 .icon-view{
   margin-left: auto;
   font-size: 15px;
+}
+.synopsis-cls{
+  width: 303px;
+  margin-left: 1%;
+  white-space: break-spaces;
+  height: 114px;
+  margin-top: 55px;
+  text-align: justify;
 }
 .title-cls{
   color: #1e2023;

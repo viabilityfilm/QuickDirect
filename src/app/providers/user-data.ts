@@ -11,6 +11,8 @@ export class UserData {
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
   currentLoggedInUser;
   email:string="";
+  userType:string="";
+  userName: any;
   constructor(
     public storage: Storage
   ) { }

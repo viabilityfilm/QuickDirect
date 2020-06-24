@@ -18,9 +18,13 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireStorageModule, AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { LottieSplashScreen } from '@ionic-native/lottie-splash-screen/ngx';
 import { FireBaseService } from './services/firebase.service';
+import {
+  AngularFireFunctionsModule
+} from '@angular/fire/functions';
 //import { ShortNumberPipe } from './pipes/short-number.pipe';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { DragulaModule } from 'ng2-dragula';
+import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 @NgModule({
   imports: [
     BrowserModule,
@@ -33,6 +37,7 @@ import { DragulaModule } from 'ng2-dragula';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireStorageModule,
+    AngularFireFunctionsModule,
     AngularFirestoreModule,
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
@@ -40,7 +45,7 @@ import { DragulaModule } from 'ng2-dragula';
     })
   ],
   declarations: [AppComponent],
-  providers: [InAppBrowser, SplashScreen, StatusBar, LottieSplashScreen, FireBaseService],
+  providers: [InAppBrowser,SplashScreen,YoutubeVideoPlayer, StatusBar, LottieSplashScreen, FireBaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

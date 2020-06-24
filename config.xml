@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.ionicframework.conferenceapp" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Ionic Conference App</name>
-    <description>Schedule, speakers, venue.</description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+    <name>Quick Direct</name>
+    <description>An app for continous fliming</description>
+    <author email="shaikpg@gmail.com" href="http://ionicframework.com/">@Shaik</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -23,6 +23,7 @@
     <preference name="LottieAnimationLocation" value="www/assets/img/loading.json" />
     <preference name="LottieFullScreen" value="true" />
     <preference name="LottieLoopAnimation" value="true" />
+    <preference name="YouTubeDataApiKey" value="AIzaSyDooci0It--oAsw5qeDkCe-NkIJD18rZH4" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="resources/android/icon/pro.png" />

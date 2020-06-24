@@ -1,0 +1,222 @@
+
+
+    .rowStyle {
+        border: 1px solid #4854e0;
+        border-radius: 30px;
+        margin-top: 13px;
+        height: 82%;
+        box-shadow: 2px 12px 11px -2px #666666;
+        margin: 5px;
+        ion-input {
+            margin-top: 5px;
+        }
+
+    }
+    
+    .badge-cls{
+      color: white !important;
+      padding: 2px;
+      font-weight: bold;
+    }
+    .synopsis{
+        margin-left: 50px;
+        margin-top: -173px;
+        height: 133px;
+    }
+    .rowStyle2 {
+       
+        
+        
+        margin-top: 20px;
+        border: 1px solid #d7d8da;
+    
+    }
+    .story-title{
+    height: 56px;
+    margin-top: 10px;
+    margin-left: -11px;
+    border-radius: 19px;
+    }
+    .synapsis-class{
+        margin: 6px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 27px;
+        font-weight: bold;
+        font-size: 20px;
+        font-variant: all-small-caps;
+    }
+    .more-icon{
+        margin-inline-start: auto;
+        color: #4c8dff;
+      }
+      .tiles-header{
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.5);
+        font-weight: bold;
+        font-kerning: none;
+      }
+    .item-address{
+        margin: 4px 0px 5px 16px;
+        font-size: 12px;
+        color: #a2a4ab;
+
+    }
+    .shadow-cls{
+        box-shadow: 12px 14px 11px -6px grey;
+    }
+    .item-price{
+        margin: 1px 15px 5px;
+        color: #383a3e;
+        display: -webkit-box;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+    }
+    .images-class{
+        border-radius: 10px 10px 10px 10px;
+        box-shadow: 2px 4px 2px grey;
+    }
+    ::ng-deep #tab-button-create-post ion-fab-button button{
+        background: #004e95 !important;
+      }
+      
+    .post-images{
+        height: 169px;
+        font-size: 52px;
+        margin-left: 9px;
+        color: #3a6ea8;
+        margin-block-start: auto;
+        z-index: 1000;
+        position: relative;
+        top: 254px;
+    }
+    .cash-class{
+        margin-top: -179px;
+    margin-left: 51px;
+    height: 67px;
+    }
+    .bottom-bar{
+        background-color:#cf3c4fde;
+
+        .border-right {
+            border-right: 1px solid #cf3c4fde;
+        }
+    }
+
+    .round-corners {
+        border-radius: 24px;
+    }
+    .custom-header{
+    --ion-background-color: -webkit-linear-gradient(150deg, #013A6B 35%, #004E95 35%);
+    color: white !important;
+    }
+    .custom-toolbar{
+        color: white;
+    }
+
+    .about-header {
+        position: relative;
+      
+        width: 100%;
+        height: 30%;
+      }
+      
+      .about-header .about-image {
+        position: absolute;
+      
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      
+        opacity: 0;
+      
+        transition: opacity 500ms ease-in-out;
+      }
+      
+      .about-header .madison {
+        background-image: url(/assets/img/about/madison.jpg);
+      }
+      .about-header .austin {
+        background-image: url(/assets/img/about/austin.jpg);
+      }
+      .about-header .chicago {
+        background-image: url(/assets/img/about/chicago.jpg);
+      }
+      .about-header .seattle {
+        background-image: url(/assets/img/about/seattle.jpg);
+      }
+      
+      .about-info {
+        position: absolute;
+        margin-top: -10px;
+        border-radius: 10px;
+        background: var(--ion-background-color, #fff);
+      }
+      
+      .about-info h3 {
+        margin-top: 0;
+      }
+      .ion-cust-text{
+        border-bottom: 1px solid #383a3e !important;
+      }
+      .about-info ion-list {
+        padding-top: 0;
+      }
+      .sml-cls{
+        height: 71px;
+        width: 86px;
+        position: relative;
+        top: 3px;
+        left: 26px;
+        box-shadow: 2px 5px 17px 7px grey;
+      }
+      .about-info p {
+        line-height: 130%;
+      
+        color: #383a3e;
+      }
+      
+       
+      ion-item{
+        margin: 11px;
+        box-shadow: 0px 7px 24px -7px grey;
+        border: none;
+      }
+      ion-item-option{
+        border-radius: 20%;
+        height: 46px;
+        margin-top: 31px;
+      }
+      .avatar {
+        vertical-align: middle;
+        width: 60px;
+        height: 65px;
+        border-radius: 61%;
+         
+      }
+     
+      /*
+       * iOS Only
+       */
+      
+      .ios .about-info {
+        --ion-padding: 19px;
+      }
+      .chip-cls{
+        background: #5260ff;
+        color: white;
+        font-weight: bold;
+        margin-left: -2px;
+      }
+      .ios .about-info h3 {
+        font-weight: 700;
+      }
+      
+

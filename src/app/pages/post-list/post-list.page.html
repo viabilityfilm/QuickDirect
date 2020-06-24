@@ -1,0 +1,58 @@
+<ion-header class="custom-header">
+
+  <ion-toolbar class="custom-toolbar">
+    <ion-title style="font-size:17px">Choose story</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" style="font-size:24px">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list #scheduleList>
+    <ion-item-group *ngFor="let group of groups">
+      <ion-item-divider sticky>
+        <ion-icon src={{group.icon}}></ion-icon> &nbsp;
+        <ion-label style="font-size: 19px;color: #1e2023;">
+          {{group.category}}
+        </ion-label>
+      </ion-item-divider>
+      <ion-item style="font-size: 13px;
+       color: rgba(0, 0, 0, 0.5);box-shadow: none;" *ngIf="group.posts.length==0">
+        <ion-icon name="information-circle" aria-label="information circle"></ion-icon> No Story available
+      </ion-item>
+      <ion-item-sliding *ngFor="let post of group.posts" #slidingItem>
+        <ion-item><img src={{post.image}} class="avatar" />
+          <ion-label style="padding-left: 5px;">
+            {{post.title}}
+            <p>
+              <ion-chip class="ion-text-end" class="chip-cls" button>
+                <ion-icon style="color:white" name="person-circle"></ion-icon>
+                <ion-label style="color:white">{{post.uploadedBy}}</ion-label>
+              </ion-chip>
+              &mdash;
+              <ion-icon style="color: red;" name="thumbs-up"></ion-icon> {{post.likes.length }}
+              likes &nbsp; <ion-icon name="wallet"></ion-icon> {{returnKValue(post.budget)}}
+            </p>
+          </ion-label>
+        </ion-item>
+        <ion-item-options>
+          <ion-item-option color="favorite" (click)="approve(post)">
+            <ion-icon name="paper-plane"></ion-icon>Approve
+          </ion-item-option>
+          &nbsp;
+          <ion-item-option color="danger" (click)="reject(post)">
+            <ion-icon name="close-circle-outline"></ion-icon>Reject
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-item-group>
+  </ion-list>
+
+</ion-content>

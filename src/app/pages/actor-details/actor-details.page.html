@@ -1,0 +1,80 @@
+<ion-header class="custom-header">
+
+  <ion-toolbar class="custom-toolbar">
+    <ion-title style="font-size:17px">Actor/Actress Details</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" style="font-size:24px">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+</ion-header>
+<ion-content>
+
+  <iframe width="100%" height="42%" [src]="safeURL" frameborder="0" allowfullscreen>
+  </iframe>
+  <ion-item-divider class="ass-movie" sticky>
+    <ion-label class="tiles-header ion-padding-start">
+      <ion-icon name="ribbon"></ion-icon> &nbsp; Associated Stories  &nbsp; <ion-icon name="ribbon"></ion-icon> 
+    </ion-label>
+   
+  </ion-item-divider>
+  <ion-item-divider>
+
+    <img class="actor-cls" src="{{actorData.image}}">
+    <span style="font-size: 18px;padding-left: 11px;color: #383a3e;"></span>
+    <ion-progress-bar [value]="p_bar_value1" color="dark" class="progress-cls"></ion-progress-bar>
+  </ion-item-divider>
+  <ng-container *ngIf="isLoaded; else elseTemplate">
+    <ion-col size="12" size-md="12" *ngFor="let post of associatedStories">
+      <ion-card>
+        
+        <ion-item-divider style="border: none;">
+          <ion-avatar slot="start">
+            <img src={{post.image}}>
+          </ion-avatar>
+          <ion-label>
+            <ion-label style="font-size: 21px;width: 500px;">
+              <ion-label>
+                <h2 style="color:rgba(0,0,0,0.8)" class="title-cls"><ion-icon name="receipt"></ion-icon> &nbsp; {{post.title}}</h2>
+                <ion-item-divider  style="border: none;">
+                  <p style="color: #dd0e04;"><ion-icon name="thumbs-up"></ion-icon>  {{post.likes.length }} likes</p>
+               
+                  <p style="margin-left: 7%;"><ion-icon name="people"></ion-icon> {{post.views}} Views</p> 
+
+                 
+
+                 
+                </ion-item-divider>
+                
+              </ion-label>
+            </ion-label>
+          </ion-label>
+        </ion-item-divider>
+      </ion-card>
+    </ion-col>
+  
+  </ng-container>
+  <ng-template #elseTemplate>
+    <ion-col size="12" size-md="12" *ngFor="let post of dummyData">
+      <ion-card>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-item-divider style="border: none;">
+          <ion-label>
+            <h2>
+              <ion-skeleton-text animated style="width: 100px;"></ion-skeleton-text>
+            </h2>
+            <span>
+              <ion-skeleton-text animated style="width: 180px;"></ion-skeleton-text>
+            </span>
+          </ion-label>
+        </ion-item-divider>
+      </ion-card>
+    </ion-col>
+  </ng-template>
+</ion-content>

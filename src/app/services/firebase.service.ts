@@ -14,6 +14,7 @@ import { AngularFireStorageModule, AngularFireStorage, AngularFireStorageReferen
 export class FireBaseService {
 
   userList: AngularFireList<any>;
+  userData;
   user: AngularFireObject<any>;
   posts:AngularFireObject<any>;
   childEvents = new Subject();
@@ -55,6 +56,11 @@ export class FireBaseService {
   }
   readUsers(){
     return this.firestore.collection('users').snapshotChanges();
+  }
+  filterUsers(userName){
+    return this.firestore.collection('users', ref =>
+    ref.where('userName', '==', userName)
+    );
   }
   readActors() {
     return this.firestore.collection('actors').snapshotChanges();

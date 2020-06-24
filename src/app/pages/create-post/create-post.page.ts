@@ -10,6 +10,7 @@ import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
+import nlp from 'compromise';
 
 export interface MyData {
   name: string;
@@ -62,12 +63,13 @@ export class CreatePostPage implements OnInit {
    
   isUploading: boolean;
   isUploaded: boolean;
-
+  fundingType:number=0;
   private imageCollection: AngularFirestoreCollection<MyData>;
 
 
   @ViewChild('ref', { static: false }) pRef: IonInput;
   UploadedFilePath: string;
+  userType: string;
   constructor(public navCtrl: NavController,
 
     private loadingCtrl: LoadingController,
@@ -98,6 +100,7 @@ export class CreatePostPage implements OnInit {
     return moment.duration(difference).humanize();
   }
   getUsername() {
+    this.userType=this.userData.userType;
     this.userData.getUsername().then((username) => {
       this.username = username;
       this.getPosts();
@@ -148,23 +151,24 @@ export class CreatePostPage implements OnInit {
       this.presentToast('Please upload thumbnail..!','toast-danger');
       return true;
     }
-    if (this.budget=="") {
-      this.presentToast('Please provide budget..!','toast-danger');
-      return true;
-    }
+     
      
     let postObj={};
+    
     postObj['synopsis'] = this.synopsis;
     postObj['uploadedBy'] = this.username;
     postObj['uploadedOn'] = moment().format('YYYY-MM-DD hh:mm:ss A').toString();
     postObj['generType'] = genre;
     postObj['title']=this.title;
-    postObj['budget']=this.budget;
+    postObj['budget']=this.userType!='V'?this.budget:'0';
     postObj['image']=this.UploadedFilePath;
+    postObj['fundType']=this.fundingType;
     postObj['likes']=[];
     postObj['views']=0;
     postObj['actors']=[];
+    postObj['fundedBy']=[];
     postObj['actress']=[];
+    postObj['shooting']=false;
     this.loadingProgress = await this.loadingCtrl.create({
       message: 'Uploading your post..',
       duration: 2000
@@ -270,7 +274,28 @@ export class CreatePostPage implements OnInit {
     });
   }
 
-
+  async presentFundType() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Select Funding..',
+      buttons: [{
+        text: 'Single Funding',
+        role: 'destructive',
+        icon: 'person',
+        handler: () => {
+          this.fundingType=1;
+          this.presentActionSheet();
+        }
+      }, {
+        text: 'Crowd Funding',
+        icon: 'people-circle',
+        handler: () => {
+          this.fundingType=2;
+          this.presentActionSheet();
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
 
   /**
    * present

@@ -30,7 +30,7 @@
     </ion-row>
     <ion-row no-padding class="matrix" style="margin-top:-27px">
       <ion-col size="12" class="q1">
-        <ion-slides pager="true" style="margin-top: -2px;" lines="none" [options]="slideOpts">
+        <ion-slides style="margin-top: -2px;" lines="none" [options]="slideOpts">
           <ion-slide  dragula="bag" [(dragulaModel)]="q1" lines="none">
 
             <div  *ngFor="let item of q1"  class="item">
@@ -61,7 +61,7 @@
               <div  *ngFor="let item of q3"  class="item">
                 <img src={{item.image}} class="avatar"/>
                 <span class="caption">{{item.actorName}}</span>
-                <span class="caption"><ion-badge color="primary">{{item.associatedStories.length}} - <ion-icon class="badge-cls" name="videocam"></ion-icon></ion-badge></span>
+                <span class="caption"><ion-badge color="primary">{{item.associatedStories.length}}  <ion-icon class="badge-cls" name="videocam"></ion-icon></ion-badge></span>
             
                 </div>
             

@@ -11,6 +11,7 @@ import { Storage } from '@ionic/storage';
 
 import { UserData } from './providers/user-data';
 import { LottieSplashScreen } from '@ionic-native/lottie-splash-screen/ngx';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -90,8 +91,7 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.statusBar.backgroundColorByHexString('#00bfff');
-      
-
+       
       setTimeout(() => {
         this.splashScreen.hide();
       }, 2500);

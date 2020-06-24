@@ -40,23 +40,43 @@
     <ion-row>
       <ng-container *ngIf="isLoaded; else elseTemplate">
         <ion-col size="12" size-md="6" *ngFor="let post of comedyStories">
-          <ion-card (click)="navigateToDetalil(post)">
+          <ion-card style="height: 357px;" (click)="navigateToDetalil(post)">
+            <div class="thumbnail" *ngIf="post.shooting">
+              <div class="tag">
+                <div class="gener"><ion-icon style="font-size:34px;padding-top: 5px;" src="../../../assets/icons/slate.svg"></ion-icon> <span style="padding-left: 10px;margin: 3px;">Shooting In Progress</span></div>
+              </div>
+            </div>
             <img style="width: -webkit-fill-available;height:188px" src={{post.image}}>
-            <ion-item-divider style="border: none;">
+            <ion-item-divider style="border: none;    height: 63px;
+            margin-top: 3px;">
                          
               <ion-icon *ngIf="!getStatus(post)"  class='heart-cls-white animate__animated animate__tada' name="heart"></ion-icon> 
               <ion-icon *ngIf="getStatus(post)"   class='heart-cls-red animate__animated animate__tada'  name="heart"></ion-icon> 
               
-              
-              
-              <ion-label style="font-size: 21px;">
+               <ion-label style="font-size: 21px;">
                 <ion-label>
                   <h2 class="title-cls">{{post.title}}</h2>
-                  <p style="width:147px"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+                  <p style="color: red;"><ion-icon name="thumbs-up"></ion-icon>  {{post.likes.length }} likes</p>
+                </ion-label>
+                
+              </ion-label>
+                <p style="width:175px" class="ion-text-right"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+               
+            </ion-item-divider>
+
+            <ion-item-divider style="border: none;
+            height: 61px;
+            margin-top: -9px;">
+                         
+               
+               <ion-label style="font-size: 21px;">
+                <ion-label>
+                   
+                  <p class="synopsis-cls"><ion-icon name="create"></ion-icon>  {{post.synopsis}}</p>
                 </ion-label>
               </ion-label>
                
-                <ion-icon class="icon-view" name="time-outline"></ion-icon><span style="font-size: 15px;margin-right: 5px;"> {{ago(post.uploadedOn)}} ago</span>
+               
                
             </ion-item-divider>
              
@@ -93,9 +113,10 @@
     <ion-row>
       <ng-container *ngIf="isLoaded; else elseTemplate">
         <ion-col size="12" size-md="6" *ngFor="let post of advStories">
-          <ion-card (click)="navigateToDetalil(post)">
+          <ion-card style="height: 357px;" (click)="navigateToDetalil(post)">
             <img style="width: -webkit-fill-available;height:188px" src={{post.image}}>
-            <ion-item-divider style="border: none;">
+            <ion-item-divider style="border: none;    height: 63px;
+            margin-top: 3px;">
                          
               <ion-icon *ngIf="!getStatus(post)"  class='heart-cls-white animate__animated animate__tada' name="heart"></ion-icon> 
               <ion-icon *ngIf="getStatus(post)"   class='heart-cls-red animate__animated animate__tada'  name="heart"></ion-icon> 
@@ -103,11 +124,27 @@
                <ion-label style="font-size: 21px;">
                 <ion-label>
                   <h2 class="title-cls">{{post.title}}</h2>
-                  <p style="width:147px"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+                  <p style="color: red;"><ion-icon name="thumbs-up"></ion-icon>  {{post.likes.length }} likes</p>
+                </ion-label>
+                
+              </ion-label>
+                <p style="width:175px" class="ion-text-right"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+               
+            </ion-item-divider>
+
+            <ion-item-divider style="border: none;
+            height: 61px;
+            margin-top: -9px;">
+                         
+               
+               <ion-label style="font-size: 21px;">
+                <ion-label>
+                   
+                  <p class="synopsis-cls"><ion-icon name="create"></ion-icon>  {{post.synopsis}}</p>
                 </ion-label>
               </ion-label>
                
-                <ion-icon class="icon-view" name="time-outline"></ion-icon><span style="font-size: 15px;margin-right: 5px;"> {{ago(post.uploadedOn)}} ago</span>
+               
                
             </ion-item-divider>
              
@@ -143,9 +180,10 @@
     <ion-row>
       <ng-container *ngIf="isLoaded; else elseTemplate">
         <ion-col size="12" size-md="6" *ngFor="let post of crimeStories">
-          <ion-card (click)="navigateToDetalil(post)">
+          <ion-card style="height: 357px;" (click)="navigateToDetalil(post)">
             <img style="width: -webkit-fill-available;height:188px" src={{post.image}}>
-            <ion-item-divider style="border: none;">
+            <ion-item-divider style="border: none;    height: 63px;
+            margin-top: 3px;">
                          
               <ion-icon *ngIf="!getStatus(post)"  class='heart-cls-white animate__animated animate__tada' name="heart"></ion-icon> 
               <ion-icon *ngIf="getStatus(post)"   class='heart-cls-red animate__animated animate__tada'  name="heart"></ion-icon> 
@@ -153,11 +191,27 @@
                <ion-label style="font-size: 21px;">
                 <ion-label>
                   <h2 class="title-cls">{{post.title}}</h2>
-                  <p style="width:147px"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+                  <p style="color: red;"><ion-icon name="thumbs-up"></ion-icon>  {{post.likes.length }} likes</p>
+                </ion-label>
+                
+              </ion-label>
+                <p style="width:175px" class="ion-text-right"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+               
+            </ion-item-divider>
+
+            <ion-item-divider style="border: none;
+            height: 61px;
+            margin-top: -9px;">
+                         
+               
+               <ion-label style="font-size: 21px;">
+                <ion-label>
+                   
+                  <p class="synopsis-cls"><ion-icon name="create"></ion-icon>  {{post.synopsis}}</p>
                 </ion-label>
               </ion-label>
                
-                <ion-icon class="icon-view" name="time-outline"></ion-icon><span style="font-size: 15px;margin-right: 5px;"> {{ago(post.uploadedOn)}} ago</span>
+               
                
             </ion-item-divider>
              
@@ -192,9 +246,10 @@
     <ion-row>
       <ng-container *ngIf="isLoaded; else elseTemplate">
         <ion-col size="12" size-md="6" *ngFor="let post of dramaStories">
-          <ion-card (click)="navigateToDetalil(post)">
+          <ion-card style="height: 357px;" (click)="navigateToDetalil(post)">
             <img style="width: -webkit-fill-available;height:188px" src={{post.image}}>
-            <ion-item-divider style="border: none;">
+            <ion-item-divider style="border: none;    height: 63px;
+            margin-top: 3px;">
                          
               <ion-icon *ngIf="!getStatus(post)"  class='heart-cls-white animate__animated animate__tada' name="heart"></ion-icon> 
               <ion-icon *ngIf="getStatus(post)"   class='heart-cls-red animate__animated animate__tada'  name="heart"></ion-icon> 
@@ -202,11 +257,27 @@
                <ion-label style="font-size: 21px;">
                 <ion-label>
                   <h2 class="title-cls">{{post.title}}</h2>
-                  <p style="width:147px"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+                  <p style="color: red;"><ion-icon name="thumbs-up"></ion-icon>  {{post.likes.length }} likes</p>
+                </ion-label>
+                
+              </ion-label>
+                <p style="width:175px" class="ion-text-right"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+               
+            </ion-item-divider>
+
+            <ion-item-divider style="border: none;
+            height: 61px;
+            margin-top: -9px;">
+                         
+               
+               <ion-label style="font-size: 21px;">
+                <ion-label>
+                   
+                  <p class="synopsis-cls"><ion-icon name="create"></ion-icon>  {{post.synopsis}}</p>
                 </ion-label>
               </ion-label>
                
-                <ion-icon class="icon-view" name="time-outline"></ion-icon><span style="font-size: 15px;margin-right: 5px;"> {{ago(post.uploadedOn)}} ago</span>
+               
                
             </ion-item-divider>
              
