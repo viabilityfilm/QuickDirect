@@ -80,7 +80,7 @@
 
 
   </div>
-  <div *ngIf="!hasActor">
+  <div style="height:38px" *ngIf="!hasActor">
     <div style="
     font-size: 13px;
     color: rgba(0, 0, 0, 0.5);" class="ion-text-center">
@@ -88,7 +88,7 @@
         aria-label="information circle"></ion-icon> No Actor/Actress associates
     </div>
   </div>
-  <ion-button *ngIf="!userExist" color="primary" expand="block" (click)="addActor(postData)" fill="clear">
+  <ion-button *ngIf="!userExist && postData.shooting==false" color="primary" expand="block" (click)="addActor(postData)" fill="clear">
     <ion-icon name="person-add"></ion-icon> &nbsp; Add Actors/Actress
   </ion-button>
   <span *ngIf="userType!='V'">
@@ -115,12 +115,20 @@
         <ion-icon slot="end" src='../../../assets/icons/save.svg'></ion-icon>
       </ion-button>
     </ion-item-divider>
-
-    <ion-button style="font-size: 23px;" *ngIf="showFinalPriceonSave" color="success" expand="block" fill="clear">
+     
+    <ion-button style="font-size: 18px;" *ngIf="showFinalPriceonSave" color="dark" expand="block" fill="clear">
       <ion-icon name="cash"></ion-icon> &nbsp; {{postData.budget}}
+       <br> 
+       
+      
     </ion-button>
 
-    <ion-button #ref *ngIf="showFundDetails || fundType==2" color="primary" expand="block" (click)="showPriceField()" fill="clear">
+    <ion-chip *ngFor="let budget of postData.fundedBy" class="ion-text-end" class="chip-cls" button>
+      <ion-icon style="color:white" name="person-circle"></ion-icon>
+      <ion-label style="color:white">{{budget}}</ion-label>
+    </ion-chip>
+
+    <ion-button #ref *ngIf="(showFundDetails || fundType==2) &&  postData.shooting==false" color="primary" expand="block" (click)="showPriceField()" fill="clear">
       <ion-icon name="pie-chart"></ion-icon> &nbsp; Add/Reduce Budget
     </ion-button>
 

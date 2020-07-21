@@ -18,14 +18,20 @@ ion-fab-button {
   font-size: 18px;
 }
 .toolbar_class{
-  height: 200px;
+  height: 115px;
   background-image: -webkit-linear-gradient(150deg, #013A6B 35%, #004E95 35%);
   
   border: none !important;
   box-shadow: 3px 6px 5px 0px grey;
 }
+::ng-deep .searchbar-input sc-ion-searchbar-md{
+  border-radius: 20px !important;
+}
+input [type=search]{
+  border-radius: 20px !important;
+}
 .change-tool-height1{
-  min-height: 164px;
+  min-height: 130px;
 }
 .change-tool-height2{
   min-height:119px;

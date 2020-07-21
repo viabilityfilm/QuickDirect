@@ -13,18 +13,18 @@ ion-card{
 }
 .tag{
   position: absolute;
-    top: -5px;
-    right: 0px;
-    z-index: 1;
-    background:linear-gradient(to bottom, rgba(239,197,202,1) 0%,rgba(210,75,90,1) 50%,rgba(186,39,55,1) 51%,rgba(241,142,153,1) 100%);
-    width: 108px;
-    height: 76px;
+    top: -11px;
+    right: -1px;
+    z-index: 6;
+    background: #cf3c4f;
+    width: 95px;
+    height: 77px;
     padding: 10.5px 0;
-    box-shadow: -5px 9px 6px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: -5px 9px 6px 2px rgba(196, 162, 162, 0.5);
     color: white;
     font-weight: 700;
     text-align: right;
-    border-bottom-left-radius: 44%;
+    border-bottom-left-radius: 69%;
 }
 
  
@@ -37,8 +37,6 @@ ion-card{
   width: 303px;
   margin-left: 1%;
   white-space: break-spaces;
-  height: 114px;
-  margin-top: 55px;
   text-align: justify;
 }
 .title-cls{

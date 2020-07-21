@@ -72,7 +72,7 @@ export class SchedulePage implements OnInit {
     this.slideOpts = slideOpts;
     this.platForm.backButton.subscribeWithPriority(10, async () => {
 
-
+      
       const alert = await this.alertCtrl.create({
         header: 'Confirm',
         message: 'Do you really want to exit?',
