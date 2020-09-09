@@ -31,7 +31,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/decision/decision.module').then( m => m.DecisionPageModule)
   },
   {
-    path:'',
+    path:'apps/tabs/schdule',
     loadChildren: () => import('./pages/schedule/schedule.module').then( m => m.ScheduleModule)  
   },
   {
@@ -49,6 +49,11 @@ const routes: Routes = [
   {
     path: 'post-list',
     loadChildren: () => import('./pages/post-list/post-list.module').then( m => m.PostListPageModule)
+  },
+  {
+    path: '',
+    loadChildren: () => import('./pages/tutorial/tutorial.module').then(m => m.TutorialModule),
+     
   }
 
 ];

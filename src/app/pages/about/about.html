@@ -10,46 +10,38 @@
       <div class="user-meta ion-text-center">
         <h3 class="playername">{{username}}</h3>
         <h5 class="country">{{email}}</h5>
-         
+
 
       </div>
       <ion-list>
-         
+
         <ion-item button>
           <ion-icon slot="start" src="../../../assets/icons/survey.svg"></ion-icon>
-          <ion-chip slot="end"> 
-            <ion-label>{{posts.length}}</ion-label>
+          <ion-chip slot="end">
+            <ion-label>{{postsFilterd.length}}</ion-label>
           </ion-chip>
           <ion-label style="font-size: 15px">
             Posted Stories
-           
+
           </ion-label>
         </ion-item>
+
         <ion-item button>
-          <ion-icon slot="start" src="../../../assets/icons/acting.svg"></ion-icon>
-          <ion-chip slot="end"> 
-            <ion-label>{{posts.length}}</ion-label>
+          <ion-icon slot="start" src="../../../assets/icons/favorite.svg"></ion-icon>
+          <ion-chip slot="end">
+            <ion-label>20</ion-label>
           </ion-chip>
           <ion-label style="font-size: 15px">
-            Actors/Actress
-             
+            Fav Stories
           </ion-label>
         </ion-item>
-            <ion-item button>
-              <ion-icon slot="start" src="../../../assets/icons/favorite.svg"></ion-icon>
-              <ion-chip slot="end"> 
-                <ion-label>20</ion-label>
-              </ion-chip>
-              <ion-label style="font-size: 15px">
-                Fav Stories
-                
-              </ion-label>
-            </ion-item>
 
-        
-        </ion-list>
-      <ion-button expand="full" color="dark"><ion-icon name="log-out"></ion-icon> &nbsp; Logout</ion-button>
-      
+
+      </ion-list>
+      <ion-button expand="full" (click)="logout()" color="dark">
+        <ion-icon name="log-out"></ion-icon> &nbsp; Logout
+      </ion-button>
+
 
     </div>
   </div>

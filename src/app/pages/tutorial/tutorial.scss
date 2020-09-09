@@ -12,16 +12,27 @@ ion-toolbar {
 }
 
 .slide-image {
-  max-height: 50%;
-  max-width: 60%;
+  max-height: 69%;
+  max-width: 84%;
   margin: 36px 0;
   pointer-events: none;
+}
+.marginTopCls{
+  margin-top:31%;
 }
 
 b {
   font-weight: 500;
 }
-
+.header {
+  height: 200px; // 20vh;
+}
+.toolbar_class{
+   
+  border: none !important;
+  height: 0px;
+  
+}
 p {
   padding: 0 40px;
   font-size: 14px;

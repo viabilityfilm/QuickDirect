@@ -1,4 +1,4 @@
-<ion-header   class="toolbar_class  change-tool-height1" 
+<!-- <ion-header   class="toolbar_class  change-tool-height1" 
   translucent="true">
 
   <h6 *ngIf="username!=null" class="welcome">Welcome back, <img class="profile-class" (click)="presentPopover($event)"
@@ -20,16 +20,18 @@
       (ionChange)="updateSchedule()" animated></ion-searchbar>
   </span>
 
-</ion-header>
-<!-- 
+</ion-header> -->
+ 
 
-<ion-header *ngIf="username==null" class="toolbar_class change-tool-height2" [myScrollVanish]="scrollArea"
+<ion-header   class="toolbar_class change-tool-height2" [myScrollVanish]="scrollArea"
   translucent="true">
 
 
   <span style="margin-left: 10px;">
     <ion-icon class="icon-cls" src="../../../assets/icons/cinema.svg"></ion-icon> <span class="welcome no-log">Quick
-      Direct </span>
+      Direct 
+      <img *ngIf="username!=null" class="profile-class" (click)="presentPopover($event)"
+      src="../../../assets/icons/profile.png" /> </span>
   </span>
 
   <span>
@@ -37,7 +39,7 @@
     <ion-searchbar style="border-radius: 17px" class="search-bar" [(ngModel)]="queryText" placeholder="Search"
       (ionChange)="updateSchedule()" animated></ion-searchbar>
   </span>
-</ion-header> -->
+</ion-header>  
 
 <ion-toolbar id="my-toolbar" class="scondary-toolbar" style="display:none">
   <ion-buttons slot="start">

@@ -18,12 +18,13 @@ export class FireBaseService {
   user: AngularFireObject<any>;
   posts:AngularFireObject<any>;
   childEvents = new Subject();
-  postData:any={}
+  postData:any={};
   playersRef = this.db.database.ref("users/");
   postRef = this.db.database.ref("posts/");
   actorRef = this.db.database.ref("actors/");
   ref: AngularFireStorageReference;
   task: AngularFireUploadTask;
+  actorData: any={};
   constructor(private db: AngularFireDatabase,private firestore: AngularFirestore,
     private toastCtrl: ToastController,private afStorage: AngularFireStorage) {
 

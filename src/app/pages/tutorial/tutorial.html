@@ -1,45 +1,40 @@
-<ion-header no-border>
-  <ion-toolbar>
-    <ion-buttons slot="end">
-      <ion-button color='primary' (click)="startApp()" [hidden]="!showSkip">Skip</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+<ion-header class="toolbar_class"  no-border>
+  <img src="assets/icons/banner-wave.png" alt="">
 </ion-header>
 
 <ion-content fullscreen="true">
-  <ion-slides #slides (ionSlideWillChange)="onSlideChangeStart($event)" pager="false">
+  <ion-slides style="margin-top: 22%;" #slides (ionSlideWillChange)="onSlideChangeStart($event)" pager="false">
     <ion-slide>
-      <img src="assets/img/ica-slidebox-img-1.png" class="slide-image" />
+      <img src="assets/img/ban1.PNG" class="slide-image" />
       <h2 class="slide-title">
-        Welcome to
-        <b>ICA</b>
+        Quick Direct
+      
       </h2>
       <p>
-        The
-        <b>ionic conference app</b> is a practical preview of the ionic framework in action, and a demonstration of proper code
-        use.
+        An
+        <b>App for </b> continous fliming.
+        <br> The best way to script beautiful short films.
       </p>
     </ion-slide>
 
     <ion-slide>
-      <img src="assets/img/ica-slidebox-img-2.png" class="slide-image" />
-      <h2 class="slide-title">What is Ionic?</h2>
+      <img src="assets/img/ban2.PNG" class="slide-image" />
+      <h2 class="slide-title">Why needed?</h2>
       <p>
-        <b>Ionic Framework</b> is an open source SDK that enables developers to build high quality mobile apps with web technologies
-        like HTML, CSS, and JavaScript.</p>
+        <b>Quick Direct</b> is an platform to script your own story with your favourite actor/actress</p>
+         
+    </ion-slide>
+    <ion-slide>
+      <img src="assets/img/ban3.PNG" class="slide-image" />
+      <h2 class="slide-title">Story to an Action</h2>
+      <p>
+        <b>Quick Direct</b> create a link between Producer & Director. Allows them to choose the right story within thier budget. </p>
     </ion-slide>
 
-    <ion-slide>
-      <img src="assets/img/ica-slidebox-img-3.png" class="slide-image" />
-      <h2 class="slide-title">What is Ionic Appflow?</h2>
-      <p>
-        <b>Ionic Appflow</b> is a powerful set of services and features built on top of Ionic Framework that brings a totally new
-        level of app development agility to mobile dev teams.</p>
-    </ion-slide>
-
-    <ion-slide>
-      <img src="assets/img/ica-slidebox-img-4.png" class="slide-image" />
-      <h2 class="slide-title">Ready to Play?</h2>
+     
+    <ion-slide style="margin-top: 22%;">
+      <img src="assets/img/direction6.png" class="slide-image" />
+      <h2 class="slide-title">Ready to Start</h2>
       <ion-button fill="clear" (click)="startApp()">
         Continue
         <ion-icon slot="end" name="arrow-forward"></ion-icon>

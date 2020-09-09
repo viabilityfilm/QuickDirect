@@ -185,7 +185,7 @@ export class SchedulePage implements OnInit {
         docData['id'] = e.payload.doc.id;
         this.actors.push(docData);
       });
-
+      this.fireBaseService.actorData=this.actors;
       let actors = _.filter(this.actors, { 'gender': 'M' });
       let actoress = _.filter(this.actors, { 'gender': 'F' })
 
@@ -248,6 +248,9 @@ export class SchedulePage implements OnInit {
 
     this.router.navigateByUrl('/post-list');
 
+  }
+  createactor(type,fab){
+    this.router.navigateByUrl('/create-actor');
   }
   async presentPopover(event: Event) {
     const popover = await this.popoverCtrl.create({
