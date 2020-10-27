@@ -16,10 +16,7 @@ import { Router } from '@angular/router';
 export class AboutPage {
   location = 'madison';
   conferenceDate = '2047-05-17';
-
-  selectOptions = {
-    header: 'Select a Location'
-  };
+ 
   username: string;
   posts: any={};
   email: string;
@@ -31,8 +28,17 @@ export class AboutPage {
     public userData:UserData,
     public fireBase:FireBaseService,public router:Router) { }
 
+    loginCheck() {
+      if (_.isEmpty(this.username)) {
+        this.router.navigateByUrl('/signUp');
+        return false;
+      } else {
+        return true;
+      }
+    }
   ionViewDidEnter(){
     this.getUserName();
+   
     this.posts=this.fireBase.postData;
     this.actors=this.fireBase.actorRef;
     this.postsFilterd=_.filter(this.posts,{'uploadedBy':this.username});
@@ -62,8 +68,7 @@ export class AboutPage {
   }
   
   getUserName() {
-    this.userData.getUsername().then((username) => {
-      this.username = username;
-    });
+    this.username=this.userData.userName;
+    this.loginCheck();
   }
 }

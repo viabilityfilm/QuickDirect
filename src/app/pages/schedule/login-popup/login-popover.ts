@@ -18,7 +18,7 @@ import { UserData } from '../../../providers/user-data';
       
     </ion-list>
   `,
-  styles: ['ion-item { --ion-background-color: #013a6b;color:white; } ion-list{--ion-background-color: #013a6b}']
+  styles: ['ion-item { --ion-background-color: black;color:white; } ion-list{--ion-background-color: black}']
 })
 export class LoginPopover {
     constructor(public popoverCtrl: PopoverController, public router: Router,public confData:UserData) { }

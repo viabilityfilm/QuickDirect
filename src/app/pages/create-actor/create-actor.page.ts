@@ -180,7 +180,7 @@ export class CreateActorPage implements OnInit {
     actorObj['createdOn'] = moment().format('YYYY-MM-DD hh:mm:ss A').toString();
     actorObj['skills']= this.skills;
     actorObj['image']=this.UploadedFilePath;
-    actorObj['associatedStories']=0;
+    actorObj['associatedStories']=[];
     actorObj['mobile']=this.mobile;
     actorObj['profiles']=this.profiles;
     this.loadingProgress = await this.loadingCtrl.create({

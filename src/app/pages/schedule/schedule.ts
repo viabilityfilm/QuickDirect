@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, IonList, IonRouterOutlet, LoadingController, ModalController, ToastController, Config, PopoverController } from '@ionic/angular';
+import { AlertController, IonList, IonRouterOutlet, LoadingController, ModalController, ToastController, Config, PopoverController,IonSlides  } from '@ionic/angular';
 
 import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 import { ConferenceData } from '../../providers/conference-data';
@@ -30,16 +30,75 @@ export class SchedulePage implements OnInit {
   groups: any = ['Most Viewed - Stories', 'Top Budget - Stories', 'Top Actors', 'Top Actress'];
   confDate: string;
   showSearchbar: boolean;
+  @ViewChild('slideWithNav', { static: false }) slideWithNav: IonSlides;
   slideOpts;
   posts: any[];
   topBudget: any[];
+  sliderOne: any;
   topViewed: any[];
   username: string;
   actors: any = [];
+  shooting
   topActress: any = [];
   topActors: any = [];
   userType: string;
+  searchTerm:string;
+  isLoaded: boolean = false;
   changeTool: string = 'change-tool-height2';
+  items: any[];
+  slideOptsOne = {
+    initialSlide: 0,
+    slidesPerView: 1,
+    autoplay: true,
+    slideShadows: true,
+    pager:false
+  };
+  isItemAvailable = false;
+ 
+
+  dummyData = [
+    {
+      synopsis: "1",
+      title: "1",
+      imaage: "",
+      generType: "1",
+      uploadedBy: "1",
+      uploadedOn: "1"
+    },
+    {
+      synopsis: "1",
+      title: "1",
+      imaage: "",
+      generType: "1",
+      uploadedBy: "1",
+      uploadedOn: "1"
+    },
+    {
+      synopsis: "1",
+      title: "1",
+      imaage: "",
+      generType: "1",
+      uploadedBy: "1",
+      uploadedOn: "1"
+    },
+    {
+      synopsis: "1",
+      title: "1",
+      imaage: "",
+      generType: "1",
+      uploadedBy: "1",
+      uploadedOn: "1"
+    },
+    {
+      synopsis: "1",
+      title: "1",
+      imaage: "",
+      generType: "1",
+      uploadedBy: "1",
+      uploadedOn: "1"
+    },
+  ]
+  shootingYes: any=[];
 
   constructor(
     public popoverCtrl: PopoverController,
@@ -55,19 +114,43 @@ export class SchedulePage implements OnInit {
     public fireBaseService: FireBaseService,
     public platForm: Platform
   ) {
-
+    this.sliderOne =
+    {
+      isBeginningSlide: true,
+      isEndSlide: false,
+      slidesItems: [
+        {
+          id: 995
+        },
+        {
+          id: 925
+        },
+        {
+          id: 940
+        },
+        {
+          id: 943
+        },
+        {
+          id: 944
+        }
+      ]
+    };
 
     const slideOpts = {
       slidesPerView: 2,
       coverflowEffect: {
-        rotate: 50,
-        stretch: 25,
-        depth: 100,
+        initialSlide: 1,
+        rotate: 10,
+        stretch: 50,
+        depth: 50,
         modifier: 1,
         slideShadows: true,
+        centeredSlides: true,
       },
 
     }
+    
 
     this.slideOpts = slideOpts;
     this.platForm.backButton.subscribeWithPriority(10, async () => {
@@ -104,13 +187,20 @@ export class SchedulePage implements OnInit {
         (event: NavigationEvent) => {
           if (event instanceof NavigationStart) {
             this.getUserName();
+            this.getPosts();
+            this.queryText='';
+            this.showSearchbar=false;
           }
         });
   }
 
   ionViewDidEnter() {
+    
     this.getUserName();
     this.getPosts();
+    this.showSkeltonLoading();
+    this.queryText='';
+    this.showSearchbar=false;
 
 
   }
@@ -150,19 +240,25 @@ export class SchedulePage implements OnInit {
       this.router.navigateByUrl('/app/tabs/speakers/speaker-details');
     }
   }
+  showSkeltonLoading() {
+    setTimeout(() => {
+      this.isLoaded = true;
+    }, 2400);
+  }
   /***
     * getPosts
     */
   async getPosts() {
     const loading = await this.loadingCtrl.create({
       message: 'Loading Stories...',
-      duration: 2000
+      duration: 1500
     });
 
     await loading.present();
     this.posts = [];
     this.topBudget = [];
     this.topViewed = [];
+    this.shootingYes=[];
     this.fireBaseService.readPosts().subscribe(data => {
       data.map(e => {
         let docData = e.payload.doc.data();
@@ -172,7 +268,11 @@ export class SchedulePage implements OnInit {
       this.posts.reverse();
       this.posts = [...this.posts];
       this.topBudget = _.orderBy(this.posts, ['budget'], ['desc']);
+      this.topBudget = this.topBudget ? this.topBudget.splice(0, 10) : this.topBudget;
       this.topViewed = _.orderBy(this.posts, ['views'], ['desc']);
+      this.topViewed = this.topViewed ? this.topViewed.splice(0, 10) : this.topViewed;
+      this.shootingYes = _.filter(this.posts, { 'shooting': true });
+      this.shootingYes=this.shootingYes ? this.shootingYes.splice(0, 5) : this.shootingYes;
       this.fireBaseService.postData = this.posts;
       loading.onWillDismiss();
     });
@@ -219,6 +319,22 @@ export class SchedulePage implements OnInit {
 
       loading.onWillDismiss();
     });
+  }
+
+  useFilter(arg){
+    return this.posts.filter(item => {
+      return item.title.toLowerCase().indexOf(arg.toLowerCase()) > -1;
+    });
+  }
+  setFilteredItems() {
+    if(this.queryText!=''){
+      this.isItemAvailable = true;
+      this.items =  this.useFilter(this.queryText);
+    } else{
+      this.items=[];
+    }
+     
+   
   }
   updateSchedule() {
     // Close any open sliding items when the schedule updates
@@ -344,6 +460,41 @@ export class SchedulePage implements OnInit {
     await loading.present();
     await loading.onWillDismiss();
     fab.close();
+  }
+  //Move to Next slide
+  slideNext(object, slideView) {
+    slideView.slideNext(500).then(() => {
+      this.checkIfNavDisabled(object, slideView);
+    });
+  }
+
+  //Move to previous slide
+  slidePrev(object, slideView) {
+    slideView.slidePrev(500).then(() => {
+      this.checkIfNavDisabled(object, slideView);
+    });;
+  }
+
+  //Method called when slide is changed by drag or navigation
+  SlideDidChange(object, slideView) {
+    this.checkIfNavDisabled(object, slideView);
+  }
+
+  //Call methods to check if slide is first or last to enable disbale navigation  
+  checkIfNavDisabled(object, slideView) {
+    this.checkisBeginning(object, slideView);
+    this.checkisEnd(object, slideView);
+  }
+
+  checkisBeginning(object, slideView) {
+    slideView.isBeginning().then((istrue) => {
+      object.isBeginningSlide = istrue;
+    });
+  }
+  checkisEnd(object, slideView) {
+    slideView.isEnd().then((istrue) => {
+      object.isEndSlide = istrue;
+    });
   }
 
 

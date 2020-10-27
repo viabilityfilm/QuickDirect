@@ -151,6 +151,19 @@
         height: 57px;
         width: 54px;
       } 
+      ion-toolbar ion-button,
+      ion-toolbar ion-back-button,
+      ion-toolbar ion-menu-button {
+        --color: white;
+      }
+      .logo-cls{
+        width: 162px !important;
+        margin-left: -1px !important;
+        height: 39px;
+        margin-top: 12px;
+    
+    
+      }
       .ass-movie{
         box-shadow: -2px 0px 10px 10px grey;
       margin-top: -4px;

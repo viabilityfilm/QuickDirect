@@ -1,13 +1,21 @@
-<ion-header class="custom-header">
-  <ion-toolbar class="custom-toolbar">
-    <ion-title style="font-size:17px">Category</ion-title>
+<ion-header class="toolbar_class" translucent="true">
+  <ion-toolbar style="color:white">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref={{defaultHref}}></ion-back-button>
+    </ion-buttons>
+    <ion-buttons  slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
 
-    <ion-buttons slot="end">
-      <ion-button (click)="logout()" style="font-size:24px">
-        <ion-icon name="close-outline"></ion-icon>
+    <ion-title style="margin-left: -14px;" *ngIf="!ios"><img class="logo-cls"
+        src="../../../assets/icons/cat-red.png"></ion-title>
+    <ion-buttons (click)="logout()"  slot="end">
+      <ion-button >
+        <ion-icon slot="icon-only" name="close-circle"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+
 </ion-header>
 
 <ion-content fullscreen="true">
@@ -43,16 +51,20 @@
           <ion-card *ngFor="let post of comedyStories" >
               
              
-              <img (click)="navigateToDetalil(post)" style="width: -webkit-fill-available;height:188px" src={{post.image}}/>
-            
+              <img (click)="navigateToDetalil(post)" style="width: -webkit-fill-available;height:230px" src={{post.image}}/>
+              <div class="thumbnail" *ngIf="post.shooting">
+                <div class="tag">
+                   <span class="blink"><b><ion-icon name="ellipse"></ion-icon> &nbsp;Shooting </b></span>
+                </div>
+              </div> 
         
-            <ion-item text-wrap>
+            <ion-item>
               <ion-label>
                 <ion-label>
                   <h2 class="title-cls" (click)="navigateToDetalil(post)" ><ion-icon *ngIf="!getStatus(post)"  class='heart-cls-white animate__animated animate__tada' name="heart"></ion-icon> 
                     <ion-icon *ngIf="getStatus(post)"   class='heart-cls-red animate__animated animate__tada'  name="heart"></ion-icon> 
                     {{post.title}}</h2>
-                  <p class="synopsis-cls" (click)="navigateToDetalil(post)" ><ion-icon name="create"></ion-icon>  {{post.synopsis}}</p>
+                  <span class="synopsis-cls" (click)="navigateToDetalil(post)" ><ion-icon name="create"></ion-icon> {{post.synopsis}}  &nbsp; - <b><ion-icon name="time-outline"></ion-icon> &nbsp; {{ago(post.uploadedOn)}} ago</b></span>
                 </ion-label>
               
               </ion-label>
@@ -64,10 +76,16 @@
         
             <ion-row class="bottom-bar">
               <ion-col  class="comment-section">
-                <p style="color:#cf3c4f;margin-left: 10px;"><ion-icon name="thumbs-up"></ion-icon>  {{post.likes.length }} likes</p>
+                <p style="    color: #383a3e;
+                margin-left: 10px;
+                font-size: 15px;
+                margin-top: 10px;"><ion-icon name="thumbs-up"></ion-icon>  {{post.likes.length }} likes</p>
               </ion-col>
               <ion-col  class="comment-section">
-                <p style="color:#cf3c4f;width:80px;margin-left: 10px;"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+                <p style="    color: #383a3e;
+                margin-left: 10px;
+                font-size: 15px;
+                margin-top: 10px;"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
               </ion-col>
               <ion-col  class="comment-section">
                 <ion-chip class="chip-css ion-text-start md ion-activatable hydrated">
@@ -109,8 +127,12 @@
           <ion-card *ngFor="let post of advStories" >
               
              
-              <img (click)="navigateToDetalil(post)" style="width: -webkit-fill-available;height:188px" src={{post.image}}/>
-            
+              <img (click)="navigateToDetalil(post)" style="width: -webkit-fill-available;height:230px" src={{post.image}}/>
+              <div class="thumbnail" *ngIf="post.shooting">
+                <div class="tag">
+                   <span class="blink"><b><ion-icon name="ellipse"></ion-icon> &nbsp;Shooting </b></span>
+                </div>
+              </div> 
         
             <ion-item text-wrap>
               <ion-label>
@@ -118,10 +140,11 @@
                   <h2 class="title-cls" (click)="navigateToDetalil(post)" ><ion-icon *ngIf="!getStatus(post)"  class='heart-cls-white animate__animated animate__tada' name="heart"></ion-icon> 
                     <ion-icon *ngIf="getStatus(post)"   class='heart-cls-red animate__animated animate__tada'  name="heart"></ion-icon> 
                     {{post.title}}</h2>
-                  <p class="synopsis-cls" (click)="navigateToDetalil(post)" ><ion-icon name="create"></ion-icon>  {{post.synopsis}}</p>
+                  <p class="synopsis-cls" (click)="navigateToDetalil(post)" ><ion-icon name="create"></ion-icon>  {{post.synopsis}} &nbsp; - <b><ion-icon name="time-outline"></ion-icon> &nbsp; {{ago(post.uploadedOn)}} ago</b></p>
                 </ion-label>
               
               </ion-label>
+              
               
               
             </ion-item>
@@ -130,10 +153,16 @@
         
             <ion-row class="bottom-bar">
               <ion-col  class="comment-section">
-                <p style="color:#cf3c4f;margin-left: 10px;"><ion-icon name="thumbs-up"></ion-icon>  {{post.likes.length }} likes</p>
+                <p style="    color: #383a3e;
+                margin-left: 10px;
+                font-size: 15px;
+                margin-top: 10px;"><ion-icon name="thumbs-up"></ion-icon>  {{post.likes.length }} likes</p>
               </ion-col>
               <ion-col  class="comment-section">
-                <p style="color:#cf3c4f;width:80px;margin-left: 10px;"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+                <p style="    color: #383a3e;
+                margin-left: 10px;
+                font-size: 15px;
+                margin-top: 10px;"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
               </ion-col>
               <ion-col  class="comment-section">
                 <ion-chip class="chip-css ion-text-start md ion-activatable hydrated">
@@ -174,8 +203,12 @@
           <ion-card *ngFor="let post of crimeStories" >
               
              
-              <img (click)="navigateToDetalil(post)" style="width: -webkit-fill-available;height:188px" src={{post.image}}/>
-            
+              <img (click)="navigateToDetalil(post)" style="width: -webkit-fill-available;height:230px" src={{post.image}}/>
+              <div class="thumbnail" *ngIf="post.shooting">
+                <div class="tag">
+                   <span class="blink"><b><ion-icon name="ellipse"></ion-icon> &nbsp;Shooting </b></span>
+                </div>
+              </div> 
         
             <ion-item text-wrap>
               <ion-label>
@@ -183,7 +216,7 @@
                   <h2 class="title-cls" (click)="navigateToDetalil(post)" ><ion-icon *ngIf="!getStatus(post)"  class='heart-cls-white animate__animated animate__tada' name="heart"></ion-icon> 
                     <ion-icon *ngIf="getStatus(post)"   class='heart-cls-red animate__animated animate__tada'  name="heart"></ion-icon> 
                     {{post.title}}</h2>
-                  <p class="synopsis-cls" (click)="navigateToDetalil(post)" ><ion-icon name="create"></ion-icon>  {{post.synopsis}}</p>
+                  <p class="synopsis-cls" (click)="navigateToDetalil(post)" ><ion-icon name="create"></ion-icon>  {{post.synopsis}}  &nbsp; - <b><ion-icon name="time-outline"></ion-icon> &nbsp; {{ago(post.uploadedOn)}} ago</b></p>
                 </ion-label>
               
               </ion-label>
@@ -195,10 +228,16 @@
         
             <ion-row class="bottom-bar">
               <ion-col  class="comment-section">
-                <p style="color:#cf3c4f;margin-left: 10px;"><ion-icon name="thumbs-up"></ion-icon>  {{post.likes.length }} likes</p>
+                <p style="    color: #383a3e;
+                margin-left: 10px;
+                font-size: 15px;
+                margin-top: 10px;"><ion-icon name="thumbs-up"></ion-icon>  {{post.likes.length }} likes</p>
               </ion-col>
               <ion-col  class="comment-section">
-                <p style="color:#cf3c4f;width:80px;margin-left: 10px;"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+                <p style="    color: #383a3e;
+                margin-left: 10px;
+                font-size: 15px;
+                margin-top: 10px;"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
               </ion-col>
               <ion-col  class="comment-section">
                 <ion-chip class="chip-css ion-text-start md ion-activatable hydrated">
@@ -238,8 +277,12 @@
           <ion-card *ngFor="let post of dramaStories" >
               
              
-              <img (click)="navigateToDetalil(post)" style="width: -webkit-fill-available;height:188px" src={{post.image}}/>
-            
+              <img (click)="navigateToDetalil(post)" style="width: -webkit-fill-available;height:230px" src={{post.image}}/>
+              <div class="thumbnail" *ngIf="post.shooting">
+                <div class="tag">
+                   <span class="blink"><b><ion-icon name="ellipse"></ion-icon> &nbsp;Shooting </b></span>
+                </div>
+              </div> 
         
             <ion-item text-wrap>
               <ion-label>
@@ -247,7 +290,7 @@
                   <h2 class="title-cls" (click)="navigateToDetalil(post)" ><ion-icon *ngIf="!getStatus(post)"  class='heart-cls-white animate__animated animate__tada' name="heart"></ion-icon> 
                     <ion-icon *ngIf="getStatus(post)"   class='heart-cls-red animate__animated animate__tada'  name="heart"></ion-icon> 
                     {{post.title}}</h2>
-                  <p class="synopsis-cls" (click)="navigateToDetalil(post)" ><ion-icon name="create"></ion-icon>  {{post.synopsis}}</p>
+                  <p class="synopsis-cls" (click)="navigateToDetalil(post)" ><ion-icon name="create"></ion-icon>  {{post.synopsis}}  &nbsp; - <b><ion-icon name="time-outline"></ion-icon> &nbsp; {{ago(post.uploadedOn)}} ago</b></p>
                 </ion-label>
               
               </ion-label>
@@ -259,10 +302,16 @@
         
             <ion-row class="bottom-bar">
               <ion-col  class="comment-section">
-                <p style="color:#cf3c4f;margin-left: 10px;"><ion-icon name="thumbs-up"></ion-icon>  {{post.likes.length }} likes</p>
+                <p style="    color: #383a3e;
+                margin-left: 10px;
+                font-size: 15px;
+                margin-top: 10px;"><ion-icon name="thumbs-up"></ion-icon>  {{post.likes.length }} likes</p>
               </ion-col>
               <ion-col  class="comment-section">
-                <p style="color:#cf3c4f;width:80px;margin-left: 10px;"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
+                <p style="    color: #383a3e;
+                margin-left: 10px;
+                font-size: 15px;
+                margin-top: 10px;"><ion-icon name="eye"></ion-icon>  {{post.views }} views</p>
               </ion-col>
               <ion-col  class="comment-section">
                 <ion-chip class="chip-css ion-text-start md ion-activatable hydrated">

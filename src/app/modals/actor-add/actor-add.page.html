@@ -1,115 +1,116 @@
 <!-- my-modal.page.html -->
-<ion-header class="custom-header">
-
-  <ion-toolbar class="custom-toolbar">
-    <ion-title style="font-size:17px">Link Your Fav Actors.!</ion-title>
-
-    <ion-buttons slot="end">
-      <ion-button (click)="closeModal()" style="font-size:24px">
-        <ion-icon name="close-outline"></ion-icon>
-      </ion-button>
+<ion-header class="toolbar_class" translucent="true">
+  <ion-toolbar style="color:white">
+    <ion-buttons  slot="start">
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
 
+    <ion-title style="margin-left: -14px;" *ngIf="!ios"><img class="logo-cls"
+        src="../../../assets/icons/actor-red.png"></ion-title>
+    <ion-buttons (click)="logout()" slot="end">
+      <ion-button >
+        <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 
 </ion-header>
 
-<ion-content forceOverscroll="false">
-  <ion-grid>
+<ion-content>
+  <ion-grid> 
 
+    <span *ngIf="!showActress">
+       
+      <ion-row class="ion-align-items-center">
+        <ion-col size="12">
+       
+          <ion-radio-group allow-empty-selection="false" name="radio-group" (ionChange)="radioGroupChange($event,'2')"
+            #radioGroup>
+            <ion-list-header>
+              <img class="img-thumb" src="../../../assets/icons/hand-drawn-actors-background_23-2147733984.jpg"/>
+            </ion-list-header>
+            <div style="height: 450px;
+            overflow-x: scroll;">
+           <ion-searchbar   (ionChange)="setFilteredItems('actress')" [(ngModel)]="queryText_actress" placeholder="Filter Actress" showCancelButton="focus"></ion-searchbar>
+           <ion-item *ngFor="let item of q1" (ionFocus)="radioFocus()" (ionSelect)="radioSelect($event)"
+           (ionBlur)="radioBlur()">
+           <ion-avatar>
+             <img src={{item.image}}>
+           </ion-avatar> &nbsp;<ion-label>{{item.actorName}}</ion-label> &nbsp;<ion-chip>
+             <ion-label color="dark">Stories</ion-label>
+             <ion-chip>
+               <ion-icon name="heart" color="dark"></ion-icon>
+               <ion-label>{{item.associatedStories.length}}</ion-label>
+             </ion-chip>
+           </ion-chip>
+           <ion-radio slot="start" name="{{item.actorName}}" value="{{item.id}}"></ion-radio>
+         </ion-item>
+          </div>
 
-
-    <span  *ngIf="!showActress">
-    <ion-row class="animate__animated animate__flipInX" no-padding class="matrix" style="margin-top: -5px;">
-      <ion-col size="12">
-        <ion-item-divider class="divider_1" sticky>
-          <ion-label class="tiles-header">
-          </ion-label>
-        </ion-item-divider>
+          </ion-radio-group>
         </ion-col>
-    </ion-row>
-    <ion-row no-padding class="matrix" style="margin-top:-27px">
-      <ion-col size="12" class="q1">
-        <ion-slides style="margin-top: -2px;" lines="none" [options]="slideOpts">
-          <ion-slide  dragula="bag" [(dragulaModel)]="q1" lines="none">
 
-            <div  *ngFor="let item of q1"  class="item">
-            <img src={{item.image}} class="avatar"/>
-            <span class="caption">{{item.actorName}}</span>
-            <span class="caption"><ion-badge color="primary">{{item.associatedStories.length}} - Movies</ion-badge></span>
+      </ion-row>
+    </span>
+    <span *ngIf="showActress">
+      
+      <ion-row class="ion-align-items-center">
+        <ion-col size="12">
+           
+          <ion-radio-group allow-empty-selection="true" name="radio-group" (ionChange)="radioGroupChange($event,'1')"
+            #radioGroup>
+            <ion-list-header>
+              <img class="img-thumb" src="../../../assets/icons/hand-drawn-2.jfif"/>
+            </ion-list-header>
+            <div style="height: 450px;
+            overflow-x: scroll;">
+             <ion-searchbar (ionChange)="setFilteredItems('actor')" [(ngModel)]="queryText_actor" placeholder="Filter Actors" animated showCancelButton="focus"></ion-searchbar>
+            <ion-item *ngFor="let item of q3" (ionFocus)="radioFocus()" (ionSelect)="radioSelect($event)"
+              (ionBlur)="radioBlur()">
+              <ion-avatar>
+                <img src={{item.image}}>
+              </ion-avatar> &nbsp;<ion-label>{{item.actorName}}</ion-label> &nbsp;<ion-chip>
+                <ion-label color="dark">Stories</ion-label>
+                <ion-chip>
+                  <ion-icon name="heart" color="dark"></ion-icon>
+                  <ion-label>{{item.associatedStories.length}}</ion-label>
+                </ion-chip>
+              </ion-chip>
+              <ion-radio slot="start" name="{{item.actorName}}" value="{{item.id}}"></ion-radio>
+            </ion-item>
             </div>
-              
-          </ion-slide>
-        </ion-slides>
-      </ion-col>
-    </ion-row>
-  </span >
-     <span  *ngIf="showActress">
-    <ion-row  class="animate__animated animate__flipInX"  no-padding class="matrix">
-      <ion-col size="12">
-        <ion-item-divider class="divider_2" sticky>
-          <ion-label class="tiles-header">
-          </ion-label>
-        </ion-item-divider>
-        </ion-col>
-    </ion-row>
-    <ion-row no-padding class="matrix"  style="margin-top:-27px">
-      <ion-col size="12" class="q1">
-        <ion-slides style="margin-top: -2px;" lines="none" [options]="slideOpts">
-          <ion-slide  dragula="bag" [(dragulaModel)]="q3" lines="none">
-             
-              <div  *ngFor="let item of q3"  class="item">
-                <img src={{item.image}} class="avatar"/>
-                <span class="caption">{{item.actorName}}</span>
-                <span class="caption"><ion-badge color="primary">{{item.associatedStories.length}}  <ion-icon class="badge-cls" name="videocam"></ion-icon></ion-badge></span>
-            
-                </div>
-            
-          </ion-slide>
-        </ion-slides>
-      </ion-col>
-    </ion-row>
-  </span>
-    <ion-row no-padding class="matrix" style="margin-top: 13px;">
-      <ion-col size="12"  style="height: 129px;">
-        <ion-item-divider sticky>
-          <ion-label class="tiles-header">
-            <ion-icon name="receipt"></ion-icon>&nbsp; {{postData.title}}
-          </ion-label>
-        </ion-item-divider>
-        <ion-list dragula="bag" [(dragulaModel)]="q2" lines="none">
-          <div  *ngFor="let item of q2"  class="item">
-            <img src={{item.image}} class="avatar"/>
-                <span class="caption">{{item.actorName}}</span>
-                
-            </div>
-        </ion-list>
-        </ion-col>
-    </ion-row>
-     
-    <ion-row>
-      <ion-col size="6">
-    <ion-button *ngIf="showActress==false"  fill="outline" expand="block" color="dark" (click)="showActress=true" ion-text-center>
-      <ion-icon slot="start" name="arrow-back"></ion-icon>
-      Back
-    </ion-button>
-      </ion-col>
-      <ion-col size="6">
-     <ion-button *ngIf="showActress==true"  fill="outline" expand="block" color="dark" (click)="showActress=false" ion-text-center>
-      <ion-icon slot="end" name="arrow-forward"></ion-icon>
-      Add Actress
-    </ion-button>
 
-  </ion-col>
-  </ion-row>
 
-    
-    
-    
-    
-     
+          </ion-radio-group>
+        </ion-col>
+
+      </ion-row>
+    </span>
+      
+    <ion-item-divider style="margin-top: 42px;border: none;">
+
+      <ion-fab vertical="bottom" horizontal="end">
+        <ion-fab-button color="dark">
+          <ion-icon name="arrow-forward-circle" (click)="checkActorSelected()"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+       
+      <ion-fab *ngIf="showActress==false" vertical="bottom" horizontal="left">
+        <ion-fab-button color="medium">
+          <ion-icon name="arrow-back-circle"  (click)="showActress=true"></ion-icon>
+        </ion-fab-button>
+
+      </ion-fab>
+
+    </ion-item-divider>
+
+
+
+
+
+
   </ion-grid>
-  <ion-fab *ngIf="showActress==false"  vertical="bottom" horizontal="end">
+  <ion-fab *ngIf="showActress==false" vertical="bottom" horizontal="end">
     <ion-fab-button color="dark">
       <ion-icon name="save" (click)="mapActors()"></ion-icon>
     </ion-fab-button>

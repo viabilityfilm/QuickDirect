@@ -40,6 +40,12 @@ export class FireBaseService {
   createPost(record) {
     return this.firestore.collection('posts').add(record);
   }
+  createNotify(record){
+    return this.firestore.collection('notify').add(record);
+  }
+  readNoify(){
+    return this.firestore.collection('notify').snapshotChanges();
+  }
   deletePost(postId) {
     this.firestore.doc('posts/' + postId).delete();
   }

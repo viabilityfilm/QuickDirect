@@ -42,10 +42,15 @@
 
    
   .seg-class{
-    margin-bottom: 20px;
+    margin-top: 6px;
     box-shadow: 1px 1px 26px 1px grey;
+    margin-bottom: 12px;
 }
- 
+.seg-class2{
+   
+  box-shadow: 1px 1px 26px 1px grey;
+  margin-bottom: 12px;
+}
 
 .segment-button-checked{
   background:-webkit-linear-gradient(150deg, #013A6B 35%, #004E95 35%);
@@ -99,4 +104,20 @@
   opacity: 0.2;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
   filter: alpha(opacity=20);
+}
+.tool-header{
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+}
+
+.logo-cls{
+  width: 161px;
+  margin-left: -5px;
+}
+.toolbar_class{
+   
+  --ion-background-color:#222428;
+  border: none !important;
+  box-shadow: 3px 6px 5px 0px grey;
 }

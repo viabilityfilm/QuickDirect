@@ -24,6 +24,16 @@
   <link rel="apple-touch-icon" href="assets/img/appicon.png">
 
   <link rel="manifest" href="manifest.json">
+  <script type="text/javascript">
+    window.onbeforeunload = function() {
+    saveFormData();
+    return null;
+}
+
+function saveFormData() {
+   alert(1);
+}
+  </script>
 </head>
 
 <body>
@@ -36,5 +46,6 @@
 
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
+ 
 
 </html>

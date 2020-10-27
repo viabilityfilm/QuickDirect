@@ -38,15 +38,22 @@ ion-card{
  */
 ion-col:not(:last-of-type) .speaker-card {
   margin-bottom: 0;
+} 
+ion-toolbar ion-button,
+ion-toolbar ion-back-button,
+ion-toolbar ion-menu-button {
+  --color: white;
 }
-.custom-header{
-  --ion-background-color: -webkit-linear-gradient(150deg, #013A6B 35%, #004E95 35%);
-  color: white !important;
-  }
-  .custom-toolbar{
-      color: white;
-  }
-
+.logo-cls{
+  width: 128px !important;
+  margin-left: -4px !important;
+}
+.segment-button-checked{
+  background:none !important;
+  color: black !important;
+  font-weight:100 !important;
+}
+ 
 .speaker-card .speaker-item {
   --min-height: 85px;
 }

@@ -22,7 +22,7 @@ export class SpeakerListPage {
   isLoaded: boolean = false;
   liked: boolean = false;
   heartClass: string;
-   
+  defaultHref = '/app/tabs/schedule';
   dummyData = [
     {
       synopsis: "1",
@@ -73,7 +73,16 @@ export class SpeakerListPage {
   logout() {
     this.router.navigateByUrl('/app/tabs/schedule');
   }
+  loginCheck() {
+    if (_.isEmpty(this.username)) {
+      this.router.navigateByUrl('/signUp');
+      return false;
+    } else {
+      return true;
+    }
+  }
   ionViewDidEnter() {
+    
     this.confData.getSpeakers().subscribe((speakers: any[]) => {
       this.speakers = speakers;
     });
@@ -85,8 +94,10 @@ export class SpeakerListPage {
   getUserName() {
     this.userData.getUsername().then((username) => {
       this.username = username;
+      this.loginCheck();
     });
   }
+ 
   showSkeltonLoading() {
     setTimeout(() => {
       this.isLoaded = true;

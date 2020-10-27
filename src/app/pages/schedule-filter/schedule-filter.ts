@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { Config, ModalController, NavParams } from '@ionic/angular';
 
 import { ConferenceData } from '../../providers/conference-data';
-
+import { FireBaseService } from '../../services/firebase.service';
+import * as _ from "lodash";
 
 @Component({
   selector: 'page-schedule-filter',
@@ -13,12 +14,14 @@ export class ScheduleFilterPage {
   ios: boolean;
 
   tracks: {name: string, icon: string, isChecked: boolean}[] = [];
+  notify: any=[];
 
   constructor(
     public confData: ConferenceData,
     private config: Config,
     public modalCtrl: ModalController,
-    public navParams: NavParams
+    public navParams: NavParams,
+    public fireBaseService: FireBaseService
   ) { }
 
   ionViewWillEnter() {
@@ -27,14 +30,16 @@ export class ScheduleFilterPage {
     // passed in array of track names that should be excluded (unchecked)
     const excludedTrackNames = this.navParams.get('excludedTracks');
 
-    this.confData.getTracks().subscribe((tracks: any[]) => {
-      tracks.forEach(track => {
-        this.tracks.push({
-          name: track.name,
-          icon: track.icon,
-          isChecked: (excludedTrackNames.indexOf(track.name) === -1)
-        });
+    this.fireBaseService.readNoify().subscribe(data => {
+      data.map(e => {
+        let docData = e.payload.doc.data();
+        
+        this.notify.push(docData);
       });
+      this.notify.reverse();
+      this.notify = [...this.notify];
+      this.notify = _.orderBy(this.notify, ['updateOn'], ['desc']);
+      this.notify = this.notify ? this.notify.splice(0, 10) : this.notify;
     });
   }
 

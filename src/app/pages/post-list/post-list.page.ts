@@ -8,6 +8,7 @@ import { UserData } from '../../providers/user-data';
 import { FireBaseService } from '../../services/firebase.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as _ from "lodash";
+import { window } from 'rxjs/operators';
 
 @Component({
   selector: 'app-post-list',
@@ -55,11 +56,11 @@ export class PostListPage implements OnInit {
         if (i == 1) {
           if (userDetails.length > 0) {
             let emailUrl = "https://us-central1-app-direct-a02bf.cloudfunctions.net/sendMail?dest=" + userDetails[1].emailId;
-            emailUrl = emailUrl + '&body=' + this.username + ' Shown interest on your story <br> Story is moved to READY TO SHOOT Queue<br> Check with producer for more details Email -' + userDetails[1].emailId + ' Mob -' + userDetails[1].mobile
+            emailUrl = emailUrl + '&body=' + this.username + ' Shown interest on your story <br> Story is moved to READY TO SHOOT Queue<br> For more details COntact @ Email -' + userDetails[1].emailId + ' Mob -' + userDetails[1].mobile
             this.callService(emailUrl);
           }
         }
-      }, 2000);
+      }, 1500);
     }
 
   }
@@ -89,7 +90,7 @@ export class PostListPage implements OnInit {
   async ionViewDidEnter() {
     this.getUserName();
     const loading = await this.loadingCtrl.create({
-      message: 'Loading Stories...',
+      message: 'Loading..',
       duration: 2000
     });
 
@@ -142,12 +143,13 @@ export class PostListPage implements OnInit {
   }
   logout() {
     this.router.navigateByUrl('/app/tabs/schedule');
+     
   }
 
 
   async updateSchedule() {
     const loading = await this.loadingCtrl.create({
-      message: 'Loading stories...',
+      message: 'Loading...',
       duration: 2000
     });
 

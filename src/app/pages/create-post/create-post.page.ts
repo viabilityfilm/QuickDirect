@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavController, LoadingController, ToastController, ActionSheetController, AlertController, ModalController, IonInput } from '@ionic/angular';
+import { NavController, LoadingController, ToastController, ActionSheetController, AlertController, ModalController, IonInput, IonSlides } from '@ionic/angular';
 import * as moment from 'moment';
 import { HttpClient } from '@angular/common/http';
 import { FireBaseService } from '../../services/firebase.service';
@@ -65,11 +65,15 @@ export class CreatePostPage implements OnInit {
   isUploaded: boolean;
   fundingType:number=0;
   private imageCollection: AngularFirestoreCollection<MyData>;
-
+  @ViewChild('slideWithNav', { static: false }) slideWithNav: IonSlides;
 
   @ViewChild('ref', { static: false }) pRef: IonInput;
   UploadedFilePath: string;
   userType: string;
+  slideOpts = {
+    initialSlide: 1,
+    speed: 400
+  };
   constructor(public navCtrl: NavController,
 
     private loadingCtrl: LoadingController,
@@ -93,6 +97,12 @@ export class CreatePostPage implements OnInit {
     this.getUsername();
     //setTimeout(() => this.pRef.setFocus(), 300);
 
+  }
+  ionViewDidEnter(){
+    this.title="";
+    this.budget="";
+    this.UploadedFilePath="";
+    this.isUploaded=false;
   }
 
   ago(time) {

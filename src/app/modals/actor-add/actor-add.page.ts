@@ -4,6 +4,8 @@ import { DragulaService } from 'ng2-dragula';
 import { FireBaseService } from '../../services/firebase.service';
 import * as _ from "lodash";
 import { UserData } from '../../providers/user-data';
+import { ConferenceData } from '../../providers/conference-data';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-actor-add',
   templateUrl: './actor-add.page.html',
@@ -40,13 +42,22 @@ export class ActorAddPage implements OnInit {
   actress: any;
   postData: any;
   username: string;
-
+  selectedActor: string="";
+  selectedActress: string="";
+  actor_img: any;
+  actoress_img: any;
+  queryText_actor:string="";
+  queryText_actress:string="";
+  maleActor: any=[];
+  femaleActor: any=[];
+  
   constructor(private dragulaService: DragulaService,
     private toastController: ToastController,
     private modalController: ModalController,
     private fireBaseService: FireBaseService,
     private navParams: NavParams,
     public userData: UserData,
+    public router:Router,
     private loadingCtrl: LoadingController) {
     this.dragulaService.drag('bag')
       .subscribe(({ name, el, source }) => {
@@ -68,6 +79,58 @@ export class ActorAddPage implements OnInit {
 
 
   }
+  
+  useFilter(arg,type){
+    if(type=="actor"){
+      return this.maleActor.filter(item => {
+        return item.actorName.toLowerCase().indexOf(arg.toLowerCase()) > -1;
+      });
+    }else{
+      return this.femaleActor.filter(item => {
+        return item.actorName.toLowerCase().indexOf(arg.toLowerCase()) > -1;
+      });
+    }
+   
+  }
+  logout() {
+    this.router.navigateByUrl('/app/tabs/schedule');
+  }
+  setFilteredItems(type) {
+    if(type=="actor"){
+      if(this.queryText_actor!=''){
+        this.q3 =  this.useFilter(this.queryText_actor,type);
+      } else{
+        this.q3=this.maleActor;
+      }
+    }else{
+      if(this.queryText_actress!=''){
+         
+        this.q1 =  this.useFilter(this.queryText_actress,type);
+      } else{
+        this.q1=this.femaleActor;
+      }
+    }
+    
+     
+   
+  }
+  radioFocus() {
+
+  }
+  radioSelect(obj) {
+    console.log(obj);
+  }
+  radioGroupChange(obj, type) {
+    if (type == "1") {
+      this.selectedActor = obj.detail.value;
+    }else{
+      this.selectedActress = obj.detail.value;
+    }
+  }
+  radioBlur() {
+
+  }
+   
   getUserName() {
     this.userData.getUsername().then((username) => {
       this.username = username;
@@ -76,7 +139,7 @@ export class ActorAddPage implements OnInit {
   async ionViewDidEnter() {
     this.getUserName();
     const loading = await this.loadingCtrl.create({
-      message: 'Loading Stories...',
+      message: 'Loading...',
       duration: 2000
     });
 
@@ -89,10 +152,21 @@ export class ActorAddPage implements OnInit {
       });
 
       this.q3 = _.filter(this.users, { 'gender': 'M' });
+      this.maleActor=_.filter(this.users, { 'gender': 'M' });
       this.q1 = _.filter(this.users, { 'gender': 'F' });
+      this.femaleActor=_.filter(this.users, { 'gender': 'F' });
       loading.onWillDismiss();
     });
   }
+  checkActorSelected() {
+    if(this.selectedActor!=""){
+      this.showActress = false;
+    }else{
+      this.presentToast('Please select 1 Actor ...', 'toast-primary');
+      return true;
+    }
+  }
+   
   ngOnInit(): void {
 
     console.table(this.navParams);
@@ -115,27 +189,35 @@ export class ActorAddPage implements OnInit {
       message: msg,
       animated: true,
       cssClass: type,
-      position: 'top',
-      duration: 2000
+      position: 'bottom',
+      duration: 1000,
+      buttons: [{
+        text: 'Close',
+        role: 'cancel'
+      }]
     });
     toast.present();
   }
   mapActors() {
-    if (this.q2 && this.q2.length > 2) {
-      this.presentToast('Please select 1 Actor & Actress...', 'toast-danger');
+    if(this.selectedActress==""){
+      this.presentToast('Please select  Actress...', 'toast-primary');
       return true;
-    }
-    if (this.q2 && this.q2.length < 2) {
-      this.presentToast('Please select Atleast 1 Actor & Actress...', 'toast-danger');
-      return true;
-    }
-    if (this.q2 && this.q2.length === 2) {
-      this.q2.forEach(e => {
-        e['associatedStories'].push(this.postData['id']);
-        this.fireBaseService.updateActros(e['id'], e);
+    }else{
+      this.users.forEach(e => {
+        if(this.selectedActor==e['id'] ){
+          this.userData.actor_img=e['image'];
+          e['associatedStories'].push(this.postData['id']);
+          this.fireBaseService.updateActros(e['id'], e);
+        }
+        if(this.selectedActress==e['id']){
+          this.userData.actoress_img=e['image'];
+          e['associatedStories'].push(this.postData['id']);
+          this.fireBaseService.updateActros(e['id'], e);
+        }
+       
         if (e['gender'] === 'M') {
           this.postData['actors'].push(e['id'] + '_' + this.username);
-        } else if(e['gender'] === 'F') {
+        } else if (e['gender'] === 'F') {
           this.postData['actress'].push(e['id'] + '_' + this.username);
         }
       });
@@ -143,8 +225,24 @@ export class ActorAddPage implements OnInit {
         this.fireBaseService.updatePost(this.postData['id'], this.postData);
         this.closeModal();
       }, 200);
-      
+    }
      
+    if (this.q2 && this.q2.length === 2) {
+      this.q2.forEach(e => {
+        e['associatedStories'].push(this.postData['id']);
+        this.fireBaseService.updateActros(e['id'], e);
+        if (e['gender'] === 'M') {
+          this.postData['actors'].push(e['id'] + '_' + this.username);
+        } else if (e['gender'] === 'F') {
+          this.postData['actress'].push(e['id'] + '_' + this.username);
+        }
+      });
+      setTimeout(() => {
+        this.fireBaseService.updatePost(this.postData['id'], this.postData);
+        this.closeModal();
+      }, 200);
+
+
     }
   }
   addTodo() {

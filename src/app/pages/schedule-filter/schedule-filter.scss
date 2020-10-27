@@ -6,7 +6,23 @@
   text-transform: capitalize;
   letter-spacing: 0;
 }
+.icon-cls{
+  font-size: 38px;
+  margin-left: 0px;
+  margin-right: -14px;
+  margin-top:6px;
 
+}
+.logo-cls{
+  width: 161px;
+  margin-left: -5px;
+}
+.toolbar_class{
+   
+  --ion-background-color:#222428;
+  border: none !important;
+  box-shadow: 3px 6px 5px 0px grey;
+}
 .md ion-checkbox {
   --background-checked: transparent;
   --border-color: transparent;
@@ -17,7 +33,17 @@
 .md ion-list {
   background: inherit;
 }
-
+.more-icon{
+  margin-inline-start: auto;
+  color: #4c8dff;
+}
+.tiles-header{
+  
+  color: #013a6b;
+  font-weight: bold;
+  font-size: 15px;
+  font-kerning: none;
+}
 
 /*
  * iOS

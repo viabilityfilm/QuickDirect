@@ -1,41 +1,37 @@
-<ion-header translucent="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button *ngIf="ios" (click)="dismiss()">Cancel</ion-button>
-      <ion-button *ngIf="!ios" (click)="selectAll(false)">Reset</ion-button>
+<ion-header class="toolbar_class" translucent="true">
+  <ion-toolbar style="color:white">
+    <ion-buttons  slot="start">
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
 
-    <ion-title>
-      Filter Sessions
-    </ion-title>
-
-    <ion-buttons slot="end">
-      <ion-button (click)="applyFilters()" strong>Done</ion-button>
+    <ion-title style="margin-left: -14px;" *ngIf="!ios"><img class="logo-cls"
+        src="../../../assets/icons/logo-3.png"></ion-title>
+    <ion-buttons (click)="applyFilters()" slot="end">
+      <ion-button >
+        <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
+
 </ion-header>
+ 
 
 <ion-content>
   <ion-list [lines]="ios ? 'inset' : 'full'">
-    <ion-list-header>Tracks</ion-list-header>
+    <ion-item-divider sticky>
+      <ion-label class="tiles-header">
+        <ion-icon name="volume-high"></ion-icon> &nbsp; Notifications
+      </ion-label>
+      <ion-icon class="more-icon" name="chevron-forward-circle-outline"></ion-icon>
 
-    <ion-item *ngFor="let track of tracks" [attr.track]="track.name | lowercase">
+    </ion-item-divider>
+
+    <ion-item *ngFor="let track of notify">
       <ion-icon *ngIf="ios" slot="start" [name]="track.icon" color="medium"></ion-icon>
-      <ion-label>{{track.name}}</ion-label>
-      <ion-checkbox [(ngModel)]="track.isChecked"></ion-checkbox>
+      <ion-label>{{track.uploadedBy}} &nbsp; {{track.type}} &nbsp; {{track.like}}</ion-label>
     </ion-item>
 
   </ion-list>
 
 </ion-content>
-
-<ion-footer translucent="true" *ngIf="ios">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="selectAll(false)">Deselect All</ion-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="selectAll(true)">Select All</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>
+ 

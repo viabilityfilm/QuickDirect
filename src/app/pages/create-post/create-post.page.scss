@@ -152,12 +152,29 @@
       .about-header .seattle {
         background-image: url(/assets/img/about/seattle.jpg);
       }
-      
+      .slide-img{
+        opacity: 0.9;
+    box-shadow: -1px 20px 20px 20px grey;
+    border-radius: 22px;
+      }
+      ion-toolbar ion-button,
+      ion-toolbar ion-back-button,
+      ion-toolbar ion-menu-button {
+        --color: white;
+      }
+      .logo-cls{
+        width: 186px !important;
+        margin-left: -1px !important;
+        height: 51px;
+    
+      }
       .about-info {
         position: absolute;
-        margin-top: -10px;
-        border-radius: 10px;
-        background: var(--ion-background-color, #fff);
+    margin-top: 3px;
+    border-radius: 10px;
+    background: var(--ion-background-color, #fff);
+    margin-left: 19px;
+    border: 1px solid #d7d8da;
       }
       
       .about-info h3 {
@@ -197,4 +214,14 @@
         font-weight: 700;
       }
       
-
+      .custon-nav{
+        height: 48px;
+        width: 20px;
+        cursor: pointer;
+      
+        vertical-align: middle;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    

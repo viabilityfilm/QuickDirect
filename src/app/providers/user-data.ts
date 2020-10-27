@@ -13,6 +13,9 @@ export class UserData {
   email:string="";
   userType:string="";
   userName: any;
+  actor_img: string="";
+  actoress_img: string="";
+  userMob: any;
   constructor(
     public storage: Storage
   ) { }

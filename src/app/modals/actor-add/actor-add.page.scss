@@ -78,6 +78,22 @@ ion-list{
     width: 50px;
     border-radius: 50%;
   }
+  .image-cls{
+    width: 50px;
+    height: 43px;
+    border-radius: 38%;
+    padding-left: 1px;
+    margin-top: 3px;
+    box-shadow: 1px 1px 12px grey;
+  }
+  .img-thumb{
+    height: 175px;
+    margin-left: 20%;
+    border-radius: 21%;
+    box-shadow: 5px 15px 71px 8px grey;
+    margin-top: 10px;
+    margin-bottom: 13px;
+  }
   .divider_2{
     background-image: url("../../../assets/icons/hand-drawn-2.jfif");
      
@@ -103,10 +119,34 @@ ion-list{
     border-radius: 44px;
     box-shadow: -5px -20px 10px 10px rgba(0, 0, 0, 0.12);
   }
+  ion-toolbar ion-button,
+ion-toolbar ion-back-button,
+ion-toolbar ion-menu-button {
+  --color: white;
+}
   .scroll-card-3{
     height: 27vh;
     width: 83vh;
     box-shadow: -1px -2px 9px 3px grey;
+  }
+  .icon-cls{
+    font-size: 38px;
+    margin-left: 0px;
+    margin-right: -14px;
+    margin-top:6px;
+  
+  }
+  .logo-cls{
+    width: 181px;
+    margin-left: -3px;
+    height: 49px;
+  }
+  
+  .toolbar_class{
+     
+    --ion-background-color:#222428;
+    border: none !important;
+    box-shadow: 3px 6px 5px 0px grey;
   }
   .avatar {
     vertical-align: middle;

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CheckTutorial } from './providers/check-tutorial.service';
-
+import { CheckUser } from './providers/check-user.service';
 const routes: Routes = [
    
   {
@@ -24,7 +24,8 @@ const routes: Routes = [
  
   {
     path: 'app/tabs/create-post',
-    loadChildren: () => import('./pages/create-post/create-post.module').then( m => m.CreatePostPageModule)
+    loadChildren: () => import('./pages/create-post/create-post.module').then( m => m.CreatePostPageModule),
+    // canLoad: [CheckUser]
   },
   {
     path: 'app/tabs/decision',
@@ -53,7 +54,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./pages/tutorial/tutorial.module').then(m => m.TutorialModule),
-     
+    canLoad: [CheckTutorial]
   }
 
 ];

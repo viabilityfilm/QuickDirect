@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { MenuController, IonSlides } from '@ionic/angular';
 
 import { Storage } from '@ionic/storage';
-import {FireBaseService} from '../../services/firebase.service';
+import { FireBaseService } from '../../services/firebase.service';
 import { UserData } from '../../providers/user-data';
 import * as _ from "lodash";
 @Component({
@@ -17,17 +17,17 @@ export class TutorialPage {
 
   @ViewChild('slides', { static: true }) slides: IonSlides;
   username: string;
-    
+
 
   constructor(
     public menu: MenuController,
     public router: Router,
-    public storage: Storage,public user:UserData,
-    private firebaseService:FireBaseService
-  ) {}
+    public storage: Storage, public user: UserData,
+    private firebaseService: FireBaseService
+  ) { }
 
-  ngOnInit(){
-    
+  ngOnInit() {
+
     let validateUSer = this.firebaseService.getUserList();
     validateUSer.snapshotChanges().subscribe(res => {
       console.log(res);
@@ -35,11 +35,12 @@ export class TutorialPage {
   }
   startApp() {
     this.router.navigateByUrl('/signUp');
+    this.router
+    .navigateByUrl('/app/tabs/schedule', { replaceUrl: true })
+    .then(() => this.storage.set('ion_did_tutorial', true));
   }
   ionViewDidEnter() {
     this.getUserName();
-     
-
 
   }
   onSlideChangeStart(event) {
@@ -51,17 +52,18 @@ export class TutorialPage {
     setTimeout(() => {
       this.user.getUsername().then((username) => {
         this.username = username;
+      
       });
     }, 200);
   }
   loginCheck() {
     if (!_.isEmpty(this.username)) {
       return true;
-    } 
+    }
   }
   ionViewWillEnter() {
     if (this.loginCheck()) {
-       this.router.navigateByUrl('/app/tabs/schedule', { replaceUrl: true });
+      this.router.navigateByUrl('/app/tabs/schedule', { replaceUrl: true });
     }
     this.menu.enable(false);
   }

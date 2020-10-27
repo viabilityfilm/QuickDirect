@@ -22,6 +22,7 @@ export class MapPage {
   isLoaded: boolean = false;
   liked: boolean = false;
   heartClass: string;
+  defaultHref = '/app/tabs/schedule';
    
   dummyData = [
     {

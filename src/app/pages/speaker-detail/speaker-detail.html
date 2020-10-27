@@ -16,12 +16,17 @@
   </ion-header>
 
   <img class="speaker-background" src="{{postData.image}}">
+  <div class="thumbnail" *ngIf="postData.shooting">
+    <div class="tag">
+       <span class="blink"><b><ion-icon name="ellipse"></ion-icon> &nbsp;Shooting </b></span>
+    </div>
+  </div> 
   <!-- <div class="title-cls"><ion-icon name="videocam" role="img" class="md hydrated" aria-label="documents" style="
     padding-right: 10px;"></ion-icon>{{postData.title}} <div class="user-cls">@ {{postData.uploadedBy}}</div></div> -->
   <ion-item-divider style="border: none;margin-left: -6px;box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.12)">
     <ion-chip class="ion-text-end" class="chip-cls" button>
       <ion-icon style="color:white" name="person-circle"></ion-icon>
-      <ion-label style="color:white">{{postData.uploadedBy}}</ion-label>
+      <ion-label style="color:white">{{postData.uploadedBy.substring(0, 5)}}</ion-label>
     </ion-chip>
     <span class="margin-cls">
       <ion-icon name="golf"></ion-icon> {{postData.views}} Views
@@ -125,7 +130,7 @@
 
     <ion-chip *ngFor="let budget of postData.fundedBy" class="ion-text-end" class="chip-cls" button>
       <ion-icon style="color:white" name="person-circle"></ion-icon>
-      <ion-label style="color:white">{{budget}}</ion-label>
+      <ion-label style="color:white">{{budget.split('_')[0].substring(0, 5)}}</ion-label>
     </ion-chip>
 
     <ion-button #ref *ngIf="(showFundDetails || fundType==2) &&  postData.shooting==false" color="primary" expand="block" (click)="showPriceField()" fill="clear">

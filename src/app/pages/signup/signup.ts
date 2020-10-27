@@ -106,12 +106,13 @@ export class SignupPage {
       if (element['emailId'] === userObj.emailId
         && element['password'] === userObj.password && methodType === "signIn"
       ) {
-        this.presentToast('Logged in Successfully..!', 'toast-success');
+        this.presentToast('Welcome Back '+element['userName']+"..!", 'toast-success');
         this.userData.login(element['userName']);
         this.userData.setUsername(element['userName']);
         this.userData.userName=element['userName'];
         this.userData.email=element['emailId'];
         this.userData.userType=element['userFlag']
+        this.userData.userMob=element['mobile'];
         this.router.navigateByUrl('/app/tabs/schedule');
         validUser=true;
         return true;
@@ -132,10 +133,12 @@ export class SignupPage {
 
   async presentToast(msg, type) {
     const toast = await this.toastController.create({
-      message: msg,
-      cssClass: type,
-      duration: 2000,
-      position: 'top'
+      header: msg,
+      duration: 1000,
+      buttons: [{
+        text: 'Close',
+        role: 'cancel'
+      }]
     });
     toast.present();
   }

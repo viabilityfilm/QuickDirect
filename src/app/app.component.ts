@@ -89,8 +89,7 @@ export class AppComponent implements OnInit {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.statusBar.backgroundColorByHexString('#00bfff');
+      this.statusBar.styleBlackTranslucent();
        
       setTimeout(() => {
         this.splashScreen.hide();

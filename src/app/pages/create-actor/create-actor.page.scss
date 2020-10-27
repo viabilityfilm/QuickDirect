@@ -175,9 +175,19 @@
       width: 146px;
       height: 99px;
       border-radius: 17%;
-      box-shadow: 3px 2px 8px 1px grey;
+      box-shadow: -1px 10px 8px 6px grey;
       opacity: 1;
       }
+      ion-toolbar ion-button,
+ion-toolbar ion-back-button,
+ion-toolbar ion-menu-button {
+  --color: white;
+}
+.logo-cls{
+  width: 185px !important;
+  margin-left: -4px !important;
+  height: 49px;
+}
       .about-info p {
         line-height: 130%;
       

@@ -1,14 +1,17 @@
-<ion-header class="custom-header">
-
-  <ion-toolbar class="custom-toolbar">
-    <ion-title style="font-size:17px">Actor/Actress Creation</ion-title>
-
-    <ion-buttons slot="end">
-      <ion-button (click)="logout()" style="font-size:24px">
-        <ion-icon name="close-outline"></ion-icon>
-      </ion-button>
+ <ion-header class="toolbar_class" translucent="true">
+  <ion-toolbar style="color:white">
+    
+    <ion-buttons  slot="start">
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
 
+    <ion-title style="margin-left: -14px;" *ngIf="!ios"><img class="logo-cls"
+        src="../../../assets/icons/actor-red.png"></ion-title>
+    <ion-buttons (click)="logout()"  slot="end">
+      <ion-button >
+        <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 
 </ion-header>
