@@ -68,7 +68,10 @@ export class AboutPage {
   }
   
   getUserName() {
-    this.username=this.userData.userName;
-    this.loginCheck();
+    this.userData.getUsername().then((username) => {
+      this.username = username;
+      this.loginCheck();
+    });
+   
   }
 }

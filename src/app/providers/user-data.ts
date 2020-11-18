@@ -35,9 +35,10 @@ export class UserData {
     }
   }
 
-  login(username: string): Promise<any> {
+  login(username: string,role:string): Promise<any> {
     return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
       this.setUsername(username);
+      this.storage.set('role', role);
       return window.dispatchEvent(new CustomEvent('user:login'));
     });
   }
@@ -51,7 +52,9 @@ export class UserData {
 
   logout(): Promise<any> {
     return this.storage.remove(this.HAS_LOGGED_IN).then(() => {
-      return this.storage.remove('username');
+      this.storage.remove('username');
+      this.storage.remove('role');
+      return; 
     }).then(() => {
       window.dispatchEvent(new CustomEvent('user:logout'));
     });
@@ -63,6 +66,11 @@ export class UserData {
 
   getUsername(): Promise<string> {
     return this.storage.get('username').then((value) => {
+      return value;
+    });
+  }
+  getRole(): Promise<string> {
+    return this.storage.get('role').then((value) => {
       return value;
     });
   }

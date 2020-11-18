@@ -1,23 +1,172 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header class="toolbar_class" translucent="true">
+  <ion-toolbar style="color:white">
+
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Account</ion-title>
+
+    <ion-title style="margin-left: -14px;" *ngIf="!ios"><img class="logo-cls"
+        src="../../../assets/icons/artist-red.png"></ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goBack()" >
+        <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
-  <div *ngIf="username" class="ion-padding-top ion-text-center">
-    <img src="https://www.gravatar.com/avatar?d=mm&s=140" alt="avatar">
-    <h2>{{username}}</h2>
+  <ion-segment (ionChange)="changeCategory($event)" [(ngModel)]="segment" class="seg-class" sticky>
+    <ion-segment-button value="actor">
+      <ion-icon src="../../../assets/icons/theater.svg"></ion-icon>
+      <ion-label>Actors</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="actress">
+      <ion-icon src="../../../assets/icons/fun.svg"></ion-icon>
+      <ion-label>Actress</ion-label>
+    </ion-segment-button>
 
-    <ion-list inset>
-      <ion-item (click)="updatePicture()">Update Picture</ion-item>
-      <ion-item (click)="changeUsername()">Change Username</ion-item>
-      <ion-item (click)="changePassword()">Change Password</ion-item>
-      <ion-item (click)="support()">Support</ion-item>
-      <ion-item (click)="logout()">Logout</ion-item>
-    </ion-list>
-  </div>
+
+
+  </ion-segment>
+  <ion-grid *ngIf="generType=='actor'" fixed>
+    <ion-row>
+      <ng-container *ngIf="isLoaded; else elseTemplate">
+        <ion-col size="12" size-md="6">
+          <ion-card *ngFor="let actor of maleActor">
+
+            <ion-label>
+              <h2 class="title-cls">
+                <ion-avatar class="md hydrated"><img class="actor-image-cls"  src={{actor.image}}></ion-avatar> <p class="actor-name">{{actor.actorName}} <small>&nbsp; created  <ion-icon name="hourglass"></ion-icon> &nbsp;{{ago(actor.createdOn)}} ago</small></p>
+              </h2>
+            </ion-label>
+            <iframe width="100%" height="42%" [src]=actor.thumnail frameborder="0" allowfullscreen>
+            </iframe>
+
+
+
+
+
+            <ion-row class="bottom-bar">
+              <ion-col class="comment-section">
+                <p style="    color: #383a3e;
+                margin-left: 10px;
+                font-size: 15px;
+                margin-top: 10px;">
+                  <ion-icon name="bar-chart"></ion-icon> {{actor.storyCount }} likes
+                </p>
+              </ion-col>
+
+              <ion-col class="comment-section">
+                <ion-chip class="chip-css ion-text-start md ion-activatable hydrated">
+                  <ion-icon name="ribbon"></ion-icon> &nbsp;{{actor.skills}}
+                </ion-chip>
+              </ion-col>
+              <ion-col class="comment-section">
+                <ion-chip class="ion-text-end" class="chip-cls" button>
+                  <ion-icon src="../../../assets/icons/whatsapp.svg"></ion-icon>
+                  <ion-label (click)="showdialer(actor.mobile)" style="color:white">Contact</ion-label>
+                </ion-chip>
+              </ion-col>
+            </ion-row>
+
+          </ion-card>
+        </ion-col>
+      </ng-container>
+      <!-- skeleton loading -->
+      <ng-template #elseTemplate>
+        <ion-col size="12" size-md="6" *ngFor="let post of dummyData">
+          <ion-card>
+            <ion-avatar slot="start">
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </ion-avatar>
+            <ion-item-divider style="border: none;">
+              <ion-label>
+                <h2>
+                  <ion-skeleton-text animated style="width: 100px;"></ion-skeleton-text>
+                </h2>
+                <p>
+                  <ion-skeleton-text animated style="width: 180px;"></ion-skeleton-text>
+                </p>
+              </ion-label>
+            </ion-item-divider>
+          </ion-card>
+        </ion-col>
+      </ng-template>
+      <!-- end skeleton loading -->
+
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="generType=='actress'" fixed>
+    <ion-row>
+      <ng-container *ngIf="isLoaded; else elseTemplate">
+        <ion-col size="12" size-md="6">
+          <ion-card *ngFor="let actor of femaleActor">
+
+            <ion-label>
+              <h2 class="title-cls">
+                <ion-avatar class="md hydrated"><img class="actor-image-cls"  src={{actor.image}}></ion-avatar> <p class="actor-name">{{actor.actorName}} <small>&nbsp; created  <ion-icon name="hourglass"></ion-icon> &nbsp;{{ago(actor.createdOn)}} ago</small></p>
+              </h2>
+            </ion-label>
+            <iframe width="100%" height="42%"   [src]=actor.thumnail frameborder="0"
+              allowfullscreen>
+            </iframe>
+
+            
+
+
+
+            <ion-row class="bottom-bar">
+              <ion-col class="comment-section">
+                <p style="    color: #383a3e;
+                margin-left: 10px;
+                font-size: 15px;
+                margin-top: 10px;">
+                  <ion-icon name="bar-chart"></ion-icon> {{actor.storyCount }} likes
+                </p>
+              </ion-col>
+
+              <ion-col class="comment-section">
+                <ion-chip class="chip-css ion-text-start md ion-activatable hydrated">
+                  <ion-icon name="ribbon"></ion-icon> &nbsp; {{actor.skills}}
+                </ion-chip>
+
+              </ion-col>
+              <ion-col class="comment-section">
+                <ion-chip class="ion-text-end" class="chip-cls" button>
+                  <ion-icon src="../../../assets/icons/whatsapp.svg"></ion-icon>
+                  <ion-label (click)="showdialer(actor.mobile)" style="color:white">Contact</ion-label>
+                </ion-chip>
+              </ion-col>
+            </ion-row>
+
+          </ion-card>
+        </ion-col>
+      </ng-container>
+      <!-- skeleton loading -->
+      <ng-template #elseTemplate>
+        <ion-col size="12" size-md="6" *ngFor="let post of dummyData">
+          <ion-card>
+            <ion-avatar slot="start">
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </ion-avatar>
+            <ion-item-divider style="border: none;">
+              <ion-label>
+                <h2>
+                  <ion-skeleton-text animated style="width: 100px;"></ion-skeleton-text>
+                </h2>
+                <p>
+                  <ion-skeleton-text animated style="width: 180px;"></ion-skeleton-text>
+                </p>
+              </ion-label>
+            </ion-item-divider>
+          </ion-card>
+        </ion-col>
+      </ng-template>
+      <!-- end skeleton loading -->
+
+    </ion-row>
+  </ion-grid>
+
 </ion-content>

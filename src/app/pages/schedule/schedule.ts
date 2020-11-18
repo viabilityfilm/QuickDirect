@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, IonList, IonRouterOutlet, LoadingController, ModalController, ToastController, Config, PopoverController,IonSlides  } from '@ionic/angular';
+import { AlertController, IonList, IonRouterOutlet, LoadingController, ModalController, ToastController, Config, PopoverController, IonSlides } from '@ionic/angular';
 
 import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 import { ConferenceData } from '../../providers/conference-data';
@@ -42,7 +42,7 @@ export class SchedulePage implements OnInit {
   topActress: any = [];
   topActors: any = [];
   userType: string;
-  searchTerm:string;
+  searchTerm: string;
   isLoaded: boolean = false;
   changeTool: string = 'change-tool-height2';
   items: any[];
@@ -51,10 +51,10 @@ export class SchedulePage implements OnInit {
     slidesPerView: 1,
     autoplay: true,
     slideShadows: true,
-    pager:false
+    pager: false
   };
   isItemAvailable = false;
- 
+
 
   dummyData = [
     {
@@ -98,7 +98,7 @@ export class SchedulePage implements OnInit {
       uploadedOn: "1"
     },
   ]
-  shootingYes: any=[];
+  shootingYes: any = [];
 
   constructor(
     public popoverCtrl: PopoverController,
@@ -150,12 +150,12 @@ export class SchedulePage implements OnInit {
       },
 
     }
-    
+
 
     this.slideOpts = slideOpts;
     this.platForm.backButton.subscribeWithPriority(10, async () => {
 
-      
+
       const alert = await this.alertCtrl.create({
         header: 'Confirm',
         message: 'Do you really want to exit?',
@@ -187,20 +187,29 @@ export class SchedulePage implements OnInit {
         (event: NavigationEvent) => {
           if (event instanceof NavigationStart) {
             this.getUserName();
-            this.getPosts();
-            this.queryText='';
-            this.showSearchbar=false;
+            this.queryText = '';
+            this.showSearchbar = false;
+            this.items = [];
+            this.posts = [];
+            this.topBudget = [];
+            this.topViewed = [];
+            this.shootingYes = [];
           }
         });
   }
 
   ionViewDidEnter() {
-    
+
     this.getUserName();
     this.getPosts();
     this.showSkeltonLoading();
-    this.queryText='';
-    this.showSearchbar=false;
+    this.queryText = '';
+    this.showSearchbar = false;
+    this.items = [];
+    this.posts = [];
+    this.topBudget = [];
+    this.topViewed = [];
+    this.shootingYes = [];
 
 
   }
@@ -209,7 +218,7 @@ export class SchedulePage implements OnInit {
     setTimeout(() => {
       this.user.getUsername().then((username) => {
         this.username = username;
-        
+
         if (this.username != null) {
           this.changeTool = 'change-tool-height1';
           this.userType = this.user.userType;
@@ -243,7 +252,7 @@ export class SchedulePage implements OnInit {
   showSkeltonLoading() {
     setTimeout(() => {
       this.isLoaded = true;
-    }, 2400);
+    }, 1500);
   }
   /***
     * getPosts
@@ -251,14 +260,14 @@ export class SchedulePage implements OnInit {
   async getPosts() {
     const loading = await this.loadingCtrl.create({
       message: 'Loading Stories...',
-      duration: 1500
+      duration: 500
     });
 
     await loading.present();
     this.posts = [];
     this.topBudget = [];
     this.topViewed = [];
-    this.shootingYes=[];
+    this.shootingYes = [];
     this.fireBaseService.readPosts().subscribe(data => {
       data.map(e => {
         let docData = e.payload.doc.data();
@@ -272,7 +281,8 @@ export class SchedulePage implements OnInit {
       this.topViewed = _.orderBy(this.posts, ['views'], ['desc']);
       this.topViewed = this.topViewed ? this.topViewed.splice(0, 10) : this.topViewed;
       this.shootingYes = _.filter(this.posts, { 'shooting': true });
-      this.shootingYes=this.shootingYes ? this.shootingYes.splice(0, 5) : this.shootingYes;
+      this.shootingYes = _.orderBy(this.posts, ['uploadedOn'], ['desc']);
+      this.shootingYes = this.shootingYes ? this.shootingYes.splice(0, 5) : this.shootingYes;
       this.fireBaseService.postData = this.posts;
       loading.onWillDismiss();
     });
@@ -285,7 +295,7 @@ export class SchedulePage implements OnInit {
         docData['id'] = e.payload.doc.id;
         this.actors.push(docData);
       });
-      this.fireBaseService.actorData=this.actors;
+      this.fireBaseService.actorData = this.actors;
       let actors = _.filter(this.actors, { 'gender': 'M' });
       let actoress = _.filter(this.actors, { 'gender': 'F' })
 
@@ -321,20 +331,20 @@ export class SchedulePage implements OnInit {
     });
   }
 
-  useFilter(arg){
+  useFilter(arg) {
     return this.posts.filter(item => {
       return item.title.toLowerCase().indexOf(arg.toLowerCase()) > -1;
     });
   }
   setFilteredItems() {
-    if(this.queryText!=''){
+    if (this.queryText != '') {
       this.isItemAvailable = true;
-      this.items =  this.useFilter(this.queryText);
-    } else{
-      this.items=[];
+      this.items = this.useFilter(this.queryText);
+    } else {
+      this.items = [];
     }
-     
-   
+
+
   }
   updateSchedule() {
     // Close any open sliding items when the schedule updates
@@ -365,7 +375,7 @@ export class SchedulePage implements OnInit {
     this.router.navigateByUrl('/post-list');
 
   }
-  createactor(type,fab){
+  createactor(type, fab) {
     this.router.navigateByUrl('/create-actor');
   }
   async presentPopover(event: Event) {

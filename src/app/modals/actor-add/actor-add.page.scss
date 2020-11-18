@@ -200,3 +200,47 @@ ion-toolbar ion-menu-button {
        font-size: 64px;
     }
 }
+.txtClass{
+  font-size: 15px;
+  font-weight: bold;
+}
+.rowStyle {
+  background-color: #f5f6f9;
+  padding-left: 10px;
+  border-radius: 30px;
+  margin-top: 15px;
+  border: 1px solid #d7d8da;
+  box-shadow: inset 5px -1px 20px 12px #f5f6f9;
+  margin-bottom: 10px;
+
+  ion-icon {
+      margin-top: 9px;
+      margin-right: 10px;
+  }
+}
+.inputext-cls{
+  color:black !important;
+  }
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }

@@ -109,13 +109,20 @@
         border-radius: 24px;
     }
     .custom-header{
-    --ion-background-color: -webkit-linear-gradient(150deg, #013A6B 35%, #004E95 35%);
+    --ion-background-color:black;
     color: white !important;
     }
     .custom-toolbar{
         color: white;
     }
-
+    .fundclass{
+      margin-left: 3%;
+      color: #383a3e;
+      font-weight: bold;
+      font-size: 10px;
+      margin-top: 13px;
+      margin-right: 11px;
+    }
     .about-header {
         position: relative;
       
@@ -191,8 +198,9 @@
       }
       ion-item-option{
         border-radius: 20%;
-        height: 46px;
-        margin-top: 31px;
+        height: 64px;
+        font-size: 25px;
+        margin-top: 29px;
       }
       .avatar {
         vertical-align: middle;

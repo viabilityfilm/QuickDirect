@@ -78,6 +78,7 @@ export class MapPage {
     this.confData.getSpeakers().subscribe((speakers: any[]) => {
       this.speakers = speakers;
     });
+    this.isLoaded = false;
     this.getUserName();
     this.getPosts();
     this.showSkeltonLoading();

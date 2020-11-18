@@ -25,10 +25,14 @@ import {
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { DragulaModule } from 'ng2-dragula';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { Network } from '@ionic-native/network/ngx';
 @NgModule({
   imports: [
     BrowserModule,
     AppRoutingModule,
+     
     HttpClientModule,
     FormsModule,
     DragulaModule.forRoot(),
@@ -45,7 +49,7 @@ import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
     })
   ],
   declarations: [AppComponent],
-  providers: [InAppBrowser,SplashScreen,YoutubeVideoPlayer, StatusBar, LottieSplashScreen, FireBaseService],
+  providers: [InAppBrowser,SplashScreen,LocalNotifications,YoutubeVideoPlayer, StatusBar, LottieSplashScreen, FireBaseService,CallNumber,Network],
   bootstrap: [AppComponent]
 })
 export class AppModule {

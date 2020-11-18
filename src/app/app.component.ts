@@ -11,7 +11,7 @@ import { Storage } from '@ionic/storage';
 
 import { UserData } from './providers/user-data';
 import { LottieSplashScreen } from '@ionic-native/lottie-splash-screen/ngx';
-
+import { Network } from '@ionic-native/network/ngx';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -24,19 +24,19 @@ export class AppComponent implements OnInit {
       title: 'Trending',
       url: '/app/tabs/schedule',
       icon: 'trending-up'
-      
+
     },
     {
       title: 'Category',
       url: '/app/tabs/speakers',
       icon: 'folder-open'
-      
+
     },
     {
       title: 'Favorites',
       url: '/app/tabs/map',
       icon: 'images'
-      
+
     },
     {
       title: 'About',
@@ -46,6 +46,8 @@ export class AppComponent implements OnInit {
   ];
   loggedIn = false;
   dark = false;
+  disconnectSubscription: any;
+  connectSubscription: any;
 
   constructor(
     private menu: MenuController,
@@ -56,12 +58,16 @@ export class AppComponent implements OnInit {
     private storage: Storage,
     private userData: UserData,
     private swUpdate: SwUpdate,
-    private toastCtrl: ToastController
-   
+    private toastCtrl: ToastController,
+    private network: Network
+
   ) {
     this.initializeApp();
   }
-
+  async ngOnDestroy(){
+    this.disconnectSubscription.unsubscribe();
+    this.connectSubscription.unsubscribe();
+  }
   async ngOnInit() {
     this.checkLoginStatus();
     this.listenForLoginEvents();
@@ -85,12 +91,64 @@ export class AppComponent implements OnInit {
         .then(() => this.swUpdate.activateUpdate())
         .then(() => window.location.reload());
     });
+    // watch network for a disconnection
+    this.disconnectSubscription = this.network.onDisconnect().subscribe(async () => {
+      console.log('disconnected');
+      const toast =  this.toastCtrl.create({
+        message: 'It seems you are offline..!',
+        position: 'bottom',
+        buttons: [
+          {
+            role: 'cancel',
+            text: 'close'
+          }
+        ]
+      });
+
+       (await toast).present();
+    });
+
+    
+  
+
+
+    // watch network for a connection
+    this.connectSubscription = this.network.onConnect().subscribe(async () => {
+      console.log('connected');
+      const toast =  this.toastCtrl.create({
+        message: 'You back to Online..!',
+        position: 'bottom',
+        buttons: [
+          {
+            role: 'cancel',
+            text: 'close'
+          }
+        ]
+      });
+
+       (await toast).present();
+      
+      setTimeout(() => {
+        if (this.network.type === 'wifi') {
+          const toast =  this.toastCtrl.create({
+            message: 'Got Wifi Connection..!',
+            position: 'bottom',
+            buttons: [
+              {
+                role: 'cancel',
+                text: 'close'
+              }
+            ]
+          });
+        }
+      }, 3000);
+    });
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleBlackTranslucent();
-       
+
       setTimeout(() => {
         this.splashScreen.hide();
       }, 2500);
@@ -130,6 +188,6 @@ export class AppComponent implements OnInit {
   }
 
   openTutorial() {
-    
+
   }
 }

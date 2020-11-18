@@ -1,77 +1,168 @@
 import { AfterViewInit, Component } from '@angular/core';
+ 
+
+import { AlertController, IonRouterOutlet, ModalController } from '@ionic/angular';
+
+import { CallNumber } from '@ionic-native/call-number/ngx';
 import { Router } from '@angular/router';
-
-import { AlertController } from '@ionic/angular';
-
+import { FireBaseService } from '../../services/firebase.service';
+import * as _ from "lodash";
+import * as moment from 'moment';
 import { UserData } from '../../providers/user-data';
-
-
+import { ConferenceData } from '../../providers/conference-data';
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'page-account',
   templateUrl: 'account.html',
   styleUrls: ['./account.scss'],
 })
-export class AccountPage implements AfterViewInit {
+export class AccountPage {
   username: string;
-
-  constructor(
-    public alertCtrl: AlertController,
-    public router: Router,
-    public userData: UserData
+  speakers: any[] = [];
+  generType: string = "actor";
+  segment = "actor";
+  posts: any[];
+  
+  dramaStories: any;
+  comedyStories: any;
+  advStories: any;
+  crimeStories: any;
+  isLoaded: boolean = false;
+  liked: boolean = false;
+  heartClass: string;
+  defaultHref = '/app/tabs/schedule';
+  dummyData = [
+    {
+      synopsis: "1",
+      title: "1",
+      imaage: "",
+      generType: "1",
+      uploadedBy: "1",
+      uploadedOn: "1"
+    },
+    {
+      synopsis: "1",
+      title: "1",
+      imaage: "",
+      generType: "1",
+      uploadedBy: "1",
+      uploadedOn: "1"
+    },
+    {
+      synopsis: "1",
+      title: "1",
+      imaage: "",
+      generType: "1",
+      uploadedBy: "1",
+      uploadedOn: "1"
+    },
+    {
+      synopsis: "1",
+      title: "1",
+      imaage: "",
+      generType: "1",
+      uploadedBy: "1",
+      uploadedOn: "1"
+    },
+    {
+      synopsis: "1",
+      title: "1",
+      imaage: "",
+      generType: "1",
+      uploadedBy: "1",
+      uploadedOn: "1"
+    },
+  ]
+ 
+  excludeTracks: any;
+  users: any=[];
+  maleActor: any=[];
+  femaleActor: any=[];
+  constructor(public confData: ConferenceData,
+    public router: Router,public routerOutlet: IonRouterOutlet,
+    public userData: UserData,public modalController: ModalController,
+    private callNumber: CallNumber,
+    public fireBaseService: FireBaseService,public _sanitizer:DomSanitizer
   ) { }
 
-  ngAfterViewInit() {
-    this.getUsername();
-  }
-
+ 
   updatePicture() {
     console.log('Clicked to update picture');
   }
-
-  // Present an alert with the current username populated
-  // clicking OK will update the username and display it
-  // clicking Cancel will close the alert and do nothing
-  async changeUsername() {
-    const alert = await this.alertCtrl.create({
-      header: 'Change Username',
-      buttons: [
-        'Cancel',
-        {
-          text: 'Ok',
-          handler: (data: any) => {
-            this.userData.setUsername(data.username);
-            this.getUsername();
-          }
-        }
-      ],
-      inputs: [
-        {
-          type: 'text',
-          name: 'username',
-          value: this.username,
-          placeholder: 'username'
-        }
-      ]
-    });
-    await alert.present();
+  ionViewDidEnter() {
+    
+    this.isLoaded=false;
+    this.getUserName();
+    this.getPosts();
+    this.showSkeltonLoading();
   }
-
-  getUsername() {
+  getUserName() {
     this.userData.getUsername().then((username) => {
       this.username = username;
+      this.loginCheck();
     });
   }
-
-  changePassword() {
-    console.log('Clicked to change password');
+  loginCheck() {
+    if (_.isEmpty(this.username)) {
+      this.router.navigateByUrl('/signUp');
+      return false;
+    } else {
+      return true;
+    }
+  }
+  changeCategory(ev) {
+    this.generType = ev.detail.value;
+    this.isLoaded = false;
+    this.showSkeltonLoading();
   }
 
-  logout() {
-    this.userData.logout();
-    this.router.navigateByUrl('/login');
+  showSkeltonLoading() {
+    setTimeout(() => {
+      this.isLoaded = true;
+    }, 800);
   }
+  async getPosts() {
 
-  support() {
-    this.router.navigateByUrl('/support');
+
+    this.posts = [];
+    this.dramaStories = [];
+    this.comedyStories = [];
+    this.advStories = [];
+    this.crimeStories = [];
+    this.fireBaseService.readActors().subscribe(data => {
+      data.map(e => {
+        let docData = e.payload.doc.data();
+        docData['id'] = e.payload.doc.id;
+        docData['storyCount']=e.payload.doc.data()['associatedStories'].length;
+        let profile=e.payload.doc.data()['profiles']?e.payload.doc.data()['profiles'].split('=')[1]:e.payload.doc.data()['profiles'];
+        if(profile==undefined){
+          profile=e.payload.doc.data()['profiles']?e.payload.doc.data()['profiles'].split('/')[3]:e.payload.doc.data()['profiles'];
+        }
+        docData['thumnail']=this._sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/'+profile);
+        this.users.push(docData);
+      });
+
+       
+      this.maleActor=_.filter(this.users, { 'gender': 'M' });
+      this.maleActor = _.orderBy(this.maleActor, ['storyCount'], ['desc']);
+       
+      
+      this.femaleActor=_.filter(this.users, { 'gender': 'F' });
+      this.femaleActor = _.orderBy(this.femaleActor, ['storyCount'], ['desc']);
+     
+    });
+    
+  }
+  showdialer(data){
+    this.callNumber.callNumber(data, true)
+    .then(res => console.log('Launched dialer!', res))
+    .catch(err => console.log('Error launching dialer', err));
+  }
+  ago(time) {
+    let difference = moment(time).diff(moment());
+    return moment.duration(difference).humanize();
+  }
+  goBack(){
+    this.router.navigateByUrl('/app/tabs/speakers');
   }
 }

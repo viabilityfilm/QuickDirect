@@ -1,8 +1,8 @@
 <ion-tabs>
 
   <ion-tab-bar slot="bottom" style="height: 75px;
-  --ion-background-color: white;
-  box-shadow: 1px 1px 26px 1px grey;
+  --ion-background-color: black;
+  box-shadow: -7px 1px 9px 5px rgba(0, 0, 0, 0.5);
   z-index: 50;">
     <ion-tab-button style="font-size: 11px;" tab="schedule">
       <ion-icon name="flame"></ion-icon>
@@ -13,14 +13,14 @@
       <ion-icon name="folder-open"></ion-icon>
       <ion-label>Category</ion-label>
     </ion-tab-button>
-    <ion-tab-button style="font-size: 11px; width:72px" tab="create-post">
+    <ion-tab-button *ngIf="role!='V'" style="font-size: 11px; width:72px" tab="create-post">
       
-        <ion-fab-button tab="create-post" color="dark">
+        <ion-fab-button tab="create-post" color="danger">
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
         <span class="post" style="
         white-space: pre;
-        color: #666666;
+        color:white;
         font-size: 10px;
         padding: 2px;
     ">Post Your story        </span>
@@ -35,6 +35,7 @@
       <ion-icon name="heart"></ion-icon>
       <ion-label>Favorites</ion-label>
     </ion-tab-button>
+ 
 
     <ion-tab-button  style="font-size: 11px;" tab="about">
       <ion-icon name="information-circle"></ion-icon>

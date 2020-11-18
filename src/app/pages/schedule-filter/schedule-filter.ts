@@ -4,7 +4,7 @@ import { Config, ModalController, NavParams } from '@ionic/angular';
 import { ConferenceData } from '../../providers/conference-data';
 import { FireBaseService } from '../../services/firebase.service';
 import * as _ from "lodash";
-
+import * as moment from 'moment';
 @Component({
   selector: 'page-schedule-filter',
   templateUrl: 'schedule-filter.html',
@@ -39,7 +39,7 @@ export class ScheduleFilterPage {
       this.notify.reverse();
       this.notify = [...this.notify];
       this.notify = _.orderBy(this.notify, ['updateOn'], ['desc']);
-      this.notify = this.notify ? this.notify.splice(0, 10) : this.notify;
+      this.notify = this.notify ? this.notify.splice(0, 5) : this.notify;
     });
   }
 
@@ -54,6 +54,10 @@ export class ScheduleFilterPage {
     // Pass back a new array of track names to exclude
     const excludedTrackNames = this.tracks.filter(c => !c.isChecked).map(c => c.name);
     this.dismiss(excludedTrackNames);
+  }
+  ago(time) {
+    let difference = moment(time).diff(moment());
+    return moment.duration(difference).humanize();
   }
 
   dismiss(data?: any) {

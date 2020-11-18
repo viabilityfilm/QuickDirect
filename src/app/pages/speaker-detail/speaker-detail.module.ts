@@ -6,6 +6,7 @@ import { SpeakerDetailPageRoutingModule } from './speaker-detail-routing.module'
 import { IonicModule } from '@ionic/angular';
 import { ActorAddPageModule } from '../../modals/actor-add/actor-add.module';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,7 +16,7 @@ import { ActorAddPageModule } from '../../modals/actor-add/actor-add.module';
     ActorAddPageModule
   ],
   declarations: [
-    SpeakerDetailPage,
+    SpeakerDetailPage
   ]
 })
 export class SpeakerDetailModule { }

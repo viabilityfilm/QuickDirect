@@ -1,13 +1,8 @@
-<!-- my-modal.page.html -->
-<ion-header class="toolbar_class" translucent="true">
-  <ion-toolbar style="color:white">
-    <ion-buttons  slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
+<ion-header class="custom-header">
 
-    <ion-title style="margin-left: -14px;" *ngIf="!ios"><img class="logo-cls"
-        src="../../../assets/icons/actor-red.png"></ion-title>
-    <ion-buttons (click)="logout()" slot="end">
+  <ion-toolbar class="custom-toolbar">
+    <ion-title style="font-size:16px"><ion-icon name="person-add"></ion-icon> &nbsp; Add Actor/Actress</ion-title>
+    <ion-buttons (click)="closeModal2()" slot="end">
       <ion-button >
         <ion-icon slot="icon-only" name="close-circle"></ion-icon>
       </ion-button>
@@ -15,6 +10,7 @@
   </ion-toolbar>
 
 </ion-header>
+
 
 <ion-content>
   <ion-grid> 
@@ -31,7 +27,10 @@
             </ion-list-header>
             <div style="height: 450px;
             overflow-x: scroll;">
-           <ion-searchbar   (ionChange)="setFilteredItems('actress')" [(ngModel)]="queryText_actress" placeholder="Filter Actress" showCancelButton="focus"></ion-searchbar>
+           <ion-row class="rowStyle">
+            <ion-icon name="search" color="dark"></ion-icon>
+            <ion-input type="text" (keyup)="setFilteredItems('actress')" class="txtClass" placeholder="Filter Actress" [(ngModel)]="queryText_actress"></ion-input>
+          </ion-row>
            <ion-item *ngFor="let item of q1" (ionFocus)="radioFocus()" (ionSelect)="radioSelect($event)"
            (ionBlur)="radioBlur()">
            <ion-avatar>
@@ -64,13 +63,16 @@
             </ion-list-header>
             <div style="height: 450px;
             overflow-x: scroll;">
-             <ion-searchbar (ionChange)="setFilteredItems('actor')" [(ngModel)]="queryText_actor" placeholder="Filter Actors" animated showCancelButton="focus"></ion-searchbar>
-            <ion-item *ngFor="let item of q3" (ionFocus)="radioFocus()" (ionSelect)="radioSelect($event)"
+               <ion-row class="rowStyle">
+                <ion-icon name="search" color="dark"></ion-icon>
+              <ion-input type="text" (keyup)="setFilteredItems('actor')" class="txtClass" placeholder="Filter Actors" [(ngModel)]="queryText_actor"></ion-input>
+            </ion-row>
+             <ion-item *ngFor="let item of q3" (ionFocus)="radioFocus()" (ionSelect)="radioSelect($event)"
               (ionBlur)="radioBlur()">
-              <ion-avatar>
+              <ion-avatar (click)="showActorDetails()">
                 <img src={{item.image}}>
               </ion-avatar> &nbsp;<ion-label>{{item.actorName}}</ion-label> &nbsp;<ion-chip>
-                <ion-label color="dark">Stories</ion-label>
+                <ion-label (click)="showActorDetails()" color="dark">Stories</ion-label>
                 <ion-chip>
                   <ion-icon name="heart" color="dark"></ion-icon>
                   <ion-label>{{item.associatedStories.length}}</ion-label>
@@ -87,7 +89,8 @@
       </ion-row>
     </span>
       
-    <ion-item-divider style="margin-top: 42px;border: none;">
+    
+     
 
       <ion-fab vertical="bottom" horizontal="end">
         <ion-fab-button color="dark">
@@ -102,7 +105,7 @@
 
       </ion-fab>
 
-    </ion-item-divider>
+     
 
 
 

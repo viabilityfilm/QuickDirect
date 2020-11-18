@@ -5,6 +5,9 @@ import { FireBaseService } from '../../services/firebase.service';
 import * as _ from "lodash";
 import * as moment from 'moment';
 import { UserData } from '../../providers/user-data';
+import { ModalController, IonRouterOutlet } from '@ionic/angular';
+import { ActorListPage } from '../actor-list/actor-list.page';
+import { AccountPage } from '../account/account';
 @Component({
   selector: 'page-speaker-list',
   templateUrl: 'speaker-list.html',
@@ -66,9 +69,10 @@ export class SpeakerListPage {
     },
   ]
   username: string;
-  constructor(public confData: ConferenceData, 
-    public router: Router, 
-    public userData:UserData,
+  excludeTracks: any;
+  constructor(public confData: ConferenceData,
+    public router: Router,public routerOutlet: IonRouterOutlet,
+    public userData: UserData,public modalController: ModalController,
     public fireBaseService: FireBaseService) { }
   logout() {
     this.router.navigateByUrl('/app/tabs/schedule');
@@ -82,68 +86,74 @@ export class SpeakerListPage {
     }
   }
   ionViewDidEnter() {
-    
+
     this.confData.getSpeakers().subscribe((speakers: any[]) => {
       this.speakers = speakers;
     });
+    this.isLoaded=false;
     this.getUserName();
     this.getPosts();
     this.showSkeltonLoading();
   }
-   
+
   getUserName() {
     this.userData.getUsername().then((username) => {
       this.username = username;
       this.loginCheck();
     });
   }
- 
+
   showSkeltonLoading() {
     setTimeout(() => {
       this.isLoaded = true;
-    }, 1200);
+    }, 800);
   }
 
-  navigateToDetalil(obj){
-    if(obj['views']!=undefined){
-      obj['views']=obj['views']+1;
+  navigateToDetalil(obj) {
+    if (obj['views'] != undefined) {
+      obj['views'] = obj['views'] + 1;
     }
-    this.fireBaseService.updatePost(obj['id'],obj);
-    this.confData.routingData=obj;
-    this.confData.isFromPage='category';
-    this.confData.loginUser=this.username;
+    this.fireBaseService.updatePost(obj['id'], obj);
+    this.confData.routingData = obj;
+    this.confData.isFromPage = 'category';
+    this.confData.loginUser = this.username;
     this.router.navigateByUrl('/app/tabs/speakers/speaker-details');
   }
   async getPosts() {
 
 
     this.posts = [];
-    this.dramaStories= [];
-    this.comedyStories= [];
-    this.advStories= [];
-    this.crimeStories= [];
+    this.dramaStories = [];
+    this.comedyStories = [];
+    this.advStories = [];
+    this.crimeStories = [];
     this.fireBaseService.readPosts().subscribe(data => {
       data.map(e => {
-        let docData=e.payload.doc.data();
-        docData['id']=e.payload.doc.id;
+        let docData = e.payload.doc.data();
+        docData['id'] = e.payload.doc.id;
         this.posts.push(docData);
       });
       this.posts.reverse();
       this.posts = [...this.posts];
       this.dramaStories = _.filter(this.posts, { 'generType': 'DRAMA' });
+      this.dramaStories = _.orderBy(this.dramaStories, ['uploadedOn'], ['desc']);
       this.comedyStories = _.filter(this.posts, { 'generType': 'COMEDY' });
+      this.comedyStories = _.orderBy(this.comedyStories, ['uploadedOn'], ['desc']);
       this.advStories = _.filter(this.posts, { 'generType': 'ADVENTURE' });
-      this.crimeStories = _.filter(this.posts, { 'generType': 'CRIME' });  
+      this.advStories = _.orderBy(this.advStories, ['uploadedOn'], ['desc']);
+      this.crimeStories = _.filter(this.posts, { 'generType': 'CRIME' });
+      this.crimeStories = _.orderBy(this.crimeStories, ['uploadedOn'], ['desc']);
+
     });
   }
   ago(time) {
     let difference = moment(time).diff(moment());
     return moment.duration(difference).humanize();
   }
-  getStatus(obj){
-    if(obj['likes'].indexOf(this.username)>=0){
+  getStatus(obj) {
+    if (obj['likes'].indexOf(this.username) >= 0) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -151,22 +161,26 @@ export class SpeakerListPage {
     if (this.liked == true) {
       this.liked = false;
       this.heartClass = "heart-cls-white";
-      if(obj['likes'].indexOf(this.username)>0){
-        let idx=obj['likes'].indexOf(this.username);
-        obj['likes'].splice(idx,1);
+      if (obj['likes'].indexOf(this.username) > 0) {
+        let idx = obj['likes'].indexOf(this.username);
+        obj['likes'].splice(idx, 1);
       }
     } else {
       this.liked = true;
       this.heartClass = "heart-cls-red";
-      if(obj['likes'].indexOf(this.username)<=0){
+      if (obj['likes'].indexOf(this.username) <= 0) {
         obj['likes'].push(this.username);
       }
     }
-    this.fireBaseService.updatePost(obj['id'],obj);
+    this.fireBaseService.updatePost(obj['id'], obj);
   }
   changeCategory(ev) {
-    this.generType=ev.detail.value;
-    this.isLoaded=false;
+    this.generType = ev.detail.value;
+    this.isLoaded = false;
     this.showSkeltonLoading();
+  }
+  async showActors(){
+ 
+    this.router.navigateByUrl('/account');
   }
 }

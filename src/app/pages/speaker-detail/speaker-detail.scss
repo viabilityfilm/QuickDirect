@@ -54,15 +54,27 @@ ion-toolbar ion-menu-button {
   border-top: 2px solid #808289;
 }
 .chip-cls{
-  background: #5260ff;
+  background: #383a3e;
   color: white;
   font-weight: bold;
   margin-left: -2px;
+}
+.fundclass{
+  margin-left: 5px;
+    color: red;
+    font-weight: bold;
+    font-size: 10px;
+    margin-top: 13px;
 }
 .synopsis-cls{
   font-size: 14px;
   margin-left: 10px;
   margin-right: 6px;
+}
+.my-buffer-progress{
+  --background:#82F038;
+  --buffer-background:#F0A821;
+  --progress-background:#F01D09;
 }
 .margin-cls{
   margin-left: 10px;
@@ -143,12 +155,16 @@ ion-toolbar ion-menu-button {
     height: 73px;
     width: 70px;
   } 
- 
+  .more-icon{
+    margin-inline-start: auto;
+    color: #666666;
+  }
   .progress-cls{
-    margin: 18px;
+    margin-left: auto;
     height: 15px;
-     
     box-shadow: 1px 3px 1px 1px #d7d8da;
+    width: 79%;
+    margin-right: auto;
   }
 .speaker-detail hr {
   margin-top: 20px;

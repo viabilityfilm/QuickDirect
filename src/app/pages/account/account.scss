@@ -1,4 +1,202 @@
-img {
-  max-width: 140px;
-  border-radius: 50%;
+.speaker-card {
+  display: flex;
+  flex-direction: column;
 }
+ion-card{
+  margin: -12px;
+    box-shadow: 1px 0px 12px 1px #d7d8da;
+    margin-bottom: 36px;
+  
+}
+.gener{
+  margin-top: -1px;
+  font-size: 12px;
+}
+.Blink {
+  animation: blinker 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;  
+}
+@keyframes blinker {  
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+.blink {
+  animation: blink-animation 2s steps(2, start) infinite;
+  -webkit-animation: blink-animation 2s steps(2, start) infinite;
+}
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+.container {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.container img {vertical-align: middle;}
+.container .content2 {
+  position: absolute;
+    bottom: 28px;
+    background: gray;
+    background: gray;
+    font-weight: bold;
+    font-size: 22px;
+    margin-top: -11px;
+    -webkit-text-decoration-color: currentcolor;
+    text-decoration-color: currentcolor;
+    text-decoration: underline;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #f5f6f9;
+    color: white;
+    width: 100%;
+    top: 40px;
+}
+.tag{
+  position: absolute;
+    top: -11px;
+    right: -1px;
+    z-index: 6;
+    background: #f5f6f9;
+    width: 97px;
+    height: 48px;
+    padding: 18.5px 10px;
+    box-shadow: -5px 9px 6px 2px rgba(196, 162, 162, 0.5);
+    color: #cf3c4f;
+    font-weight: 700;
+    text-align: right;
+}
+
+ 
+
+.icon-view{
+  margin-left: auto;
+  font-size: 15px;
+}
+.synopsis-cls{
+  white-space: break-spaces;
+  text-align: justify;
+  height: 82px;
+}
+.title-cls{
+  color: #383a3e;
+  font-weight: bold;
+  font-size: initial;
+  margin-left: 10px;
+  -webkit-font-kerning: none;
+  font-kerning: none;
+  margin-top: 11px;
+  
+}
+.comment-section{
+  margin-top: -4px;
+}
+.bottom-bar{
+  background-color: #f5f6f9;
+  height: 43px;
+}
+
+.round-corners {
+  border-radius: 24px;
+}
+.actor-image-cls{
+  box-shadow: 1px 0px 20px 7px grey;
+}
+.actor-name{
+  position: relative;
+  left: 23%;
+  top: -42px !important;
+  font-size: 17px;
+  font-weight: 100;
+}
+.chip-css{
+  margin-left: -11px;
+  margin-bottom: 13px;
+}
+.heart-cls-red{
+ color:#cf3c4f;
+ font-size: 34px;
+}
+.heart-cls-white{
+ color:#d7d8da;
+ font-size: 34px;
+}
+.view-class{
+  margin-left: 12px;
+  position: relative;
+  top: -17px;
+  left: -16px;
+} 
+/* Due to the fact the cards are inside of columns the margins don't overlap
+ * properly so we want to remove the extra margin between cards
+ */
+ion-col:not(:last-of-type) .speaker-card {
+  margin-bottom: 0;
+}
+ 
+ion-toolbar ion-button,
+ion-toolbar ion-back-button,
+ion-toolbar ion-menu-button {
+  --color: white;
+}
+.chip-cls{
+  background: #383a3e;
+  color: white;
+  font-weight: bold;
+  margin-left: -2px;
+}
+.logo-cls{
+  width: 130px !important;
+    margin-left: -3px !important;
+    height: 32px;
+    margin-top: 10px;
+}
+.segment-button-checked{
+  background:none !important;
+  color: black !important;
+  font-weight:100 !important;
+}
+.custom-toolbar{
+  background: rgba(0, 0, 0, 0.32);
+    font-weight: bold;
+}
+.speaker-card .speaker-item {
+  --min-height: 85px;
+}
+
+.speaker-card .speaker-item h2 {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.speaker-card .speaker-item p {
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+.speaker-card ion-card-header {
+  padding: 0;
+}
+
+.speaker-card ion-card-content {
+  flex: 1 1 auto;
+
+  padding: 0;
+}
+
+.ios ion-list {
+  margin-bottom: 10px;
+}
+
+.md ion-list {
+  border-top: 1px solid var(--ion-color-step-150, #d7d8da);
+
+  padding: 0;
+}
+ 

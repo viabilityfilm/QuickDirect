@@ -107,7 +107,7 @@ export class SignupPage {
         && element['password'] === userObj.password && methodType === "signIn"
       ) {
         this.presentToast('Welcome Back '+element['userName']+"..!", 'toast-success');
-        this.userData.login(element['userName']);
+        this.userData.login(element['userName'],element['userFlag']);
         this.userData.setUsername(element['userName']);
         this.userData.userName=element['userName'];
         this.userData.email=element['emailId'];

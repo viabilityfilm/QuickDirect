@@ -92,9 +92,7 @@ export class ActorAddPage implements OnInit {
     }
    
   }
-  logout() {
-    this.router.navigateByUrl('/app/tabs/schedule');
-  }
+   
   setFilteredItems(type) {
     if(type=="actor"){
       if(this.queryText_actor!=''){
@@ -148,15 +146,25 @@ export class ActorAddPage implements OnInit {
       data.map(e => {
         let docData = e.payload.doc.data();
         docData['id'] = e.payload.doc.id;
+        docData['storyCount']=e.payload.doc.data()['associatedStories'].length;
         this.users.push(docData);
       });
 
       this.q3 = _.filter(this.users, { 'gender': 'M' });
+      this.q3 = _.orderBy(this.q3, ['storyCount'], ['desc']);
       this.maleActor=_.filter(this.users, { 'gender': 'M' });
+      this.maleActor = _.orderBy(this.maleActor, ['storyCount'], ['desc']);
       this.q1 = _.filter(this.users, { 'gender': 'F' });
+      this.q1 = _.orderBy(this.q1, ['storyCount'], ['desc']);
+      
       this.femaleActor=_.filter(this.users, { 'gender': 'F' });
+      this.femaleActor = _.orderBy(this.femaleActor, ['storyCount'], ['desc']);
       loading.onWillDismiss();
     });
+     
+  }
+  showActorDetails(){
+    alert(1);
   }
   checkActorSelected() {
     if(this.selectedActor!=""){
@@ -267,6 +275,10 @@ export class ActorAddPage implements OnInit {
   async closeModal() {
     const onClosedData: string = "Wrapped Up!";
     await this.modalController.dismiss(this.postData);
+  }
+  closeModal2(){
+    const onClosedData: string = "Wrapped Up!";
+     this.modalController.dismiss(null);
   }
 
 }

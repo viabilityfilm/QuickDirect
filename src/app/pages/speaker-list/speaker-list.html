@@ -42,6 +42,8 @@
       <ion-icon src="../../../assets/icons/gun.svg"></ion-icon>
       <ion-label>Crime</ion-label>
     </ion-segment-button>
+    
+   
   </ion-segment>
 
   <ion-grid fixed *ngIf="generType=='comedy'">
@@ -316,7 +318,7 @@
               <ion-col  class="comment-section">
                 <ion-chip class="chip-css ion-text-start md ion-activatable hydrated">
                   <ion-avatar class="md hydrated"><img src="../../../assets/icons/profiles-2.png"></ion-avatar>
-                  <ion-label  class="sc-ion-label-md-h sc-ion-label-md-s md hydrated">{{post.uploadedBy.substring(0, 5)}}</ion-label>
+                  <ion-label  class="sc-ion-label-md-h sc-ion-label-md-s md hydrated">{{post.uploadedBy?post.uploadedBy.substring(0, 5):''}}</ion-label>
                 </ion-chip>
               </ion-col>
             </ion-row>
@@ -344,4 +346,17 @@
       
     </ion-row>
   </ion-grid>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
+    <ion-fab-button color="danger">
+      <ion-icon src="../../../assets/icons/actor-color.svg" style="font-size:56px;"></ion-icon>
+     
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="facebook" tooltip="Add Actors" (click)="showActors()">
+        <ion-icon name="people"></ion-icon>
+      </ion-fab-button>
+    
+
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>

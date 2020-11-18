@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-
+import { FormsModule } from '@angular/forms';
 import { AccountPage } from './account';
 import { AccountPageRoutingModule } from './account-routing.module';
 
@@ -9,6 +9,7 @@ import { AccountPageRoutingModule } from './account-routing.module';
   imports: [
     CommonModule,
     IonicModule,
+    FormsModule,
     AccountPageRoutingModule
   ],
   declarations: [

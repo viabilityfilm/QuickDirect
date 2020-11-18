@@ -9,7 +9,8 @@ import { FireBaseService } from '../../services/firebase.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as _ from "lodash";
 import { window } from 'rxjs/operators';
-
+import * as moment from 'moment';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.page.html',
@@ -37,6 +38,7 @@ export class PostListPage implements OnInit {
     public routerOutlet: IonRouterOutlet,
     public toastCtrl: ToastController,
     public user: UserData,
+    private localNotifications: LocalNotifications,
     public config: Config) { }
 
   ngOnInit() {
@@ -56,7 +58,7 @@ export class PostListPage implements OnInit {
         if (i == 1) {
           if (userDetails.length > 0) {
             let emailUrl = "https://us-central1-app-direct-a02bf.cloudfunctions.net/sendMail?dest=" + userDetails[1].emailId;
-            emailUrl = emailUrl + '&body=' + this.username + ' Shown interest on your story <br> Story is moved to READY TO SHOOT Queue<br> For more details COntact @ Email -' + userDetails[1].emailId + ' Mob -' + userDetails[1].mobile
+            emailUrl = emailUrl + '&body=' + this.username + ' Shown interest on your story <br> Story is moved to READY TO SHOOT Queue<br> For more details Contact @ Email -' + userDetails[0].emailId + ' Mob -' + userDetails[0].mobile
             this.callService(emailUrl);
           }
         }
@@ -67,7 +69,12 @@ export class PostListPage implements OnInit {
   callService(emailUrl) {
    
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
-    
+    this.localNotifications.schedule([ {
+      id: 2,
+      title: 'ViFi Direct - Update',
+      text: 'Story moved for Shooting..!',
+      icon: '../../../assets/icons/play.png'
+    }]);
     this.http.get(emailUrl,{ headers: headers, responseType: "text" }).subscribe(async data => {
       const alert = await this.alertCtrl.create({
         header: 'Mail Update',
@@ -225,6 +232,19 @@ export class PostListPage implements OnInit {
 
             loading.onWillDismiss();
             this.presentToast('Story ready for shooting', 'toast-success');
+            let notify = {};
+            notify['uploadedBy'] = this.username;
+            notify['updateOn'] = moment().format('YYYY-MM-DD hh:mm:ss A').toString();
+            notify['title'] = obj['title'];
+            notify['type']='shooting';
+            notify['msg']=obj['title']+ "is Moved to READY TO SHOOT" +" "+"By "+this,this.username ;
+       
+            this.firebaseService.createNotify(notify).then(creationResponse => {
+              if (creationResponse != null) {
+        
+              }
+            })
+              .catch(error => this.presentToast('Some think went Wrong..!', 'toast-danger'));
             this.callCloudFunction(obj);
             this.ionViewDidEnter();
 

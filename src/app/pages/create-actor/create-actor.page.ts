@@ -55,6 +55,7 @@ export class CreateActorPage implements OnInit {
   UploadedFilePath:string="../../../assets/icons/actor-color.svg";
   private imageCollection: AngularFirestoreCollection<ActorData>;
   loadingProgress: HTMLIonLoadingElement;
+  defaultHref: string='';
    
 
 
@@ -87,6 +88,10 @@ export class CreateActorPage implements OnInit {
   }
   logout() {
     this.router.navigateByUrl('/app/tabs/schedule');
+  }
+
+  ionViewDidEnter() {
+    this.defaultHref = `/app/tabs/schedule`;
   }
 
   ngOnInit() {

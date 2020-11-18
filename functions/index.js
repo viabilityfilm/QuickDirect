@@ -10,8 +10,8 @@ admin.initializeApp();
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'shajathi.trichy43@gmail.com',
-        pass: '9976614985'
+        user: 'vifiteam2020@gmail.com',
+        pass: '9952198138'
     }
 });
 
@@ -22,7 +22,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
         const dest = req.query.dest;
         const body = req.query.body;
         const mailOptions = {
-            from: 'Quick DirectTeam <yourgmailaccount@gmail.com>', // Something like: Jane Doe <janedoe@gmail.com>
+            from: 'ViFi DirectTeam <yourgmailaccount@gmail.com>', // Something like: Jane Doe <janedoe@gmail.com>
             to: dest,
             subject: 'Story update from Producers', // email subject
             html: `<p style="font-size: 16px;">`+body+`</p>
@@ -31,9 +31,9 @@ exports.sendMail = functions.https.onRequest((req, res) => {
                 Please login to our app for more updates..
                 <b><br /><br />
                 Thanks
-                Quick Direct Team
+                ViFi Direct Team
                 </b><br />
-                <img src="https://firebasestorage.googleapis.com/v0/b/app-direct-a02bf.appspot.com/o/storyThumnails%2F1593012419810_3044754987_5e345c08-61cd-470f-9e1d-d894a4889e25.png?alt=media&token=38e113d9-fa5a-4991-8358-20a1b6eaa98f" />
+                <img src="https://firebasestorage.googleapis.com/v0/b/app-direct-a02bf.appspot.com/o/logo-14.png?alt=media&token=90bfc23d-3804-469c-b579-6eb0ce51df7d" />
             ` // email content in HTML
         };
   

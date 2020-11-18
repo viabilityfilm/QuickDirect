@@ -55,6 +55,10 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./pages/tutorial/tutorial.module').then(m => m.TutorialModule),
     canLoad: [CheckTutorial]
+  },
+  {
+    path: 'actor-list',
+    loadChildren: () => import('./pages/actor-list/actor-list.module').then( m => m.ActorListPageModule)
   }
 
 ];

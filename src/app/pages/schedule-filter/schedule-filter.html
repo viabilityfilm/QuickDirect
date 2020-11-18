@@ -28,7 +28,9 @@
 
     <ion-item *ngFor="let track of notify">
       <ion-icon *ngIf="ios" slot="start" [name]="track.icon" color="medium"></ion-icon>
-      <ion-label>{{track.uploadedBy}} &nbsp; {{track.type}} &nbsp; {{track.like}}</ion-label>
+      <ion-label><ion-icon name="chatbubbles-outline"></ion-icon><span class="text-cls"> 
+        &nbsp;{{track.msg}}</span>  <br><ion-icon style="margin-left:10%" name="time-outline"></ion-icon> 
+        &nbsp;<span style="font-size: 10px;"> {{ago(track.updateOn)}} ago</span></ion-label>
     </ion-item>
 
   </ion-list>

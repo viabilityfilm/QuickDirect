@@ -1,7 +1,7 @@
 <ion-header class="custom-header">
 
   <ion-toolbar class="custom-toolbar">
-    <ion-title style="font-size:20px">Choose story</ion-title>
+    <ion-title style="font-size:16px"> <ion-icon color="danger" name="duplicate"></ion-icon> &nbsp; Choose story</ion-title>
 
     <ion-buttons slot="end">
       <ion-button (click)="logout()" style="font-size:24px">
@@ -15,6 +15,9 @@
 
 
 <ion-content>
+  <ion-label class="fundclass">
+    <ion-icon name="bulb-outline"></ion-icon>&nbsp;Swipe left to Approve/Reject
+  </ion-label>
   <ion-list #scheduleList>
     <ion-item-group *ngFor="let group of groups">
       <ion-item-divider sticky>
@@ -43,12 +46,12 @@
           </ion-label>
         </ion-item>
         <ion-item-options>
-          <ion-item-option color="favorite" (click)="approve(post)">
-            <ion-icon name="paper-plane"></ion-icon>Approve
+          <ion-item-option style="background:-webkit-linear-gradient(150deg, #013A6B 35%, #004E95 35%);" (click)="approve(post)">
+            <ion-icon name="paper-plane"></ion-icon>
           </ion-item-option>
           &nbsp;
-          <ion-item-option color="danger" (click)="reject(post)">
-            <ion-icon name="close-circle-outline"></ion-icon>Reject
+          <ion-item-option style="background: -webkit-linear-gradient(150deg, #eb445a 35%, #cf3c4f 35%);" (click)="reject(post)">
+            <ion-icon name="close"></ion-icon>
           </ion-item-option>
         </ion-item-options>
       </ion-item-sliding>

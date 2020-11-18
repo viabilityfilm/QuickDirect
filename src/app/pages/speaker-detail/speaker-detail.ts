@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild,ElementRef } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { ConferenceData } from '../../providers/conference-data';
 import { ActionSheetController, LoadingController, ToastController, IonButton, AlertController } from '@ionic/angular';
@@ -10,6 +10,9 @@ import { ModalController } from '@ionic/angular';
 import { ActorAddPage } from '../../modals/actor-add/actor-add.page';
 import * as _ from "lodash";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { GoogleChartInterface } from 'ng2-google-charts';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 @Component({
   selector: 'page-speaker-detail',
   templateUrl: 'speaker-detail.html',
@@ -19,8 +22,16 @@ export class SpeakerDetailPage {
   speaker: any;
   @ViewChild('ref', { static: false }) pRef: IonButton;
   @ViewChild('ref2', { static: false }) pRef1: IonButton;
+  myData = [
+    ['London', 8136000],
+    ['New York', 8538000],
+    ['Paris', 2244000],
+    ['Berlin', 3470000],
+    ['Kairo', 19500000]
+  ];
   postData: any;
   showPost: boolean = false;
+  showfull:boolean=false;
   defaultHref: string = "/app/tabs/speakers";
   p_bar_value1: number;
   p_bar_value2: number;
@@ -37,6 +48,7 @@ export class SpeakerDetailPage {
   actress_img: any = "";
   isLoaded: boolean = false;
   budget: number;
+  postUploadedBy:string="";
   dummyData = [
     {
       synopsis: "1",
@@ -55,10 +67,17 @@ export class SpeakerDetailPage {
       uploadedOn: "1"
     }
   ];
+  
   fundType: any;
   showFundDetails: boolean = true;
   userType: string;
   showFinalPriceonSave: boolean = false;
+  totalFund: number;
+  
+  roundoff: number;
+ 
+ 
+ 
   constructor(
     private dataProvider: ConferenceData,
     private route: ActivatedRoute,
@@ -72,7 +91,9 @@ export class SpeakerDetailPage {
     public modalController: ModalController,
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
-    private http: HttpClient
+    private http: HttpClient,
+    private callNumber: CallNumber,
+    private localNotifications: LocalNotifications
   ) {
 
   }
@@ -87,25 +108,30 @@ export class SpeakerDetailPage {
   getUserName() {
     this.userData.getUsername().then((username) => {
       this.username = username;
-      if(this.username==undefined){
-        this.username=this.userData.userName;
+      if (this.username == undefined) {
+        this.username = this.userData.userName;
       }
       this.loginCheck();
     });
-    
+
   }
   callService(emailUrl) {
-   
+
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
-    
-    this.http.get(emailUrl,{ headers: headers, responseType: "text" }).subscribe(async data => {
+    this.localNotifications.schedule([ {
+      id: 2,
+      title: 'ViFi Team - Update',
+      text: 'Story moved for Shooting..!',
+      icon: '../../../assets/icons/play.png'
+    }]);
+    this.http.get(emailUrl, { headers: headers, responseType: "text" }).subscribe(async data => {
       const alert = await this.alertCtrl.create({
         header: 'Mail Update',
         message: data,
         buttons: ['OK']
       });
       await alert.present();
-    },err => {
+    }, err => {
       console.error('Oops:', err.message);
     });
   }
@@ -136,7 +162,7 @@ export class SpeakerDetailPage {
     if (this.postData['fundType'] == 1) {
       this.postData['budget'] = this.budget;
     }
-    let temPostData=this.postData;
+    let temPostData = this.postData;
     this.postData['fundedBy'].push(this.username + '_' + this.budget);
     let totalCrowdFund = 0;
     this.postData['fundedBy'].forEach(element => {
@@ -147,23 +173,30 @@ export class SpeakerDetailPage {
     if (this.postData['fundType'] == 2) {
       if (this.postData['budget'] <= totalCrowdFund) {
         this.presentToast('Fund limit reached - Story to Shooting-InProgress', 'toast-success');
-        if (this.username!='') {
-          let emailUrl = "https://us-central1-app-direct-a02bf.cloudfunctions.net/sendMail?dest=" + this.userData.email;
+        if (this.username != '') {
+          let emailUrl = "https://us-central1-app-direct-a02bf.cloudfunctions.net/sendMail?dest=" + this.postUploadedBy;
           emailUrl = emailUrl + '&body=' + this.username.toUpperCase() + ' Shown interest on your story <br> Story is moved to READY TO SHOOT Queue<br> For more details contact @,  Email -' + this.userData.email + ' Mob -' + this.userData.userMob
           this.callService(emailUrl);
         }
         this.pRef['el']['hidden'] = true;
         this.showFinalPriceonSave = true;
         this.showprice = false;
-        temPostData['shooting']=true;
+        temPostData['shooting'] = true;
         this.firebaseService.updatePost(this.postData['id'], temPostData);
+
         return;
-      }else if(this.postData['budget']>=totalCrowdFund){
+      } else if (this.postData['budget'] >= totalCrowdFund) {
         this.showPopupForRemainigAmount(totalCrowdFund);
       }
     }
 
     this.firebaseService.updatePost(this.postData['id'], this.postData);
+    let notify = {};
+    notify['uploadedBy'] = this.username;
+    notify['updateOn'] = moment().format('YYYY-MM-DD hh:mm:ss A').toString();
+    notify['title'] = this.postData['title'];
+    notify['type'] = 'shooting';
+    notify['msg'] = this.postData['title'] + "is Moved to READY TO SHOOT" + " " + "By " + this, this.username;
     const loading = await this.loadingCtrl.create({
       message: 'Updating Budget...',
       duration: 3000
@@ -180,15 +213,20 @@ export class SpeakerDetailPage {
 
   }
   async showPopupForRemainigAmount(total) {
+   
     const alert = await this.alertCtrl.create({
       header: 'Info',
-      message: 'Your contribution added. Remaining '+Number(this.postData['budget']-total),
+      message: 'Your contribution added.   ' + Number(this.postData['budget'] - total),
       buttons: [
         {
           text: 'OK',
           cssClass: 'primary',
           handler: async () => {
-           console.log('contr msg'); 
+            this.totalFund=total;
+            let p=total/this.postData['budget'];
+            this.roundoff=p*100;
+            this.roundoff=Math.floor(this.roundoff);
+            this.runDeterminateProgress(this.roundoff);
           }
         }
       ]
@@ -204,18 +242,22 @@ export class SpeakerDetailPage {
     }
   }
 
-
+  runDeterminateProgress(val) {
+    
+    for (let index = 0; index <= val; index++) {
+      this.setPercentBar(+index);
+    }
+  }
   setPercentBar(i) {
     setTimeout(() => {
       let apc = (i / 100)
-
       this.p_bar_value1 = apc;
-      this.p_bar_value2 = apc;
-    }, 30 * i);
+      
+    }, 140 * i);
   }
 
   changeClass(obj) {
-    let notify={};
+    let notify = {};
     if (obj['likes'] && obj['likes'].indexOf(this.username) >= 0) {
       let idx = obj['likes'].indexOf(this.username);
       obj['likes'].splice(idx, 1);
@@ -230,26 +272,25 @@ export class SpeakerDetailPage {
       obj['likes'].splice(obj['likes'].indexOf(undefined), 1);
     }
     this.firebaseService.updatePost(obj['id'], obj);
- 
-    
-     
+
+
+
     notify['uploadedBy'] = this.username;
     notify['updateOn'] = moment().format('YYYY-MM-DD hh:mm:ss A').toString();
-    notify['type'] = 'like';
-    notify['title']=obj['title'];
-     
+    notify['title'] = obj['title'];
+    notify['msg'] = this.postData['title'] + " is " + notify['type'] + " " + "By " + this.username;
+
     this.firebaseService.createNotify(notify).then(creationResponse => {
       if (creationResponse != null) {
-       
+
       }
     })
-      .catch(error => this.presentToast('Some think went Wrong..!','toast-danger'));
+      .catch(error => this.presentToast('Some think went Wrong..!', 'toast-danger'));
   }
   setClass(obj) {
     if (obj['likes'] && obj['likes'].indexOf(this.username) >= 0) {
       this.heartClass = "heart-cls-red";
     } else if (obj['likes'] && obj['likes'].indexOf(this.username) < 0) {
-      obj['likes'].push(this.username);
       this.heartClass = "heart-cls-white";
     }
   }
@@ -301,6 +342,26 @@ export class SpeakerDetailPage {
       });
     });
   }
+  showdialer(data){
+    this.callNumber.callNumber(data, true)
+    .then(res => console.log('Launched dialer!', res))
+    .catch(err => console.log('Error launching dialer', err));
+  }
+  callNow(userName) {
+    let userInfo=[];
+    this.firebaseService.filterUsers(userName.split('_')[0]).get().subscribe(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        userInfo.push(doc.data());
+       
+      });
+    });
+    setTimeout(() => {
+      if(userInfo.length>=0){
+        this.showdialer(userInfo[0]['mobile']);
+      }
+    }, 1000);
+  
+  }
   async addActor(data) {
 
     const modal = await this.modalController.create({
@@ -315,8 +376,8 @@ export class SpeakerDetailPage {
       if (dataReturned !== null) {
         this.dataReturned = dataReturned.data;
         this.checkActor(this.dataReturned);
-        this.actor_img=this.userData.actor_img!=''?this.userData.actor_img:'';
-        this.actress_img=this.userData.actoress_img!=''?this.userData.actoress_img:'';
+        this.actor_img = this.userData.actor_img != '' ? this.userData.actor_img : '';
+        this.actress_img = this.userData.actoress_img != '' ? this.userData.actoress_img : '';
         this.presentToast('Your choices is saved..!', 'toast-info');
       }
     });
@@ -343,14 +404,35 @@ export class SpeakerDetailPage {
     this.username = this.confData.loginUser;
     this.userType = this.userData.userType;
     this.postData = this.confData.routingData;
+    this.totalFund = 0;
+    let uploadedUser=[]
+    this.firebaseService.filterUsers(this.postData['uploadedBy']).get().subscribe(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        uploadedUser.push(doc.data());
+        if(uploadedUser.length>0){
+          this.postUploadedBy=uploadedUser[0]['emailId'];
+        }
+      });
+    });
+    
     this.postData['fundedBy'].forEach(element => {
       if (element.split('_')[0] === this.username) {
         this.showFundDetails = false;
         this.budget = this.postData.budget;
         this.showFinalPriceonSave = true;
       }
-    });
+      if (element.split('_')[1] != null) {
+        this.totalFund += Number(element.split('_')[1]);
+      }
 
+    });
+    if(this.totalFund>0){
+      let p=this.totalFund/this.postData['budget'];
+      this.roundoff=p*100;
+      this.roundoff=Math.floor(this.roundoff);
+      this.runDeterminateProgress(this.roundoff);
+    }
+   
     this.setClass(this.postData);
     this.checkActor(this.postData);
     this.fundType = this.postData.fundType;
@@ -365,6 +447,8 @@ export class SpeakerDetailPage {
     this.confData.routingData = {};
 
   }
+ 
+  
   ionViewDidLeave() {
     this.confData.isFromPage = '';
   }
